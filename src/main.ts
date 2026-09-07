@@ -2,28 +2,45 @@ import "./style.css";
 import { ocistiGrafove } from "./charts";
 import { ucitajPodatke, type Podaci } from "./data";
 import { datum, escapeHtml } from "./format";
-import { prikaziPregled } from "./views/pregled";
 
 const glavno = document.querySelector<HTMLElement>("#glavno")!;
+const REPO = "https://github.com/vilimstrejcek/transparentnost-plus";
+
+type Prikaz =
+  | "naslovnica" | "pregled" | "detalj" | "cetvrti" | "isplate"
+  | "plan" | "pojmovnik" | "profil";
 
 interface Ruta {
-  prikaz: "namjena" | "plan" | "cetvrti" | "pregled" | "primatelji" | "profil";
+  prikaz: Prikaz;
   oib?: string;
+  upit?: string;
 }
+
+const RUTE: Record<string, Prikaz> = {
+  "": "naslovnica",
+  pregled: "pregled",
+  detalj: "detalj",
+  cetvrti: "cetvrti",
+  isplate: "isplate",
+  plan: "plan",
+  pojmovnik: "pojmovnik",
+};
+
+/** Prikaz pod kojim se u navigaciji označava trenutna stranica. */
+const NAV: Partial<Record<Prikaz, string>> = {
+  profil: "isplate",
+};
 
 function procitajRutu(): Ruta {
-  const hash = location.hash.replace(/^#\/?/, "");
-  const [prvi, drugi] = hash.split("/");
+  const [putanja, upit] = location.hash.replace(/^#\/?/, "").split("?");
+  const [prvi, drugi] = (putanja ?? "").split("/");
   if (prvi === "primatelj" && drugi) return { prikaz: "profil", oib: decodeURIComponent(drugi) };
-  if (prvi === "primatelji") return { prikaz: "primatelji" };
-  if (prvi === "plan") return { prikaz: "plan" };
-  if (prvi === "cetvrti") return { prikaz: "cetvrti" };
-  if (prvi === "pregled") return { prikaz: "pregled" };
-  return { prikaz: "namjena" };
+  const prikaz = RUTE[prvi ?? ""] ?? "naslovnica";
+  return { prikaz, upit: new URLSearchParams(upit ?? "").get("q") ?? undefined };
 }
 
-function oznaciNavigaciju(prikaz: Ruta["prikaz"]): void {
-  const aktivan = prikaz === "profil" ? "primatelji" : prikaz;
+function oznaciNavigaciju(prikaz: Prikaz): void {
+  const aktivan = NAV[prikaz] ?? prikaz;
   for (const veza of document.querySelectorAll<HTMLAnchorElement>("[data-nav]")) {
     if (veza.dataset.nav === aktivan) veza.setAttribute("aria-current", "page");
     else veza.removeAttribute("aria-current");
@@ -32,26 +49,41 @@ function oznaciNavigaciju(prikaz: Ruta["prikaz"]): void {
 
 function ispisiPodnozje(podaci: Podaci): void {
   const { meta } = podaci;
-  const repo = "https://github.com/vilimstrejcek/transparentnost-plus";
-  const pokrivenost = `${datum(meta.prvi_datum)} – ${datum(meta.zadnji_datum)}, `
-    + `${meta.broj_isplata.toLocaleString("hr-HR")} isplata`;
-
   document.querySelector<HTMLElement>("#podnozje-sadrzaj")!.innerHTML = `
-    <p>Izvor: Grad Zagreb, <a href="https://transparentnost.zagreb.hr" target="_blank"
-      rel="noopener noreferrer">iTransparentnost</a>. Podaci obrađeni ${escapeHtml(datum(meta.datum_obrade))}</p>
-    <p>Kod: <a href="${repo}" target="_blank" rel="noopener noreferrer">GitHub</a>, MIT licenca.
-      Prototip — pokrivenost podataka: ${escapeHtml(pokrivenost)}.</p>
-    <p>IBAN i poziv na broj nisu objavljeni. Isplate fizičkim osobama u izvoru su
-      anonimizirane i prikazane zbirno.</p>
-  `;
+    <div>
+      <h4>Transparentnost+</h4>
+      <p>Analitička nadogradnja gradske aplikacije iTransparentnost.</p>
+      <p>Podaci obrađeni ${escapeHtml(datum(meta.datum_obrade))}, razdoblje
+         ${escapeHtml(datum(meta.prvi_datum))} – ${escapeHtml(datum(meta.zadnji_datum))}.</p>
+    </div>
+    <div>
+      <h4>Prikazi</h4>
+      <ul>
+        <li><a href="#/pregled">Pregled</a></li>
+        <li><a href="#/detalj">Detalj proračuna</a></li>
+        <li><a href="#/cetvrti">Ulaganja po četvrtima</a></li>
+        <li><a href="#/isplate">Isplate primateljima</a></li>
+        <li><a href="#/pojmovnik">Pojmovnik</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Izvori i licence</h4>
+      <ul>
+        <li><a href="https://transparentnost.zagreb.hr" target="_blank" rel="noopener noreferrer">iTransparentnost</a></li>
+        <li><a href="https://data.zagreb.hr" target="_blank" rel="noopener noreferrer">data.zagreb.hr</a></li>
+        <li><a href="${REPO}" target="_blank" rel="noopener noreferrer">Kod na GitHubu (MIT)</a></li>
+        <li>Obrađeni podaci: CC BY 4.0</li>
+      </ul>
+      <p>IBAN i poziv na broj nisu objavljeni. Isplate fizičkim osobama prikazane su zbirno.</p>
+    </div>`;
 }
 
 function prikaziGresku(poruka: string): void {
-  glavno.innerHTML = `<div class="greska">
+  glavno.innerHTML = `<div class="omotac"><div class="greska">
     <strong>Greška pri učitavanju.</strong>
     <p>${escapeHtml(poruka)}</p>
-    <p>Ako pokrećeš lokalno, provjeri je li pokrenut <code>npm run data</code> pa <code>npm run dev</code>.</p>
-  </div>`;
+    <p>Ako pokrećeš lokalno, provjeri jesu li pokrenute skripte iz <code>scripts/</code>.</p>
+  </div></div>`;
 }
 
 async function usmjeri(): Promise<void> {
@@ -73,14 +105,19 @@ async function usmjeri(): Promise<void> {
 
   try {
     switch (ruta.prikaz) {
-      case "namjena": {
-        const { prikaziNamjenu } = await import("./views/namjena");
-        prikaziNamjenu(glavno, podaci);
+      case "naslovnica": {
+        const { prikaziNaslovnicu } = await import("./views/naslovnica");
+        prikaziNaslovnicu(glavno, podaci);
         break;
       }
-      case "plan": {
-        const { prikaziPlan } = await import("./views/plan");
-        prikaziPlan(glavno, podaci);
+      case "pregled": {
+        const { prikaziPregled } = await import("./views/pregled");
+        prikaziPregled(glavno, podaci);
+        break;
+      }
+      case "detalj": {
+        const { prikaziDetalj } = await import("./views/detalj");
+        prikaziDetalj(glavno, podaci);
         break;
       }
       case "cetvrti": {
@@ -88,12 +125,19 @@ async function usmjeri(): Promise<void> {
         prikaziCetvrti(glavno, podaci);
         break;
       }
-      case "pregled":
-        prikaziPregled(glavno, podaci);
+      case "isplate": {
+        const { prikaziIsplate } = await import("./views/isplate");
+        prikaziIsplate(glavno, podaci, ruta.upit ?? "");
         break;
-      case "primatelji": {
-        const { prikaziPrimatelje } = await import("./views/primatelji");
-        prikaziPrimatelje(glavno, podaci);
+      }
+      case "plan": {
+        const { prikaziPlan } = await import("./views/plan");
+        prikaziPlan(glavno, podaci);
+        break;
+      }
+      case "pojmovnik": {
+        const { prikaziPojmovnik } = await import("./views/pojmovnik");
+        prikaziPojmovnik(glavno, podaci);
         break;
       }
       case "profil": {
@@ -107,8 +151,14 @@ async function usmjeri(): Promise<void> {
     return;
   }
 
-  if (location.hash) window.scrollTo({ top: 0 });
+  window.scrollTo({ top: 0 });
 }
+
+document.querySelector<HTMLFormElement>("#trazilica")!.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const polje = document.querySelector<HTMLInputElement>("#pretraga-glavna")!;
+  location.hash = `#/isplate?q=${encodeURIComponent(polje.value.trim())}`;
+});
 
 window.addEventListener("hashchange", () => void usmjeri());
 void usmjeri();

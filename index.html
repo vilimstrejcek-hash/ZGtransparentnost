@@ -3,36 +3,51 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Transparentnost+ — analitika isplata Grada Zagreba</title>
+    <title>Transparentnost+ — otvoreni proračun Grada Zagreba</title>
     <meta
       name="description"
-      content="Analitička nadogradnja gradske aplikacije iTransparentnost: pregled isplata Grada Zagreba po mjesecima, primateljima i gradskim uredima."
+      content="Odakle novac dolazi i kamo odlazi. Otvoreni prikaz proračuna i isplata Grada Zagreba."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap"
+      rel="stylesheet"
     />
   </head>
   <body>
     <a class="preskoci" href="#glavno">Preskoči na sadržaj</a>
 
-    <header class="zaglavlje">
-      <div class="omotac zaglavlje__unutra">
-        <div class="zaglavlje__naslov">
-          <h1>Transparentnost<span class="plus">+</span></h1>
-          <p>Analitička nadogradnja gradske aplikacije iTransparentnost</p>
-        </div>
-        <nav class="navigacija" aria-label="Glavna navigacija">
-          <a href="#/namjena" data-nav="namjena">Kamo ide tvoj euro</a>
-          <a href="#/plan" data-nav="plan">Plan i stvarnost</a>
-          <a href="#/cetvrti" data-nav="cetvrti">Gradske četvrti</a>
-          <a href="#/primatelji" data-nav="primatelji">Primatelji</a>
-        </nav>
+    <header class="vrh">
+      <div class="omotac vrh__unutra">
+        <a class="vrh__ime" href="#/">Otvoreni proračun Grada Zagreba</a>
+        <span class="vrh__znak">Transparentnost<span>+</span></span>
       </div>
     </header>
 
-    <main id="glavno" class="omotac" aria-live="polite">
+    <nav class="traka" aria-label="Glavna navigacija">
+      <div class="omotac traka__unutra">
+        <ul class="traka__veze">
+          <li><a href="#/pregled" data-nav="pregled">Pregled</a></li>
+          <li><a href="#/detalj" data-nav="detalj">Detalj proračuna</a></li>
+          <li><a href="#/cetvrti" data-nav="cetvrti">Ulaganja po četvrtima</a></li>
+          <li><a href="#/isplate" data-nav="isplate">Isplate primateljima</a></li>
+          <li><a href="#/pojmovnik" data-nav="pojmovnik">Pojmovnik</a></li>
+        </ul>
+        <form class="traka__trazi" id="trazilica" role="search">
+          <label for="pretraga-glavna">Tražiš nešto određeno?</label>
+          <input type="search" id="pretraga-glavna" placeholder="Upiši naziv ili OIB primatelja" />
+          <button type="submit">Traži</button>
+        </form>
+      </div>
+    </nav>
+
+    <main id="glavno">
       <p class="ucitavanje">Učitavanje podataka…</p>
     </main>
 
-    <footer class="podnozje">
-      <div class="omotac" id="podnozje-sadrzaj"></div>
+    <footer class="dno">
+      <div class="omotac dno__unutra" id="podnozje-sadrzaj"></div>
     </footer>
 
     <script type="module" src="/src/main.ts"></script>

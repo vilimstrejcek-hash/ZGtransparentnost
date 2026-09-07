@@ -1,6 +1,7 @@
 import type { Podaci } from "../data";
-import { broj, escapeHtml, eur, eurKratko, iznosBezValute } from "../format";
+import { broj, datum, escapeHtml, eur, eurKratko } from "../format";
 import { BOJE_VRSTA, nacrtajKartu, type KartaRuke } from "../karta";
+import { brojkaHtml, zaglavljeHtml } from "../ui";
 import type { Cetvrt } from "../types";
 
 let karta: KartaRuke | null = null;
@@ -12,115 +13,91 @@ export function ocistiKartu(): void {
 }
 
 export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
-  const { cetvrti, ustanove } = podaci;
+  const { cetvrti, ustanove, meta } = podaci;
   ocistiKartu();
-  let vrsta: string | "sve" = "sve";
+  let vrsta: string = "sve";
   let poredak: "po_stanovniku" | "ukupno" = "po_stanovniku";
   let otvorena: string | null = null;
-
-  cilj.innerHTML = `
-    <h2>Tvoja gradska četvrt</h2>
-    <p class="podnaslov">
-      Koliko novca mjesne samouprave otpada na svaku gradsku četvrt — ukupno i po stanovniku.
-    </p>
-
-    <p class="napomena">
-      <strong>Što je ovdje prikazano.</strong> ${escapeHtml(cetvrti.napomena)}
-      Podaci za ${escapeHtml(cetvrti.godina)}. godinu.
-    </p>
-
-    <div class="kartice">
-      <div class="kartica">
-        <p class="kartica__oznaka">Ukupno za sve četvrti</p>
-        <div class="kartica__vrijednost">${escapeHtml(eur(cetvrti.ukupno))}</div>
-        <p class="kartica__dodatak">${escapeHtml(cetvrti.godina)}. godina</p>
-      </div>
-      <div class="kartica">
-        <p class="kartica__oznaka">Prosjek po stanovniku</p>
-        <div class="kartica__vrijednost">${escapeHtml(
-          cetvrti.prosjek_po_stanovniku !== null ? eur(cetvrti.prosjek_po_stanovniku) : "—"
-        )}</div>
-        <p class="kartica__dodatak">${escapeHtml(broj(cetvrti.stanovnika))} stanovnika</p>
-      </div>
-      <div class="kartica">
-        <p class="kartica__oznaka">Raspon</p>
-        <div class="kartica__vrijednost" id="raspon">—</div>
-        <p class="kartica__dodatak">od najmanje do najveće po stanovniku</p>
-      </div>
-    </div>
-
-    <section class="ploca">
-      <div class="ploca__zaglavlje">
-        <h3>Gdje su ustanove koje Grad plaća</h3>
-        <span class="kartica__dodatak">
-          ${escapeHtml(broj(ustanove.spojeno))} ustanova · ${escapeHtml(eurKratko(ustanove.iznos_spojenih))}
-        </span>
-      </div>
-      <div class="kontrole" id="izbor-vrste" role="group" aria-label="Vrsta ustanove">
-        <div class="godine">
-          <button type="button" data-vrsta="sve" aria-pressed="true">Sve</button>
-          ${ustanove.vrste.map((v) => `<button type="button" data-vrsta="${escapeHtml(v)}">${escapeHtml(v)}</button>`).join("")}
-        </div>
-      </div>
-      <div class="karta" id="karta"></div>
-      <div class="legenda" id="legenda-karta">
-        ${ustanove.vrste.map((v) => `<span><i style="background:${BOJE_VRSTA[v] ?? "#4a5a72"}"></i>${escapeHtml(v)}</span>`).join("")}
-      </div>
-      <p class="kartica__dodatak">${escapeHtml(ustanove.napomena)}</p>
-    </section>
-
-    <section class="ploca">
-      <div class="ploca__zaglavlje">
-        <h3>17 gradskih četvrti</h3>
-        <div class="godine" id="izbor-poretka" role="group" aria-label="Poredak">
-          <button type="button" data-poredak="po_stanovniku" aria-pressed="true">Po stanovniku</button>
-          <button type="button" data-poredak="ukupno" aria-pressed="false">Ukupan iznos</button>
-        </div>
-      </div>
-      <ul class="cetvrti" id="lista"></ul>
-    </section>
-  `;
-
-  const lista = cilj.querySelector<HTMLElement>("#lista")!;
-  const raspon = cilj.querySelector<HTMLElement>("#raspon")!;
 
   const poStanovniku = cetvrti.cetvrti
     .map((c) => c.po_stanovniku)
     .filter((v): v is number => v !== null);
-  raspon.textContent = poStanovniku.length
-    ? `${iznosBezValute(Math.min(...poStanovniku))} – ${eur(Math.max(...poStanovniku))}`
-    : "—";
 
-  function redHtml(c: Cetvrt, najveci: number): string {
-    const vrijednost = poredak === "po_stanovniku" ? (c.po_stanovniku ?? 0) : c.ukupno;
-    const sirina = najveci ? (vrijednost / najveci) * 100 : 0;
-    const otvoren = otvorena === c.naziv;
-    return `
-      <li class="cetvrt">
-        <button type="button" class="cetvrt__gumb" aria-expanded="${otvoren}" data-naziv="${escapeHtml(c.naziv)}">
-          <span class="cetvrt__naziv">${escapeHtml(c.naziv)}</span>
-          <span class="cetvrt__traka" aria-hidden="true"><span style="width:${sirina.toFixed(2)}%"></span></span>
-          <span class="cetvrt__iznos">
-            ${escapeHtml(poredak === "po_stanovniku"
-              ? (c.po_stanovniku !== null ? eur(c.po_stanovniku) : "—")
-              : eurKratko(c.ukupno))}
-          </span>
-        </button>
-        <div class="cetvrt__razrada"${otvoren ? "" : " hidden"}>
-          <p class="kartica__dodatak">
-            ${escapeHtml(broj(c.stanovnika ?? 0))} stanovnika ·
-            ukupno ${escapeHtml(eur(c.ukupno))} ·
-            ${escapeHtml(c.po_stanovniku !== null ? eur(c.po_stanovniku) : "—")} po stanovniku
-          </p>
+  cilj.innerHTML = `
+    <div class="omotac">
+      ${zaglavljeHtml("Ulaganja po četvrtima", datum(meta.zadnji_datum),
+        "Koliko sredstava mjesne samouprave otpada na svaku gradsku četvrt i gdje su ustanove koje Grad plaća.")}
+
+      <div class="filtri" id="izbor-vrste" role="group" aria-label="Vrsta ustanove">
+        <div class="prekidaci">
+          <button type="button" data-vrsta="sve" aria-pressed="true">Sve ustanove</button>
+          ${ustanove.vrste.map((v) => `<button type="button" data-vrsta="${escapeHtml(v)}">${escapeHtml(v)}</button>`).join("")}
+        </div>
+        <span class="sitno" style="margin-left:auto">
+          ${escapeHtml(broj(ustanove.spojeno))} ustanova · ${escapeHtml(eurKratko(ustanove.iznos_spojenih))}
+        </span>
+      </div>
+
+      <div class="karta" id="karta"></div>
+      <div class="legenda">
+        ${ustanove.vrste.map((v) => `<span><i style="background:${BOJE_VRSTA[v] ?? "#55606e"}"></i>${escapeHtml(v)}</span>`).join("")}
+      </div>
+      <p class="sitno" style="margin-bottom:30px">${escapeHtml(ustanove.napomena)}</p>
+
+      <div class="brojke">
+        ${brojkaHtml("Ukupno za sve četvrti", eur(cetvrti.ukupno), `${cetvrti.godina}. godina`)}
+        ${brojkaHtml("Prosjek po stanovniku",
+          cetvrti.prosjek_po_stanovniku !== null ? eur(cetvrti.prosjek_po_stanovniku) : "—",
+          `${broj(cetvrti.stanovnika)} stanovnika`)}
+        ${brojkaHtml("Raspon",
+          poStanovniku.length ? `${eurKratko(Math.min(...poStanovniku))} – ${eurKratko(Math.max(...poStanovniku))}` : "—",
+          "od najmanje do najveće po stanovniku")}
+      </div>
+
+      <p class="napomena">
+        <strong>Što je ovdje prikazano.</strong> ${escapeHtml(cetvrti.napomena)}
+      </p>
+
+      <section class="odjeljak">
+        <div class="odjeljak__zaglavlje">
+          <h3>17 gradskih četvrti</h3>
+          <div class="prekidaci" id="izbor-poretka" role="group" aria-label="Poredak">
+            <button type="button" data-poredak="po_stanovniku" aria-pressed="true">Po stanovniku</button>
+            <button type="button" data-poredak="ukupno" aria-pressed="false">Ukupan iznos</button>
+          </div>
+        </div>
+        <div class="tablica-okvir">
           <table>
-            <thead><tr><th>Namjena</th><th class="broj">Iznos</th></tr></thead>
-            <tbody>${c.namjene.map((n) => `<tr>
-              <td>${escapeHtml(n.naziv)}</td>
-              <td class="broj">${escapeHtml(eur(n.iznos))}</td>
-            </tr>`).join("")}</tbody>
+            <thead><tr>
+              <th>Gradska četvrt</th><th class="broj">Stanovnika</th>
+              <th class="broj">Ukupno</th><th class="broj">Po stanovniku</th><th></th>
+            </tr></thead>
+            <tbody id="tablica-cetvrti"></tbody>
           </table>
         </div>
-      </li>`;
+      </section>
+    </div>`;
+
+  const tijelo = cilj.querySelector<HTMLElement>("#tablica-cetvrti")!;
+
+  function redHtml(c: Cetvrt): string {
+    const otvoren = otvorena === c.naziv;
+    return `
+      <tr class="red-klik" data-naziv="${escapeHtml(c.naziv)}">
+        <td><strong>${escapeHtml(c.naziv)}</strong></td>
+        <td class="broj">${escapeHtml(broj(c.stanovnika ?? 0))}</td>
+        <td class="broj">${escapeHtml(eur(c.ukupno))}</td>
+        <td class="broj"><strong>${escapeHtml(c.po_stanovniku !== null ? eur(c.po_stanovniku) : "—")}</strong></td>
+        <td class="broj sitno">${otvoren ? "zatvori" : "namjene"}</td>
+      </tr>
+      ${otvoren ? `<tr><td colspan="5" style="background:#fafafa">
+        <table style="max-width:640px">
+          <thead><tr><th>Namjena</th><th class="broj">Iznos</th></tr></thead>
+          <tbody>${c.namjene.map((n) => `<tr>
+            <td>${escapeHtml(n.naziv)}</td><td class="broj">${escapeHtml(eur(n.iznos))}</td>
+          </tr>`).join("")}</tbody>
+        </table>
+      </td></tr>` : ""}`;
   }
 
   function crtaj(): void {
@@ -129,29 +106,8 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
         ? (b.po_stanovniku ?? 0) - (a.po_stanovniku ?? 0)
         : b.ukupno - a.ukupno
     );
-    const najveci = Math.max(
-      ...redci.map((c) => (poredak === "po_stanovniku" ? (c.po_stanovniku ?? 0) : c.ukupno)),
-      0
-    );
-    lista.innerHTML = redci.map((c) => redHtml(c, najveci)).join("");
+    tijelo.innerHTML = redci.map(redHtml).join("");
   }
-
-  cilj.querySelector("#izbor-poretka")!.addEventListener("click", (e) => {
-    const gumb = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-poredak]");
-    if (!gumb?.dataset.poredak) return;
-    poredak = gumb.dataset.poredak as typeof poredak;
-    for (const b of cilj.querySelectorAll<HTMLButtonElement>("#izbor-poretka button")) {
-      b.setAttribute("aria-pressed", String(b.dataset.poredak === poredak));
-    }
-    crtaj();
-  });
-
-  lista.addEventListener("click", (e) => {
-    const gumb = (e.target as HTMLElement).closest<HTMLButtonElement>(".cetvrt__gumb");
-    if (!gumb?.dataset.naziv) return;
-    otvorena = otvorena === gumb.dataset.naziv ? null : gumb.dataset.naziv;
-    crtaj();
-  });
 
   const spremnikKarte = cilj.querySelector<HTMLElement>("#karta")!;
   karta = nacrtajKartu(spremnikKarte);
@@ -170,6 +126,23 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
       b.setAttribute("aria-pressed", String(b.dataset.vrsta === vrsta));
     }
     osvjeziKartu();
+  });
+
+  cilj.querySelector("#izbor-poretka")!.addEventListener("click", (e) => {
+    const gumb = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-poredak]");
+    if (!gumb?.dataset.poredak) return;
+    poredak = gumb.dataset.poredak as typeof poredak;
+    for (const b of cilj.querySelectorAll<HTMLButtonElement>("#izbor-poretka button")) {
+      b.setAttribute("aria-pressed", String(b.dataset.poredak === poredak));
+    }
+    crtaj();
+  });
+
+  tijelo.addEventListener("click", (e) => {
+    const red = (e.target as HTMLElement).closest<HTMLTableRowElement>("tr[data-naziv]");
+    if (!red?.dataset.naziv) return;
+    otvorena = otvorena === red.dataset.naziv ? null : red.dataset.naziv;
+    crtaj();
   });
 
   osvjeziKartu();

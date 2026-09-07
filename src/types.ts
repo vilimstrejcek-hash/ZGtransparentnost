@@ -236,3 +236,18 @@ export interface Ustanove {
   izvori: { naziv: string; izvor: string }[];
   napomena: string;
 }
+
+export interface TokVeza {
+  izvor: string;
+  namjena: string;
+  iznos: number;
+}
+
+export interface TokGodina {
+  izvori: { naziv: string; iznos: number }[];
+  namjene: { naziv: string; iznos: number }[];
+  veze: TokVeza[];
+  ukupno: number;
+}
+
+export type Tok = Record<string, TokGodina>;

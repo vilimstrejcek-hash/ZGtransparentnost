@@ -15,8 +15,10 @@
     "vite": "^6.0.5"
   },
   "dependencies": {
+    "@types/d3-sankey": "^0.12.5",
     "@types/leaflet": "^1.9.22",
     "chart.js": "^4.4.7",
+    "d3-sankey": "^0.12.3",
     "leaflet": "^1.9.4"
   }
 }

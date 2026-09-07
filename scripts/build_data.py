@@ -60,6 +60,18 @@ COFOG = {
 }
 NERAZVRSTANO = "Nije razvrstano"
 
+# Skupine izvora financiranja po prvoj znamenki šifre — za prikaz toka novca
+# od izvora prema namjeni.
+IZVORI = {
+    "1": "Opći prihodi i primici",
+    "3": "Vlastiti prihodi",
+    "4": "Prihodi za posebne namjene",
+    "5": "Pomoći i EU sredstva",
+    "6": "Donacije",
+    "7": "Prihodi od nefinancijske imovine",
+    "8": "Primici od zaduživanja",
+}
+
 # "3239 OSTALE USLUGE" -> ("3239", "OSTALE USLUGE"); "A011120A112004 POSLOVI ..." isto.
 SIFRA_RE = re.compile(r"^\s*([A-Za-z0-9]+)\s+(.*\S)\s*$")
 
@@ -450,6 +462,41 @@ def build_po_namjeni(df: pd.DataFrame) -> dict:
     return rezultat
 
 
+def skupina_izvora(sifra: str) -> str:
+    sifra = (sifra or "").strip()
+    if not sifra or set(sifra) <= {"0"} or sifra.startswith("9"):
+        return NERAZVRSTANO
+    return IZVORI.get(sifra[0], NERAZVRSTANO)
+
+
+def build_tok(df: pd.DataFrame) -> dict:
+    """Tok novca od izvora financiranja prema namjeni (za Sankey prikaz)."""
+    df = df.copy()
+    df["izvor_skupina"] = df["izvor_sifra"].apply(skupina_izvora)
+    par = df["funkcijska_sifra"].apply(cofog_odjeljak)
+    df["namjena"] = [x[1] for x in par]
+
+    def za(g: pd.DataFrame) -> dict:
+        veze = (g.groupby(["izvor_skupina", "namjena"])["iznos"].sum()
+                 .reset_index().sort_values("iznos", ascending=False))
+        veze = veze[veze["iznos"] > 0]
+        izvori = (g.groupby("izvor_skupina")["iznos"].sum()
+                   .sort_values(ascending=False))
+        namjene = (g.groupby("namjena")["iznos"].sum()
+                    .sort_values(ascending=False))
+        return {
+            "izvori": [{"naziv": k, "iznos": r2(v)} for k, v in izvori.items() if v > 0],
+            "namjene": [{"naziv": k, "iznos": r2(v)} for k, v in namjene.items() if v > 0],
+            "veze": [{"izvor": r["izvor_skupina"], "namjena": r["namjena"], "iznos": r2(r["iznos"])}
+                     for _, r in veze.iterrows()],
+            "ukupno": r2(g["iznos"].sum()),
+        }
+
+    rezultat = {str(y): za(g) for y, g in df.groupby("godina")}
+    rezultat["sve"] = za(df)
+    return rezultat
+
+
 def build_profili(df: pd.DataFrame, out_dir: Path) -> int:
     # Fizičke osobe nemaju profil — u tom bi se popisu iznosila osobna imena.
     kandidati = df[df["oib"] != GDPR]
@@ -596,6 +643,7 @@ def main() -> None:
     write_json(OUT_DIR / "po_uredu.json", build_po_klasifikaciji(df, "ured"))
     write_json(OUT_DIR / "po_ekonomskoj.json", build_po_klasifikaciji(df, "ekonomska"))
     write_json(OUT_DIR / "po_namjeni.json", build_po_namjeni(df))
+    write_json(OUT_DIR / "tok.json", build_tok(df))
     write_json(OUT_DIR / "sifarnici.json", build_sifarnici(df))
     n_profila = build_profili(df, OUT_DIR / "primatelji")
     write_json(OUT_DIR / "meta.json", build_meta(df, stats, izvori, n_profila))

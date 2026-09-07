@@ -2,28 +2,22 @@ import { boja, nacrtaj, novacTooltip, OPCI_TOOLTIP, OS_NOVAC } from "../charts";
 import { ucitajProfil, type Podaci } from "../data";
 import { broj, datum, duljinaOznake, escapeHtml, eur, mjesecKratko, postotak, skrati } from "../format";
 import { napomenaHtml } from "../napomena";
+import { brojkaHtml } from "../ui";
 import type { Profil } from "../types";
 
 const PORTAL = "https://transparentnost.zagreb.hr";
 
-function karticaHtml(oznaka: string, vrijednost: string, dodatak: string): string {
-  return `<div class="kartica">
-    <p class="kartica__oznaka">${escapeHtml(oznaka)}</p>
-    <div class="kartica__vrijednost">${escapeHtml(vrijednost)}</div>
-    <p class="kartica__dodatak">${escapeHtml(dodatak)}</p>
-  </div>`;
-}
-
 function nijePronaden(cilj: HTMLElement, oib: string): void {
   cilj.innerHTML = `
-    <a class="natrag" href="#/primatelji">← Natrag na primatelje</a>
-    <div class="ploca">
+    <div class="omotac">
+    <a class="natrag" href="#/isplate">← Natrag na isplate</a>
+    <div class="odjeljak">
       <h2>Profil nije dostupan</h2>
-      <p class="podnaslov">Za OIB ${escapeHtml(oib)} nema podataka.</p>
+      <p class="datum-podataka">Za OIB ${escapeHtml(oib)} nema podataka.</p>
       <p>Profili se izrađuju samo za primatelje s najmanje pet isplata u obrađenim
         razdobljima. Isplate fizičkim osobama u izvoru su anonimizirane i nemaju profil.</p>
-      <p><a class="gumb gumb--sporedni" href="#/primatelji">Pregledaj sve primatelje</a></p>
-    </div>`;
+      <p><a class="gumb" href="#/isplate">Pregledaj sve primatelje</a></p>
+    </div></div>`;
 }
 
 export async function prikaziProfil(cilj: HTMLElement, podaci: Podaci, oib: string): Promise<void> {
@@ -42,40 +36,41 @@ export async function prikaziProfil(cilj: HTMLElement, podaci: Podaci, oib: stri
     sifra ? (mapa[sifra] ?? sifra) : "";
 
   cilj.innerHTML = `
-    <a class="natrag" href="#/primatelji">← Natrag na primatelje</a>
+    <div class="omotac">
+    <a class="natrag" href="#/isplate">← Natrag na isplate</a>
     <h2>${escapeHtml(p.naziv)}</h2>
-    <p class="podnaslov">
+    <p class="datum-podataka">
       OIB ${escapeHtml(p.oib)}${p.mjesto ? ` · ${escapeHtml(p.mjesto)}` : ""}
       · isplate od ${escapeHtml(datum(p.prva_isplata))} do ${escapeHtml(datum(p.zadnja_isplata))}
     </p>
     ${napomenaHtml(meta, "Prikazane su samo isplate iz obrađenih razdoblja, ne cjelokupno poslovanje s Gradom.")}
 
-    <div class="kartice">
-      ${karticaHtml("Ukupno primljeno", eur(p.ukupno), `${broj(p.broj_isplata)} isplata`)}
-      ${karticaHtml("Prosječna isplata", eur(prosjek), "po pojedinoj isplati")}
-      ${karticaHtml("Najveća isplata", eur(najveca), "pojedinačno")}
-      ${karticaHtml("Gradskih ureda", broj(p.po_uredu.length), "iz kojih je primao sredstva")}
+    <div class="brojke">
+      ${brojkaHtml("Ukupno primljeno", eur(p.ukupno), `${broj(p.broj_isplata)} isplata`)}
+      ${brojkaHtml("Prosječna isplata", eur(prosjek), "po pojedinoj isplati")}
+      ${brojkaHtml("Najveća isplata", eur(najveca), "pojedinačno")}
+      ${brojkaHtml("Gradskih ureda", broj(p.po_uredu.length), "iz kojih je primao sredstva")}
     </div>
 
     <div class="mreza-2">
-      <section class="ploca">
+      <section class="odjeljak">
         <h3>Isplate kroz vrijeme</h3>
         <div class="graf-okvir graf-okvir--nizak"><canvas id="graf-vrijeme"></canvas></div>
       </section>
-      <section class="ploca">
+      <section class="odjeljak">
         <h3>Iz kojih ureda</h3>
         <div class="graf-okvir graf-okvir--nizak"><canvas id="graf-uredi-profil"></canvas></div>
       </section>
     </div>
 
-    <section class="ploca">
-      <div class="ploca__zaglavlje">
+    <section class="odjeljak">
+      <div class="odjeljak__zaglavlje">
         <h3>${p.popis_potpun
           ? `Sve isplate (${escapeHtml(broj(p.broj_isplata))})`
           : `Najvećih ${escapeHtml(broj(p.prikazano_isplata))} isplata`}</h3>
         <button type="button" class="gumb" id="gumb-portal">Provjeri na iTransparentnosti</button>
       </div>
-      <p class="kartica__dodatak" id="nota-portal" style="margin:-6px 0 12px">
+      <p class="sitno" id="nota-portal" style="margin:-6px 0 12px">
         ${p.popis_potpun
           ? ""
           : `Prikazano je ${escapeHtml(broj(p.prikazano_isplata))} najvećih od ukupno
@@ -99,6 +94,7 @@ export async function prikaziProfil(cilj: HTMLElement, podaci: Podaci, oib: stri
         </table>
       </div>
     </section>
+    </div>
   `;
 
   // --- Isplate kroz vrijeme ---
@@ -173,9 +169,9 @@ export async function prikaziProfil(cilj: HTMLElement, podaci: Podaci, oib: stri
         <td>${escapeHtml(datum(i.d))}</td>
         <td class="broj${i.i < 0 ? " negativno" : ""}">${escapeHtml(eur(i.i))}</td>
         <td><span class="oznaka-sifra">${escapeHtml(i.u)}</span>${escapeHtml(skrati(naziv(sifarnici.ured, i.u), 40))}</td>
-        <td>${escapeHtml(i.o) || '<span class="kartica__dodatak">—</span>'}</td>
-        <td>${escapeHtml(i.br) || '<span class="kartica__dodatak">—</span>'}</td>
-        <td>${escapeHtml(i.ug) || '<span class="kartica__dodatak">—</span>'}</td>
+        <td>${escapeHtml(i.o) || '<span class="sitno">—</span>'}</td>
+        <td>${escapeHtml(i.br) || '<span class="sitno">—</span>'}</td>
+        <td>${escapeHtml(i.ug) || '<span class="sitno">—</span>'}</td>
       </tr>`).join("")
     : `<tr><td colspan="6" class="prazno">Nema isplata.</td></tr>`;
 

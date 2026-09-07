@@ -72,7 +72,7 @@ export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
       <section class="odjeljak">
         <div class="odjeljak__zaglavlje">
           <h2>Što Zagreb financira</h2>
-          <span class="sitno">Klik na područje za razradu</span>
+          <a class="veza" href="#/isplate">Sve isplate →</a>
         </div>
         <div id="treemap"></div>
         <div id="razrada"></div>
@@ -162,7 +162,10 @@ export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
       <div class="razrada-kat">
         <div class="razrada-kat__vrh">
           <h3>${escapeHtml(o.naziv)} — ${escapeHtml(eur(o.ukupno))}</h3>
-          <button type="button" class="razrada-kat__zatvori" id="zatvori-razradu">Zatvori</button>
+          <span>
+            <a class="veza" href="#/isplate?f=${escapeHtml(o.sifra)}">Pogledaj isplate →</a>
+            <button type="button" class="razrada-kat__zatvori" id="zatvori-razradu">Zatvori</button>
+          </span>
         </div>
         <div class="tablica-okvir">
           <table>

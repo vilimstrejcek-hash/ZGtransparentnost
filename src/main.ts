@@ -6,19 +6,22 @@ import { datum, escapeHtml } from "./format";
 const glavno = document.querySelector<HTMLElement>("#glavno")!;
 const REPO = "https://github.com/vilimstrejcek/transparentnost-plus";
 
-type Prikaz = "pregled" | "karta" | "primatelji" | "profil";
+type Prikaz = "pregled" | "isplate" | "karta" | "primatelji" | "profil";
 
 interface Ruta {
   prikaz: Prikaz;
   oib?: string;
   upit?: string;
+  parametri?: URLSearchParams;
 }
 
 function procitajRutu(): Ruta {
   const [putanja, upit] = location.hash.replace(/^#\/?/, "").split("?");
   const [prvi, drugi] = (putanja ?? "").split("/");
   const q = new URLSearchParams(upit ?? "").get("q") ?? undefined;
+  const parametri = new URLSearchParams(upit ?? "");
   if (prvi === "primatelj" && drugi) return { prikaz: "profil", oib: decodeURIComponent(drugi) };
+  if (prvi === "isplate") return { prikaz: "isplate", parametri };
   if (prvi === "karta") return { prikaz: "karta" };
   if (prvi === "primatelji") return { prikaz: "primatelji", upit: q };
   return { prikaz: "pregled" };
@@ -74,6 +77,17 @@ async function usmjeri(): Promise<void> {
       case "pregled": {
         const { prikaziPregled } = await import("./views/pregled");
         prikaziPregled(glavno, podaci);
+        break;
+      }
+      case "isplate": {
+        const { prikaziIsplate } = await import("./views/isplate");
+        const p = ruta.parametri;
+        await prikaziIsplate(glavno, podaci, {
+          mjesec: p?.get("m") ?? undefined,
+          namjena: p?.get("f") ?? undefined,
+          ured: p?.get("u") ?? undefined,
+          upit: p?.get("q") ?? undefined,
+        });
         break;
       }
       case "karta": {

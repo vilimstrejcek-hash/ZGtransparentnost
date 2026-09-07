@@ -466,3 +466,13 @@ td.razrada { background: var(--podloga); }
   .udio-red__naziv { flex: 1 1 auto; }
   .udio-red__traka { flex: 1 1 100%; order: 3; }
 }
+
+
+/* Biranje razdoblja */
+.razdoblje { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+.razdoblje__strelica {
+  width: 34px; height: 34px; border: 1px solid var(--linija); background: #fff;
+  font-size: 1.2rem; line-height: 1; cursor: pointer; border-radius: 3px; color: var(--tekst-2);
+}
+.razdoblje__strelica:hover { border-color: var(--plava); color: var(--plava); }
+.razdoblje__odabir { max-width: 260px; font-weight: 700; }

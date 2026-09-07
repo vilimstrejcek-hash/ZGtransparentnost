@@ -274,3 +274,16 @@ export interface Preuzimanje {
 }
 
 
+
+/** [dan, indeks primatelja, iznos, opis, ured, namjena, ekonomska, račun, ugovor] */
+export type Redak = [number, number, number, string, string, string, string, string, string];
+
+export interface MjesecPodaci {
+  mjesec: string;
+  primatelji: [string, string][];
+  redci: Redak[];
+}
+
+export interface MjesecIndeks {
+  mjeseci: { mjesec: string; redaka: number; ukupno: number; dana: number; bajtova: number }[];
+}

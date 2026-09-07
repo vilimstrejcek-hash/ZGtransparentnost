@@ -12,10 +12,12 @@ u JSON datoteke koje se posluže kao statične datoteke.
 
 ## Prikazi
 
-1. **Pregled** — koliko je Grad isplatio, koliko je to po stanovniku, kamo ide (treemap s
-   razradom po kategoriji), tko dobiva najviše i što odskače u podacima.
-2. **Karta** — gradske četvrti obojane po iznosu po stanovniku i ustanove koje Grad plaća.
-3. **Primatelji** — pretraživa tablica; klik otvara profil sa svim isplatama.
+1. **Pregled** — koliko je uloženo, u što, tko su najveći primatelji i koliko po stanovniku.
+   Klik na područje otvara razradu i vodi na isplate iza njega.
+2. **Isplate** — pojedinačne isplate po mjesecu, s filtrima po namjeni, uredu i pretragom
+   opisa. Usporedba s istim mjesecom prethodne godine i najveće stavke u razdoblju.
+3. **Gdje se ulaže** — gradske četvrti obojane po iznosu po stanovniku i ustanove na karti.
+4. **Primatelji** — pretraživa tablica; klik otvara profil sa svim isplatama.
 
 ## Pokretanje
 
@@ -35,6 +37,7 @@ python3 -m venv .venv && .venv/bin/pip install pandas
 .venv/bin/python scripts/build_cetvrti.py    # sredstva mjesne samouprave po četvrtima
 .venv/bin/python scripts/build_granice.py    # granice četvrti iz shapefilea
 .venv/bin/python scripts/build_ustanove.py   # geolocirane ustanove
+.venv/bin/python scripts/build_isplate.py     # isplate podijeljene po mjesecima
 .venv/bin/python scripts/build_nalazi.py      # izračun nalaza
 .venv/bin/python scripts/build_preuzimanje.py # CSV izvoz za preuzimanje
 
@@ -103,6 +106,7 @@ isključiva).
 | `granice.json` | granice gradskih četvrti (GeoJSON, iz SHP-a) |
 | `ustanove.json` | gradske ustanove s koordinatama i pripisanim isplatama |
 | `nalazi.json` | izračunata opažanja s objašnjenjem postupka |
+| `isplate/YYYY-MM.json` | pojedinačne isplate po mjesecu (redak je proračunska pozicija) |
 | `preuzimanje/*.csv` | isti podaci u CSV-u, za preuzimanje |
 
 ### Odluke pri obradi

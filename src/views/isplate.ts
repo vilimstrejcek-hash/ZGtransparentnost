@@ -1,8 +1,8 @@
 import type { Podaci } from "../data";
 import { broj, datum, escapeHtml, eur, eurKratko, mjesecNaziv, postotak } from "../format";
 import {
-  poveziSortiranje, pretraziRedke, sortirajRedke, zaglavljeTabliceHtml,
-  type Poredak, type Stupac,
+  csvIznos, poveziSortiranje, preuzmiCsv, pretraziRedke, sortirajRedke,
+  zaglavljeTabliceHtml, type Poredak, type Stupac,
 } from "../ui";
 import type { MjesecIndeks, MjesecPodaci, Redak } from "../types";
 
@@ -260,7 +260,10 @@ export async function prikaziIsplate(
       <section class="odjeljak">
         <div class="odjeljak__zaglavlje">
           <h2>Sve isplate</h2>
-          <span class="sitno" id="brojac"></span>
+          <span class="sitno">
+            <span id="brojac"></span>
+            <button type="button" class="gumb gumb--malo" id="preuzmi">Preuzmi CSV</button>
+          </span>
         </div>
         <div class="tablica-okvir">
           <table>
@@ -282,6 +285,23 @@ export async function prikaziIsplate(
     sadrzaj.querySelector("#jos")?.addEventListener("click", () => {
       prikazano += KORAK;
       void crtaj();
+    });
+
+    sadrzaj.querySelector("#preuzmi")?.addEventListener("click", () => {
+      const dijelovi = ["isplate", f.mjesec, f.podskupina || f.namjena, f.ured].filter(Boolean);
+      preuzmiCsv(
+        dijelovi.join("-"),
+        ["datum", "primatelj", "oib", "opis", "ured", "namjena", "broj_racuna",
+         "broj_ugovora", "iznos_eur"],
+        poredani.map((r) => {
+          const [ime, oib] = p.primatelji[r[1]] ?? ["", ""];
+          return [
+            `${f.mjesec}-${String(r[0]).padStart(2, "0")}`,
+            ime ?? "", oib ?? "", r[3],
+            sifarnici.ured[r[4]] ?? r[4], COFOG[r[5]] ?? "", r[8], r[9], csvIznos(r[2]),
+          ];
+        })
+      );
     });
 
     const zaglavlje = sadrzaj.querySelector<HTMLElement>("#zaglavlje");

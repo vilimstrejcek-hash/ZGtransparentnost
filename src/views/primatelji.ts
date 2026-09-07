@@ -1,8 +1,8 @@
 import type { Podaci } from "../data";
 import { broj, escapeHtml, eur, eurKratko, postotak } from "../format";
 import {
-  godineOsHtml, poveziGodine, poveziSortiranje, pretraziRedke, sortirajRedke,
-  zaglavljeTabliceHtml, type Poredak, type Stupac,
+  csvIznos, godineOsHtml, poveziGodine, poveziSortiranje, preuzmiCsv, pretraziRedke,
+  sortirajRedke, zaglavljeTabliceHtml, type Poredak, type Stupac,
 } from "../ui";
 import type { Primatelj } from "../types";
 
@@ -40,6 +40,7 @@ export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci, pocetniUpit
           placeholder="Pretraži po svim stupcima" aria-label="Pretraga primatelja"
           value="${escapeHtml(upit)}" autocomplete="off" />
         <span class="sitno" id="sazetak"></span>
+        <button type="button" class="gumb gumb--malo" id="preuzmi" style="margin-left:auto">Preuzmi CSV</button>
       </div>
 
       <div class="tablica-okvir">
@@ -59,6 +60,15 @@ export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci, pocetniUpit
   const josOkvir = cilj.querySelector<HTMLElement>("#jos-okvir")!;
   const spremnikFizickih = cilj.querySelector<HTMLElement>("#fizicke")!;
   const zaglavlje = cilj.querySelector<HTMLElement>("#zaglavlje")!;
+
+  cilj.querySelector("#preuzmi")!.addEventListener("click", () => {
+    const stavke = sortirajRedke(filtrirani(), stupci, poredak);
+    preuzmiCsv(
+      ["primatelji", odabrana, upit.trim().replace(/\s+/g, "-")].filter(Boolean).join("-"),
+      ["naziv", "oib", "iznos_eur", "broj_isplata", "udio_posto"],
+      stavke.map((p) => [p.naziv, p.oib, csvIznos(p.ukupno), p.broj_isplata, csvIznos(p.udio)])
+    );
+  });
 
   poveziSortiranje(zaglavlje, stupci, poredak, () => {
     prikazano = KORAK;

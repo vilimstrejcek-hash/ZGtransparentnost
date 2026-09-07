@@ -178,3 +178,37 @@ export function pretraziRedke<T>(
     return dijelovi.every((d) => spojeno.includes(d));
   });
 }
+
+
+/* --- Izvoz u CSV ---------------------------------------------------------- */
+
+function csvPolje(vrijednost: string | number): string {
+  const t = String(vrijednost ?? "");
+  return /[";\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t;
+}
+
+/**
+ * Preuzmi redke kao CSV. Separator je točka sa zarezom i ide BOM, jer Excel na
+ * hrvatskim postavkama inače razbije stupce i pokvari dijakritiku.
+ */
+export function preuzmiCsv(
+  ime: string,
+  zaglavlje: string[],
+  redci: (string | number)[][]
+): void {
+  const tekst = "\uFEFF" + [zaglavlje, ...redci]
+    .map((r) => r.map(csvPolje).join(";"))
+    .join("\r\n");
+  const blob = new Blob([tekst], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const veza = document.createElement("a");
+  veza.href = url;
+  veza.download = ime.endsWith(".csv") ? ime : `${ime}.csv`;
+  document.body.appendChild(veza);
+  veza.click();
+  veza.remove();
+  URL.revokeObjectURL(url);
+}
+
+/** Iznos za CSV — decimalni zarez, bez oznake tisućica i valute. */
+export const csvIznos = (n: number): string => n.toFixed(2).replace(".", ",");

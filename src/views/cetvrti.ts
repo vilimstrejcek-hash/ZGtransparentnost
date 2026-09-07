@@ -3,8 +3,8 @@ import { broj, escapeHtml, eur, eurKratko } from "../format";
 import { BOJE_VRSTA, nacrtajKartu, STUPNJEVI_BOJA, type KartaRuke } from "../karta";
 
 import {
-  poveziSortiranje, pretraziRedke, sortirajRedke, zaglavljeTabliceHtml,
-  type Poredak, type Stupac,
+  csvIznos, poveziSortiranje, preuzmiCsv, pretraziRedke, sortirajRedke,
+  zaglavljeTabliceHtml, type Poredak, type Stupac,
 } from "../ui";
 import type { Cetvrt } from "../types";
 
@@ -71,9 +71,12 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
       <section class="odjeljak">
         <div class="odjeljak__zaglavlje">
           <h2>Ulaganja po četvrtima</h2>
-          <input type="search" class="polje" id="pretraga-cetvrti"
-            placeholder="Pretraži četvrti" aria-label="Pretraga gradskih četvrti"
-            style="max-width:220px" autocomplete="off" />
+          <span style="display:flex;gap:8px;align-items:center">
+            <input type="search" class="polje" id="pretraga-cetvrti"
+              placeholder="Pretraži četvrti" aria-label="Pretraga gradskih četvrti"
+              style="max-width:200px" autocomplete="off" />
+            <button type="button" class="gumb gumb--malo" id="preuzmi-cetvrti">Preuzmi CSV</button>
+          </span>
         </div>
         <div class="tablica-okvir">
           <table>
@@ -154,6 +157,16 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
     otvorena = otvorena === red.dataset.naziv ? null : red.dataset.naziv;
     karta?.istakni(otvorena);
     crtaj();
+  });
+
+  cilj.querySelector("#preuzmi-cetvrti")!.addEventListener("click", () => {
+    const redci = sortirajRedke(pretraziRedke(cetvrti.cetvrti, stupci, upit), stupci, poredak);
+    preuzmiCsv(
+      `gradske-cetvrti-${cetvrti.godina}`,
+      ["gradska_cetvrt", "stanovnika", "ukupno_eur", "po_stanovniku_eur"],
+      redci.map((c) => [c.naziv, c.stanovnika ?? "", csvIznos(c.ukupno),
+                        c.po_stanovniku !== null ? csvIznos(c.po_stanovniku) : ""])
+    );
   });
 
   cilj.querySelector<HTMLInputElement>("#pretraga-cetvrti")!.addEventListener("input", (e) => {

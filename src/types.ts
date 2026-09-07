@@ -251,3 +251,14 @@ export interface TokGodina {
 }
 
 export type Tok = Record<string, TokGodina>;
+
+export interface GraniceZnacajka {
+  type: "Feature";
+  properties: { naziv: string };
+  geometry: { type: "Polygon"; coordinates: number[][][] };
+}
+
+export interface Granice {
+  type: "FeatureCollection";
+  features: GraniceZnacajka[];
+}

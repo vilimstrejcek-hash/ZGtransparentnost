@@ -3,8 +3,10 @@ import { escapeHtml } from "./format";
 /** Naslov stranice s datumom podataka — isti raspored na svakom prikazu. */
 export function zaglavljeHtml(naslov: string, datumPodataka: string, uvod = ""): string {
   return `
-    <h2 class="naslov-stranice">${escapeHtml(naslov)}</h2>
-    <p class="datum-podataka">Podaci do ${escapeHtml(datumPodataka)}</p>
+    <div class="zaglavlje-stranice">
+      <h2 class="naslov-stranice">${escapeHtml(naslov)}</h2>
+      <p class="datum-podataka">Podaci do ${escapeHtml(datumPodataka)}</p>
+    </div>
     ${uvod ? `<p class="uvod">${escapeHtml(uvod)}</p>` : ""}`;
 }
 

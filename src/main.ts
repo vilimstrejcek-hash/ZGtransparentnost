@@ -78,6 +78,23 @@ function ispisiPodnozje(podaci: Podaci): void {
     </div>`;
 }
 
+function ispisiPojas(podaci: Podaci): void {
+  const { summary, poNamjeni, meta } = podaci;
+  const u = summary.ukupno;
+  const stavke: [string, string][] = [
+    ["Razdoblje", `${datum(meta.prvi_datum)} – ${datum(meta.zadnji_datum)}`],
+    ["Ukupno isplaćeno", u.ukupno.toLocaleString("hr-HR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 })],
+    ["Isplata", u.broj_isplata.toLocaleString("hr-HR")],
+    ["Primatelja", u.broj_primatelja.toLocaleString("hr-HR")],
+    ["Po stanovniku", (u.ukupno / poNamjeni.stanovnika).toLocaleString("hr-HR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 })],
+  ];
+  const pojas = document.querySelector<HTMLElement>("#pojas")!;
+  pojas.innerHTML = `<div class="omotac pojas__unutra">
+    ${stavke.map(([o, v]) => `<span class="pojas__stavka">${escapeHtml(o)}: <b>${escapeHtml(v)}</b></span>`).join("")}
+  </div>`;
+  pojas.hidden = false;
+}
+
 function prikaziGresku(poruka: string): void {
   glavno.innerHTML = `<div class="omotac"><div class="greska">
     <strong>Greška pri učitavanju.</strong>
@@ -102,6 +119,7 @@ async function usmjeri(): Promise<void> {
     return;
   }
   ispisiPodnozje(podaci);
+  ispisiPojas(podaci);
 
   try {
     switch (ruta.prikaz) {

@@ -1,6 +1,9 @@
 import type { Podaci } from "../data";
 import { broj, escapeHtml, eur, eurKratko, postotak } from "../format";
-import { godineOsHtml, poveziGodine } from "../ui";
+import {
+  godineOsHtml, poveziGodine, poveziSortiranje, sortirajRedke, zaglavljeTabliceHtml,
+  type Poredak, type Stupac,
+} from "../ui";
 import type { Primatelj } from "../types";
 
 const KORAK = 50;
@@ -11,6 +14,16 @@ export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci, pocetniUpit
   let odabrana = "sve";
   let upit = pocetniUpit;
   let prikazano = KORAK;
+  const poredak: Poredak = { kljuc: "ukupno", silazno: true };
+
+  const stupci: Stupac<Primatelj>[] = [
+    { kljuc: "redni", naziv: "#", broj: true, bezSortiranja: true, sirina: "3.4rem" },
+    { kljuc: "naziv", naziv: "Primatelj", vrijednost: (r) => r.naziv },
+    { kljuc: "oib", naziv: "OIB", vrijednost: (r) => r.oib },
+    { kljuc: "ukupno", naziv: "Iznos", broj: true, vrijednost: (r) => r.ukupno },
+    { kljuc: "broj_isplata", naziv: "Isplata", broj: true, vrijednost: (r) => r.broj_isplata },
+    { kljuc: "udio", naziv: "Udio", broj: true, vrijednost: (r) => r.udio },
+  ];
 
   cilj.innerHTML = `
     <div class="omotac">
@@ -31,10 +44,7 @@ export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci, pocetniUpit
 
       <div class="tablica-okvir">
         <table>
-          <thead><tr>
-            <th style="width:3.4rem">#</th><th>Primatelj</th><th>OIB</th>
-            <th class="broj">Iznos</th><th class="broj">Isplata</th><th class="broj">Udio</th>
-          </tr></thead>
+          <thead id="zaglavlje"></thead>
           <tbody id="tablica"></tbody>
         </table>
       </div>
@@ -48,6 +58,12 @@ export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci, pocetniUpit
   const pretraga = cilj.querySelector<HTMLInputElement>("#pretraga")!;
   const josOkvir = cilj.querySelector<HTMLElement>("#jos-okvir")!;
   const spremnikFizickih = cilj.querySelector<HTMLElement>("#fizicke")!;
+  const zaglavlje = cilj.querySelector<HTMLElement>("#zaglavlje")!;
+
+  poveziSortiranje(zaglavlje, stupci, poredak, () => {
+    prikazano = KORAK;
+    crtaj();
+  });
 
   const zaGodinu = (): Primatelj[] => primatelji[odabrana] ?? [];
   const filtrirani = (): Primatelj[] => {
@@ -80,8 +96,9 @@ export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci, pocetniUpit
 
   function crtaj(): void {
     const svi = zaGodinu();
-    const stavke = filtrirani();
+    const stavke = sortirajRedke(filtrirani(), stupci, poredak);
     const vidljive = stavke.slice(0, prikazano);
+    zaglavlje.innerHTML = zaglavljeTabliceHtml(stupci, poredak);
 
     sazetak.textContent = upit.trim()
       ? `${broj(stavke.length)} od ${broj(svi.length)} primatelja`
@@ -89,7 +106,7 @@ export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci, pocetniUpit
 
     tijelo.innerHTML = vidljive.length
       ? vidljive.map((p, i) => `<tr${p.ima_profil ? ` class="red-klik" data-oib="${escapeHtml(p.oib)}"` : ""}>
-          <td class="broj sitno">${upit.trim() ? svi.indexOf(p) + 1 : i + 1}</td>
+          <td class="broj sitno">${i + 1}</td>
           <td>${p.ima_profil
             ? `<a class="veza" href="#/primatelj/${encodeURIComponent(p.oib)}">${escapeHtml(p.naziv)}</a>`
             : escapeHtml(p.naziv)}</td>

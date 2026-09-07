@@ -504,3 +504,18 @@ td.razrada { background: var(--podloga); }
   font-size: 1.1rem; line-height: 1; padding: 0 4px; border-radius: 2px;
 }
 .oznaka button:hover { background: var(--plava); color: #fff; }
+
+
+/* Sortiranje tablica */
+th.sortiv { padding: 0; }
+th.sortiv button {
+  width: 100%; background: none; border: 0; cursor: pointer;
+  font: inherit; font-size: inherit; font-weight: 700; letter-spacing: inherit;
+  text-transform: inherit; color: inherit; padding: 9px 12px;
+  display: flex; align-items: center; gap: 5px;
+}
+th.sortiv.broj button { justify-content: flex-end; }
+th.sortiv button:hover { color: var(--plava); }
+th.sortiv--aktivan button { color: var(--plava); }
+.sortiv__strelica { font-size: 0.9em; line-height: 1; }
+th.sortiv button:focus-visible { outline: 2px solid var(--plava); outline-offset: -2px; }

@@ -2,6 +2,9 @@ import type { Podaci } from "../data";
 import { broj, escapeHtml, eur, eurKratko } from "../format";
 import { BOJE_VRSTA, nacrtajKartu, STUPNJEVI_BOJA, type KartaRuke } from "../karta";
 
+import {
+  poveziSortiranje, sortirajRedke, zaglavljeTabliceHtml, type Poredak, type Stupac,
+} from "../ui";
 import type { Cetvrt } from "../types";
 
 let karta: KartaRuke | null = null;
@@ -16,7 +19,15 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
   const { cetvrti, ustanove, granice } = podaci;
   ocistiKartu();
   let vrsta = "sve";
-  let poredak: "po_stanovniku" | "ukupno" = "po_stanovniku";
+  const poredak: Poredak = { kljuc: "po_stanovniku", silazno: true };
+
+  const stupci: Stupac<Cetvrt>[] = [
+    { kljuc: "naziv", naziv: "Gradska četvrt", vrijednost: (c) => c.naziv },
+    { kljuc: "stanovnika", naziv: "Stanovnika", broj: true, vrijednost: (c) => c.stanovnika ?? 0 },
+    { kljuc: "ukupno", naziv: "Ukupno", broj: true, vrijednost: (c) => c.ukupno },
+    { kljuc: "po_stanovniku", naziv: "Po stanovniku", broj: true, vrijednost: (c) => c.po_stanovniku ?? 0 },
+    { kljuc: "namjene", naziv: "", bezSortiranja: true },
+  ];
   let otvorena: string | null = null;
 
   const poStanovniku = cetvrti.cetvrti
@@ -58,17 +69,11 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
       <section class="odjeljak">
         <div class="odjeljak__zaglavlje">
           <h2>Ulaganja po četvrtima</h2>
-          <div class="prekidaci" id="izbor-poretka" role="group" aria-label="Poredak">
-            <button type="button" data-poredak="po_stanovniku" aria-pressed="true">Po stanovniku</button>
-            <button type="button" data-poredak="ukupno" aria-pressed="false">Ukupno</button>
-          </div>
+          <span class="sitno">Klik na stupac mijenja poredak</span>
         </div>
         <div class="tablica-okvir">
           <table>
-            <thead><tr>
-              <th>Gradska četvrt</th><th class="broj">Stanovnika</th>
-              <th class="broj">Ukupno</th><th class="broj">Po stanovniku</th><th></th>
-            </tr></thead>
+            <thead id="zaglavlje-cetvrti"></thead>
             <tbody id="tablica-cetvrti"></tbody>
           </table>
         </div>
@@ -76,6 +81,8 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
     </div>`;
 
   const tijelo = cilj.querySelector<HTMLElement>("#tablica-cetvrti")!;
+  const zaglavljeCetvrti = cilj.querySelector<HTMLElement>("#zaglavlje-cetvrti")!;
+  poveziSortiranje(zaglavljeCetvrti, stupci, poredak, () => crtaj());
 
   function redHtml(c: Cetvrt): string {
     const otvoren = otvorena === c.naziv;
@@ -98,12 +105,8 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
   }
 
   function crtaj(): void {
-    const redci = [...cetvrti.cetvrti].sort((a, b) =>
-      poredak === "po_stanovniku"
-        ? (b.po_stanovniku ?? 0) - (a.po_stanovniku ?? 0)
-        : b.ukupno - a.ukupno
-    );
-    tijelo.innerHTML = redci.map(redHtml).join("");
+    zaglavljeCetvrti.innerHTML = zaglavljeTabliceHtml(stupci, poredak);
+    tijelo.innerHTML = sortirajRedke(cetvrti.cetvrti, stupci, poredak).map(redHtml).join("");
   }
 
   karta = nacrtajKartu(cilj.querySelector<HTMLElement>("#karta")!, {
@@ -136,16 +139,6 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
 
   cilj.querySelector<HTMLInputElement>("#prikaz-cetvrti")!.addEventListener("change", (e) => {
     karta?.prikaziCetvrti((e.target as HTMLInputElement).checked);
-  });
-
-  cilj.querySelector("#izbor-poretka")!.addEventListener("click", (e) => {
-    const gumb = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-poredak]");
-    if (!gumb?.dataset.poredak) return;
-    poredak = gumb.dataset.poredak as typeof poredak;
-    for (const b of cilj.querySelectorAll<HTMLButtonElement>("#izbor-poretka button")) {
-      b.setAttribute("aria-pressed", String(b.dataset.poredak === poredak));
-    }
-    crtaj();
   });
 
   tijelo.addEventListener("click", (e) => {

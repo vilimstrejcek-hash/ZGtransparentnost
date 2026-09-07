@@ -1,5 +1,8 @@
 import type { Podaci } from "../data";
 import { broj, datum, escapeHtml, eur, eurKratko, mjesecNaziv, postotak } from "../format";
+import {
+  poveziSortiranje, sortirajRedke, zaglavljeTabliceHtml, type Poredak, type Stupac,
+} from "../ui";
 import type { MjesecIndeks, MjesecPodaci, Redak } from "../types";
 
 const BAZA = import.meta.env.BASE_URL.replace(/\/+$/, "");
@@ -59,6 +62,7 @@ export async function prikaziIsplate(
     upit: pocetni.upit ?? "",
   };
   let prikazano = KORAK;
+  const poredak: Poredak = { kljuc: "dan", silazno: false };
 
   const uredi = Object.entries(sifarnici.ured).sort((a, b) => a[1].localeCompare(b[1], "hr"));
 
@@ -160,6 +164,17 @@ export async function prikaziIsplate(
     });
   }
 
+  function stupci(p: MjesecPodaci): Stupac<Redak>[] {
+    return [
+      { kljuc: "dan", naziv: "Dan", vrijednost: (r) => r[0] },
+      { kljuc: "primatelj", naziv: "Primatelj", vrijednost: (r) => p.primatelji[r[1]]?.[0] ?? "" },
+      { kljuc: "opis", naziv: "Opis", vrijednost: (r) => r[3] },
+      { kljuc: "ured", naziv: "Ured", vrijednost: (r) => sifarnici.ured[r[4]] ?? r[4] },
+      { kljuc: "namjena", naziv: "Namjena", vrijednost: (r) => COFOG[r[5]] ?? "" },
+      { kljuc: "iznos", naziv: "Iznos", broj: true, vrijednost: (r) => r[2] },
+    ];
+  }
+
   function redakHtml(p: MjesecPodaci, r: Redak): string {
     const [dan, idx, iznos, opis, ured, namjena] = r;
     const [ime, oib] = p.primatelji[idx] ?? ["", ""];
@@ -227,7 +242,8 @@ export async function prikaziIsplate(
       </div>`;
 
     const najvece = [...redci].sort((a, b) => b[2] - a[2]).slice(0, 10);
-    const kronoloski = redci.slice(0, prikazano);
+    const poredani = sortirajRedke(redci, stupci(p), poredak);
+    const kronoloski = poredani.slice(0, prikazano);
 
     sadrzaj.innerHTML = `
       ${najvece.length ? `
@@ -248,7 +264,7 @@ export async function prikaziIsplate(
         </div>
         <div class="tablica-okvir">
           <table>
-            <thead><tr><th>Dan</th><th>Primatelj</th><th>Opis</th><th>Ured</th><th>Namjena</th><th class="broj">Iznos</th></tr></thead>
+            <thead id="zaglavlje">${zaglavljeTabliceHtml(stupci(p), poredak)}</thead>
             <tbody id="tijelo">${kronoloski.map((r) => redakHtml(p, r)).join("")
               || `<tr><td colspan="6" class="prazno">Nema isplata koje odgovaraju filtrima.</td></tr>`}</tbody>
           </table>
@@ -267,6 +283,14 @@ export async function prikaziIsplate(
       prikazano += KORAK;
       void crtaj();
     });
+
+    const zaglavlje = sadrzaj.querySelector<HTMLElement>("#zaglavlje");
+    if (zaglavlje) {
+      poveziSortiranje(zaglavlje, stupci(p), poredak, () => {
+        prikazano = KORAK;
+        void crtaj();
+      });
+    }
   }
 
   function osvjezi(): void {

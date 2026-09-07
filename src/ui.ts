@@ -70,3 +70,79 @@ export const PALETA = [
 ];
 
 export const bojaPoIndeksu = (i: number): string => PALETA[i % PALETA.length] as string;
+
+
+/* --- Sortiranje tablica --------------------------------------------------- */
+
+export interface Stupac<T> {
+  kljuc: string;
+  naziv: string;
+  /** Desno poravnat i sortiran kao broj. */
+  broj?: boolean;
+  /** Stupac bez sortiranja (npr. redni broj). */
+  bezSortiranja?: boolean;
+  sirina?: string;
+  /** Vrijednost po kojoj se sortira. */
+  vrijednost?: (redak: T) => number | string;
+}
+
+export interface Poredak {
+  kljuc: string;
+  silazno: boolean;
+}
+
+/** Zaglavlje tablice s gumbima za sortiranje. */
+export function zaglavljeTabliceHtml<T>(stupci: Stupac<T>[], poredak: Poredak): string {
+  return `<tr>${stupci.map((s) => {
+    const aktivan = s.kljuc === poredak.kljuc;
+    const smjer = aktivan ? (poredak.silazno ? "descending" : "ascending") : "none";
+    const strelica = aktivan ? (poredak.silazno ? "▾" : "▴") : "";
+    if (s.bezSortiranja) {
+      return `<th${s.sirina ? ` style="width:${s.sirina}"` : ""}${s.broj ? ' class="broj"' : ""}>${escapeHtml(s.naziv)}</th>`;
+    }
+    return `<th${s.sirina ? ` style="width:${s.sirina}"` : ""}
+      class="${s.broj ? "broj " : ""}sortiv${aktivan ? " sortiv--aktivan" : ""}"
+      aria-sort="${smjer}">
+      <button type="button" data-sort="${escapeHtml(s.kljuc)}">
+        ${escapeHtml(s.naziv)}<span class="sortiv__strelica">${strelica}</span>
+      </button>
+    </th>`;
+  }).join("")}</tr>`;
+}
+
+/** Poredaj redke prema odabranom stupcu; tekst ide hrvatskom abecedom. */
+export function sortirajRedke<T>(redci: T[], stupci: Stupac<T>[], poredak: Poredak): T[] {
+  const stupac = stupci.find((s) => s.kljuc === poredak.kljuc);
+  if (!stupac?.vrijednost) return redci;
+  const smjer = poredak.silazno ? -1 : 1;
+  return [...redci].sort((a, b) => {
+    const x = stupac.vrijednost!(a);
+    const y = stupac.vrijednost!(b);
+    if (typeof x === "number" && typeof y === "number") return (x - y) * smjer;
+    return String(x).localeCompare(String(y), "hr") * smjer;
+  });
+}
+
+/**
+ * Klik na zaglavlje mijenja stupac ili okreće smjer. Brojčani stupci kreću
+ * silazno jer se kod iznosa gotovo uvijek prvo traži najveće.
+ */
+export function poveziSortiranje<T>(
+  zaglavlje: HTMLElement,
+  stupci: Stupac<T>[],
+  poredak: Poredak,
+  ponovno: () => void
+): void {
+  zaglavlje.addEventListener("click", (e) => {
+    const gumb = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-sort]");
+    const kljuc = gumb?.dataset["sort"];
+    if (!kljuc) return;
+    if (poredak.kljuc === kljuc) {
+      poredak.silazno = !poredak.silazno;
+    } else {
+      poredak.kljuc = kljuc;
+      poredak.silazno = stupci.find((s) => s.kljuc === kljuc)?.broj ?? false;
+    }
+    ponovno();
+  });
+}

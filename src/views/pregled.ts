@@ -1,6 +1,6 @@
 import { nacrtaj, novacTooltip, OPCI_TOOLTIP, OS_NOVAC, boja } from "../charts";
 import type { Podaci } from "../data";
-import { broj, escapeHtml, eur, eurOs, mjesecKratko, mjesecUGodini, postotak, skrati } from "../format";
+import { broj, duljinaOznake, escapeHtml, eur, eurOs, mjesecKratko, mjesecUGodini, postotak, skrati } from "../format";
 import { napomenaHtml } from "../napomena";
 import type { Blok } from "../types";
 
@@ -162,7 +162,7 @@ export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
   nacrtaj(cilj.querySelector<HTMLCanvasElement>("#graf-uredi")!, {
     type: "bar",
     data: {
-      labels: uredi.map((r) => skrati(r.naziv, 44)),
+      labels: uredi.map((r) => skrati(r.naziv, duljinaOznake(44, 20))),
       datasets: [{
         data: uredi.map((r) => r.ukupno),
         backgroundColor: boja(1),

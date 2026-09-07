@@ -1,6 +1,6 @@
 import { boja, nacrtaj, novacTooltip, OPCI_TOOLTIP, OS_NOVAC } from "../charts";
 import { ucitajProfil, type Podaci } from "../data";
-import { broj, datum, escapeHtml, eur, mjesecKratko, postotak, skrati } from "../format";
+import { broj, datum, duljinaOznake, escapeHtml, eur, mjesecKratko, postotak, skrati } from "../format";
 import { napomenaHtml } from "../napomena";
 import type { Profil } from "../types";
 
@@ -122,7 +122,7 @@ export async function prikaziProfil(cilj: HTMLElement, podaci: Podaci, oib: stri
     nacrtaj(cilj.querySelector<HTMLCanvasElement>("#graf-uredi-profil")!, {
       type: "doughnut",
       data: {
-        labels: uredi.map((u) => skrati(u.naziv, 34)),
+        labels: uredi.map((u) => skrati(u.naziv, duljinaOznake(34, 22))),
         datasets: [{
           data: uredi.map((u) => u.ukupno),
           backgroundColor: uredi.map((_, i) => boja(i)),

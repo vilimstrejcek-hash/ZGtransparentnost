@@ -1,6 +1,6 @@
 import { boja, nacrtaj, OPCI_TOOLTIP, OS_NOVAC } from "../charts";
 import type { Podaci } from "../data";
-import { broj, escapeHtml, eur, postotak, skrati } from "../format";
+import { broj, duljinaOznake, escapeHtml, eur, postotak, skrati } from "../format";
 import { napomenaHtml } from "../napomena";
 import type { Primatelj } from "../types";
 
@@ -95,7 +95,7 @@ export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci): void {
     nacrtaj(platno, {
       type: "bar",
       data: {
-        labels: stavke.map((p) => skrati(p.naziv, 40)),
+        labels: stavke.map((p) => skrati(p.naziv, duljinaOznake())),
         datasets: [{
           data: stavke.map((p) => p.ukupno),
           backgroundColor: stavke.map((p) => (p.oib === "GDPR" ? boja(9) : boja(0))),

@@ -79,6 +79,11 @@ export function skrati(tekst: string, duljina = 38): string {
   return tekst.length <= duljina ? tekst : `${tekst.slice(0, duljina - 1).trimEnd()}…`;
 }
 
+/** Duljina oznake na osi grafa — na uskim ekranima ima mjesta za manje teksta. */
+export function duljinaOznake(siroko = 40, usko = 18): number {
+  return window.innerWidth < 700 ? usko : siroko;
+}
+
 export function escapeHtml(s: string): string {
   return s.replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string

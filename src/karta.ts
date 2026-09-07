@@ -64,7 +64,37 @@ export interface KartaPostavke {
 }
 
 export function nacrtajKartu(spremnik: HTMLElement, postavke: KartaPostavke): KartaRuke {
+  // Kotačić se ne uključuje odmah jer bi otimao pomicanje stranice. Uključuje se
+  // klikom na kartu, a gasi kad miš ode s nje. Ctrl/Cmd + kotačić radi uvijek.
   const karta = L.map(spremnik, { scrollWheelZoom: false }).setView(ZAGREB, 11);
+
+  const uputa = L.DomUtil.create("div", "karta__uputa", spremnik);
+  uputa.textContent = "Klikni za zumiranje kotačićem · dvoklik ili + / −";
+  L.DomEvent.disableClickPropagation(uputa);
+
+  const ukljuciKotacic = (): void => {
+    karta.scrollWheelZoom.enable();
+    uputa.hidden = true;
+  };
+  const iskljuciKotacic = (): void => {
+    karta.scrollWheelZoom.disable();
+    uputa.hidden = false;
+  };
+
+  karta.on("click", ukljuciKotacic);
+  karta.on("focus", ukljuciKotacic);
+  spremnik.addEventListener("mouseleave", iskljuciKotacic);
+
+  // Ctrl/Cmd + kotačić zumira i bez prethodnog klika, kao u kartografskim alatima.
+  spremnik.addEventListener("wheel", (e) => {
+    if (!(e.ctrlKey || e.metaKey)) return;
+    e.preventDefault();
+    const smjer = e.deltaY < 0 ? 1 : -1;
+    karta.setZoomAround(
+      karta.mouseEventToLatLng(e as unknown as MouseEvent),
+      karta.getZoom() + smjer
+    );
+  }, { passive: false });
 
   // CARTO-ove svijetle pločice od nedavno traže ključ, pa ide standardni OSM.
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {

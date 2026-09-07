@@ -5,6 +5,11 @@ import type { MjesecIndeks, MjesecPodaci, Redak } from "../types";
 const BAZA = import.meta.env.BASE_URL.replace(/\/+$/, "");
 const KORAK = 50;
 
+const IMENA_MJESECI = [
+  "siječanj", "veljača", "ožujak", "travanj", "svibanj", "lipanj",
+  "srpanj", "kolovoz", "rujan", "listopad", "studeni", "prosinac",
+];
+
 const COFOG: Record<string, string> = {
   "01": "Opće javne usluge", "02": "Obrana", "03": "Javni red i sigurnost",
   "04": "Ekonomski poslovi", "05": "Zaštita okoliša",
@@ -39,6 +44,11 @@ export async function prikaziIsplate(
     .then((o) => o.json());
   const mjeseci = indeks.mjeseci.map((m) => m.mjesec);
   const zadnji = mjeseci[mjeseci.length - 1] ?? "";
+  const godineSPodacima = [...new Set(mjeseci.map((m) => m.slice(0, 4)))].sort().reverse();
+
+  /** Mjeseci koji u odabranoj godini uopće imaju isplata. */
+  const mjeseciGodine = (godina: string): string[] =>
+    mjeseci.filter((m) => m.startsWith(godina)).map((m) => m.slice(5));
 
   const f: Filtri = {
     mjesec: pocetni.mjesec && mjeseci.includes(pocetni.mjesec) ? pocetni.mjesec : zadnji,
@@ -59,9 +69,12 @@ export async function prikaziIsplate(
 
       <div class="razdoblje">
         <button type="button" class="razdoblje__strelica" id="prethodni" aria-label="Prethodni mjesec">‹</button>
-        <select class="odabir razdoblje__odabir" id="izbor-mjeseca" aria-label="Mjesec">
-          ${mjeseci.slice().reverse().map((m) => `
-            <option value="${m}">${escapeHtml(mjesecNaziv(m))}</option>`).join("")}
+        <select class="odabir razdoblje__godina" id="izbor-godine" aria-label="Godina">
+          ${godineSPodacima.map((g) => `<option value="${g}">${g}.</option>`).join("")}
+        </select>
+        <select class="odabir razdoblje__mjesec" id="izbor-mjeseca" aria-label="Mjesec">
+          ${IMENA_MJESECI.map((ime, i) => `
+            <option value="${String(i + 1).padStart(2, "0")}">${escapeHtml(ime)}</option>`).join("")}
         </select>
         <button type="button" class="razdoblje__strelica" id="sljedeci" aria-label="Sljedeći mjesec">›</button>
       </div>
@@ -88,7 +101,16 @@ export async function prikaziIsplate(
 
   const sazetak = cilj.querySelector<HTMLElement>("#sazetak")!;
   const sadrzaj = cilj.querySelector<HTMLElement>("#sadrzaj")!;
+  const izborGodine = cilj.querySelector<HTMLSelectElement>("#izbor-godine")!;
   const izborMjeseca = cilj.querySelector<HTMLSelectElement>("#izbor-mjeseca")!;
+
+  /** Mjeseci bez podataka ostaju vidljivi, ali se ne mogu odabrati. */
+  function osvjeziMjesece(): void {
+    const dostupni = new Set(mjeseciGodine(f.mjesec.slice(0, 4)));
+    for (const opcija of izborMjeseca.options) {
+      opcija.disabled = !dostupni.has(opcija.value);
+    }
+  }
   const izborNamjene = cilj.querySelector<HTMLSelectElement>("#izbor-namjene")!;
   const izborUreda = cilj.querySelector<HTMLSelectElement>("#izbor-ureda")!;
   const pretraga = cilj.querySelector<HTMLInputElement>("#pretraga")!;
@@ -121,7 +143,9 @@ export async function prikaziIsplate(
   }
 
   async function crtaj(): Promise<void> {
-    izborMjeseca.value = f.mjesec;
+    izborGodine.value = f.mjesec.slice(0, 4);
+    osvjeziMjesece();
+    izborMjeseca.value = f.mjesec.slice(5);
     izborNamjene.value = f.namjena;
     izborUreda.value = f.ured;
 
@@ -215,7 +239,18 @@ export async function prikaziIsplate(
     void crtaj();
   }
 
-  izborMjeseca.addEventListener("change", () => { f.mjesec = izborMjeseca.value; osvjezi(); });
+  izborGodine.addEventListener("change", () => {
+    const godina = izborGodine.value;
+    const dostupni = mjeseciGodine(godina);
+    // Ako odabrani mjesec u novoj godini ne postoji, uzima se najbliži dostupni.
+    const zeljeni = f.mjesec.slice(5);
+    const mjesec = dostupni.includes(zeljeni) ? zeljeni : (dostupni[dostupni.length - 1] ?? "");
+    if (mjesec) { f.mjesec = `${godina}-${mjesec}`; osvjezi(); }
+  });
+  izborMjeseca.addEventListener("change", () => {
+    f.mjesec = `${f.mjesec.slice(0, 4)}-${izborMjeseca.value}`;
+    osvjezi();
+  });
   izborNamjene.addEventListener("change", () => { f.namjena = izborNamjene.value; osvjezi(); });
   izborUreda.addEventListener("change", () => { f.ured = izborUreda.value; osvjezi(); });
   pretraga.addEventListener("input", () => { f.upit = pretraga.value; osvjezi(); });

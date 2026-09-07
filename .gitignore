@@ -1,0 +1,23 @@
+# Ovisnosti
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+
+# Build
+dist/
+.vite/
+
+# Izvorni CSV-ovi ostaju lokalno — u repo idu samo obrađeni JSON-ovi
+Data za prototip/
+*.csv
+
+# Sustav / uređivači
+.DS_Store
+.idea/
+.vscode/
+*.log
+
+# Dokumenti za prijavu — osobni, ne idu u javni repo
+Docs za prijavu/
+*.pdf

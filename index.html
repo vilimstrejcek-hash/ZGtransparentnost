@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="hr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transparentnost+ — analitika isplata Grada Zagreba</title>
+    <meta
+      name="description"
+      content="Analitička nadogradnja gradske aplikacije iTransparentnost: pregled isplata Grada Zagreba po mjesecima, primateljima i gradskim uredima."
+    />
+  </head>
+  <body>
+    <a class="preskoci" href="#glavno">Preskoči na sadržaj</a>
+
+    <header class="zaglavlje">
+      <div class="omotac zaglavlje__unutra">
+        <div class="zaglavlje__naslov">
+          <h1>Transparentnost<span class="plus">+</span></h1>
+          <p>Analitička nadogradnja gradske aplikacije iTransparentnost</p>
+        </div>
+        <nav class="navigacija" aria-label="Glavna navigacija">
+          <a href="#/pregled" data-nav="pregled">Pregled</a>
+          <a href="#/primatelji" data-nav="primatelji">Primatelji</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="glavno" class="omotac" aria-live="polite">
+      <p class="ucitavanje">Učitavanje podataka…</p>
+    </main>
+
+    <footer class="podnozje">
+      <div class="omotac" id="podnozje-sadrzaj"></div>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

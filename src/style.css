@@ -8,7 +8,7 @@
   --naglasak: #c8102e;       /* crvena iz gradskog grba, za istaknute vrijednosti */
   --tekst: #4a4a4a;
   --tekst-2: #6b6b6b;
-  --tekst-3: #8a8a8a;
+  --tekst-3: #6e6e6e;   /* 4,9:1 na bijeloj — #8a8a8a je bio ispod praga čitljivosti */
   --linija: #d9d9d9;
   --linija-svijetla: #ececec;
   --ploha: #ffffff;
@@ -68,11 +68,12 @@ body {
 .vrh__znak span { color: #ffd24a; }
 .traka__veze { display: flex; gap: 4px; margin: 0 auto 0 14px; padding: 0; list-style: none; }
 .traka__veze a {
-  display: block; color: #d6e6f4; text-decoration: none;
+  display: block; color: #ffffff; text-decoration: none;
   font-size: 0.98rem; font-weight: 500; padding: 7px 14px; border-radius: 3px;
 }
-.traka__veze a:hover { background: rgba(255,255,255,0.13); color: #fff; }
+.traka__veze a:hover { background: rgba(255, 255, 255, 0.18); }
 .traka__veze a[aria-current="page"] { background: #fff; color: var(--plava-srednja); font-weight: 700; }
+.traka__veze a:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
 
 /* Navigacijska traka */
 .traka { background: #fff; border-bottom: 1px solid var(--linija); }
@@ -85,18 +86,6 @@ body {
   padding-top: 6px;
   padding-bottom: 6px;
 }
-.traka__veze { display: flex; flex-wrap: wrap; gap: 4px; list-style: none; margin: 0; padding: 0; }
-.traka__veze a {
-  display: block;
-  color: var(--tekst-2);
-  text-decoration: none;
-  font-size: 0.96rem;
-  font-weight: 500;
-  padding: 8px 12px;
-  border-radius: 3px;
-}
-.traka__veze a:hover { color: var(--plava); background: var(--podloga); }
-.traka__veze a[aria-current="page"] { background: var(--plava); color: #fff; font-weight: 600; }
 
 .traka__trazi { display: flex; align-items: center; gap: 0; }
 .skriveno {

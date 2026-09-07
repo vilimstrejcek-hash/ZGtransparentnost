@@ -1,9 +1,9 @@
 import type { Podaci } from "../data";
-import { datum, escapeHtml, eur } from "../format";
+import { broj, datum, escapeHtml, eur, iznosBezValute } from "../format";
 import { bojaPoIndeksu } from "../ui";
 
 /** Male sličice iznad kartica — nagovještaj prikaza koji se otvara. */
-function sličica(vrsta: "tok" | "treemap" | "karta" | "tablica" | "knjiga"): string {
+function sličica(vrsta: "tok" | "treemap" | "karta" | "tablica" | "knjiga" | "stupci"): string {
   const b = (i: number) => bojaPoIndeksu(i);
   if (vrsta === "tok") {
     return `<svg viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true">
@@ -26,6 +26,14 @@ function sličica(vrsta: "tok" | "treemap" | "karta" | "tablica" | "knjiga"): st
       <path d="M20 70 L60 30 L110 44 L150 22 L185 50" stroke="#cfd6dd" stroke-width="3" fill="none"/>
       ${[[54, 42, 7], [86, 58, 11], [120, 36, 6], [138, 62, 9], [160, 44, 5], [70, 72, 4]]
         .map((c, i) => `<circle cx="${c[0]}" cy="${c[1]}" r="${c[2]}" fill="${b(i)}" opacity="0.75"/>`).join("")}
+    </svg>`;
+  }
+  if (vrsta === "stupci") {
+    const v = [34, 48, 40, 62, 52, 44, 70, 58, 46, 88, 54, 42];
+    return `<svg viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true">
+      <rect width="200" height="100" fill="#f7f9fb"/>
+      ${v.map((h, i) => `<rect x="${6 + i * 16}" y="${100 - h}" width="11" height="${h}"
+        fill="${i === 9 ? "#c8102e" : b(0)}"/>`).join("")}
     </svg>`;
   }
   if (vrsta === "knjiga") {
@@ -93,13 +101,38 @@ export function prikaziNaslovnicu(cilj: HTMLElement, podaci: Podaci): void {
           "Pogledaj svaku gradsku četvrt i ustanove koje Grad plaća.", "#/cetvrti")}
         ${ulazHtml(sličica("tablica"), "Isplate primateljima",
           "Detaljno prikazujemo sve isplate koje je Grad izvršio.", "#/isplate")}
-        ${ulazHtml(sličica("knjiga"), "Pojmovnik",
-          "Što znače klasifikacije, izvori financiranja i ostali pojmovi.", "#/pojmovnik")}
+        ${ulazHtml(sličica("stupci"), "Trendovi",
+          "Kako se trošenje mijenja kroz godine i koliko je koncentrirano.", "#/trendovi")}
+        ${ulazHtml(sličica("knjiga"), "Podaci za preuzimanje",
+          "Svi obrađeni podaci u CSV-u i JSON-u, pod otvorenom licencom.", "#/podaci")}
       </div>
 
       <p class="datum-podataka" style="margin-top:28px">
         Podaci do ${escapeHtml(datum(meta.zadnji_datum))} ·
         ${escapeHtml(String(meta.broj_isplata.toLocaleString("hr-HR")))} isplata
       </p>
-    </div>`;
+    </div>
+
+    <section class="udio-blok">
+      <div class="omotac">
+        <h3>Tvoj udio</h3>
+        <p class="udio-blok__uvod">
+          U ${escapeHtml(godina)}. je na svakog stanovnika Zagreba otpalo
+          <strong>${escapeHtml(eur(blok?.po_stanovniku ?? 0))}</strong> gradskih isplata
+          (${escapeHtml(broj(poNamjeni.stanovnika))} stanovnika, Popis 2021.). Evo kamo je otišlo:
+        </p>
+        <ul class="udio-popis">
+          ${(blok?.odjeljci ?? []).slice(0, 8).map((o) => {
+            const najveci = blok?.odjeljci[0]?.po_stanovniku ?? 1;
+            return `<li class="udio-red">
+              <span class="udio-red__naziv">${escapeHtml(o.naziv)}</span>
+              <span class="udio-red__traka" aria-hidden="true">
+                <span style="width:${((o.po_stanovniku / najveci) * 100).toFixed(1)}%"></span>
+              </span>
+              <span class="udio-red__iznos">${escapeHtml(iznosBezValute(o.po_stanovniku))} €</span>
+            </li>`;
+          }).join("")}
+        </ul>
+      </div>
+    </section>`;
 }

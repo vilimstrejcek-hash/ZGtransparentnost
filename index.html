@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Slab:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -20,10 +20,20 @@
 
     <header class="vrh">
       <div class="omotac vrh__unutra">
-        <a class="vrh__znak" href="#/">Transparentnost<span>+</span></a>
-        <span class="vrh__ime">Otvoreni proračun Grada Zagreba</span>
+        <a class="vrh__znak" href="#/">
+          <span class="vrh__grb" aria-hidden="true"></span>
+          <span class="vrh__tekst">Transparentnost<span>+</span></span>
+        </a>
+        <span class="vrh__ime">Analitički prikaz proračuna i isplata Grada Zagreba</span>
       </div>
     </header>
+
+    <div class="ograda">
+      <div class="omotac ograda__unutra">
+        <strong>Nezavisni projekt.</strong> Ovo nije službena stranica Grada Zagreba —
+        podaci su preuzeti iz javno objavljenih gradskih izvora i samostalno obrađeni.
+      </div>
+    </div>
 
     <nav class="traka" aria-label="Glavna navigacija">
       <div class="omotac traka__unutra">
@@ -32,6 +42,8 @@
           <li><a href="#/detalj" data-nav="detalj">Detalj proračuna</a></li>
           <li><a href="#/cetvrti" data-nav="cetvrti">Ulaganja po četvrtima</a></li>
           <li><a href="#/isplate" data-nav="isplate">Isplate primateljima</a></li>
+          <li><a href="#/trendovi" data-nav="trendovi">Trendovi</a></li>
+          <li><a href="#/podaci" data-nav="podaci">Podaci</a></li>
           <li><a href="#/pojmovnik" data-nav="pojmovnik">Pojmovnik</a></li>
         </ul>
         <form class="traka__trazi" id="trazilica" role="search">

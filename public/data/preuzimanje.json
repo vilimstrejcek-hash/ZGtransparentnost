@@ -1,0 +1,81 @@
+{
+ "naslov": "Transparentnost+ — obrađeni otvoreni podaci",
+ "licenca": "CC BY 4.0",
+ "pripisivanje": "Transparentnost+ (STRX), obrada javnih podataka Grada Zagreba, CC BY 4.0",
+ "datum_obrade": "2026-09-07",
+ "pripremljeno": "2026-09-07",
+ "razdoblje": {
+  "od": "2024-01-02",
+  "do": "2026-08-25"
+ },
+ "skupovi": [
+  {
+   "ime": "isplate_po_namjeni",
+   "opis": "Isplate po namjeni (funkcijska klasifikacija, COFOG)",
+   "redaka": 40,
+   "csv": "data/preuzimanje/isplate_po_namjeni.csv",
+   "bajtova": 2185
+  },
+  {
+   "ime": "isplate_po_uredu",
+   "opis": "Isplate po gradskom uredu (organizacijska klasifikacija)",
+   "redaka": 68,
+   "csv": "data/preuzimanje/isplate_po_uredu.csv",
+   "bajtova": 5898
+  },
+  {
+   "ime": "isplate_po_ekonomskoj",
+   "opis": "Isplate po vrsti rashoda (ekonomska klasifikacija)",
+   "redaka": 382,
+   "csv": "data/preuzimanje/isplate_po_ekonomskoj.csv",
+   "bajtova": 27892
+  },
+  {
+   "ime": "najveci_primatelji",
+   "opis": "Pedeset najvećih primatelja po godini",
+   "redaka": 200,
+   "csv": "data/preuzimanje/najveci_primatelji.csv",
+   "bajtova": 12438
+  },
+  {
+   "ime": "gradske_cetvrti",
+   "opis": "Sredstva mjesne samouprave po gradskoj četvrti",
+   "redaka": 17,
+   "csv": "data/preuzimanje/gradske_cetvrti.csv",
+   "bajtova": 808
+  },
+  {
+   "ime": "ustanove",
+   "opis": "Gradske ustanove s koordinatama i pripisanim isplatama",
+   "redaka": 513,
+   "csv": "data/preuzimanje/ustanove.csv",
+   "bajtova": 52495
+  },
+  {
+   "ime": "plan_i_izvrsenje",
+   "opis": "Plan rashoda i isplate s gradskog računa",
+   "redaka": 60,
+   "csv": "data/preuzimanje/plan_i_izvrsenje.csv",
+   "bajtova": 4504
+  },
+  {
+   "ime": "iznad_plana",
+   "opis": "Stavke isplaćene iznad objavljenog plana",
+   "redaka": 60,
+   "csv": "data/preuzimanje/iznad_plana.csv",
+   "bajtova": 7931
+  },
+  {
+   "ime": "po_mjesecu",
+   "opis": "Isplate po mjesecu",
+   "redaka": 32,
+   "csv": "data/preuzimanje/po_mjesecu.csv",
+   "bajtova": 1001
+  }
+ ],
+ "izvori": [
+  "iTransparentnost (api.otvorenigrad.hr) — isplate s gradskog računa",
+  "data.zagreb.hr — plan rashoda, sredstva mjesne samouprave, geoportal ustanova",
+  "Državni zavod za statistiku — Popis stanovništva 2021."
+ ]
+}

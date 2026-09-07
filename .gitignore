@@ -8,11 +8,13 @@ __pycache__/
 dist/
 .vite/
 
-# Sirovi podaci ostaju lokalno — u repo idu samo obrađeni JSON-ovi
+# Sirovi podaci ostaju lokalno — u repo idu samo obrađeni podaci
 Data za prototip/
 *.csv
 *.jsonl
 *.xlsx
+# ...osim obrađenih tablica pripremljenih za preuzimanje
+!public/data/preuzimanje/*.csv
 
 # Sustav / uređivači
 .DS_Store

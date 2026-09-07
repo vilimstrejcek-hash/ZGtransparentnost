@@ -38,8 +38,11 @@ export async function prikaziProfil(cilj: HTMLElement, podaci: Podaci, oib: stri
   cilj.innerHTML = `
     <div class="omotac">
     <a class="natrag" href="#/isplate">← Natrag na isplate</a>
-    <h2>${escapeHtml(p.naziv)}</h2>
-    <p class="datum-podataka">
+    <div class="zaglavlje-stranice">
+      <h2 class="naslov-stranice">${escapeHtml(p.naziv)}</h2>
+      <p class="datum-podataka">${escapeHtml(datum(meta.zadnji_datum))}</p>
+    </div>
+    <p class="uvod sitno">
       OIB ${escapeHtml(p.oib)}${p.mjesto ? ` · ${escapeHtml(p.mjesto)}` : ""}
       · isplate od ${escapeHtml(datum(p.prva_isplata))} do ${escapeHtml(datum(p.zadnja_isplata))}
     </p>
@@ -123,13 +126,25 @@ export async function prikaziProfil(cilj: HTMLElement, podaci: Podaci, oib: stri
   });
 
   // --- Donut po uredu ---
-  const uredi = p.po_uredu.filter((u) => u.ukupno > 0);
+  const svi = p.po_uredu.filter((u) => u.ukupno > 0);
+  const NAJVISE_UREDA = 8;
+  const uredi = svi.length > NAJVISE_UREDA
+    ? [
+        ...svi.slice(0, NAJVISE_UREDA),
+        {
+          sifra: "",
+          naziv: `Ostali uredi (${svi.length - NAJVISE_UREDA})`,
+          ukupno: svi.slice(NAJVISE_UREDA).reduce((a, b) => a + b.ukupno, 0),
+          broj_isplata: svi.slice(NAJVISE_UREDA).reduce((a, b) => a + b.broj_isplata, 0),
+        },
+      ]
+    : svi;
   const ukupnoUredi = uredi.reduce((z, u) => z + u.ukupno, 0);
   if (uredi.length) {
     nacrtaj(cilj.querySelector<HTMLCanvasElement>("#graf-uredi-profil")!, {
       type: "doughnut",
       data: {
-        labels: uredi.map((u) => skrati(u.naziv, duljinaOznake(34, 22))),
+        labels: uredi.map((u) => skrati(u.naziv, duljinaOznake(30, 20))),
         datasets: [{
           data: uredi.map((u) => u.ukupno),
           backgroundColor: uredi.map((_, i) => boja(i)),
@@ -141,7 +156,7 @@ export async function prikaziProfil(cilj: HTMLElement, podaci: Podaci, oib: stri
         responsive: true,
         cutout: "58%",
         plugins: {
-          legend: { position: "bottom", labels: { usePointStyle: true, boxWidth: 8, padding: 10, font: { size: 11 } } },
+          legend: { position: "bottom", labels: { usePointStyle: true, boxWidth: 8, padding: 8, font: { size: 10 } } },
           tooltip: {
             ...OPCI_TOOLTIP,
             displayColors: true,

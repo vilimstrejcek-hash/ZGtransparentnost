@@ -262,3 +262,13 @@ export interface Granice {
   type: "FeatureCollection";
   features: GraniceZnacajka[];
 }
+
+export interface Preuzimanje {
+  naslov: string;
+  licenca: string;
+  pripisivanje: string;
+  datum_obrade: string;
+  razdoblje: { od: string; do: string };
+  skupovi: { ime: string; opis: string; redaka: number; csv: string; bajtova: number }[];
+  izvori: string[];
+}

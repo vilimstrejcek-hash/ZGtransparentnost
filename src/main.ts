@@ -8,7 +8,7 @@ const REPO = "https://github.com/vilimstrejcek/transparentnost-plus";
 
 type Prikaz =
   | "naslovnica" | "pregled" | "detalj" | "cetvrti" | "isplate"
-  | "plan" | "pojmovnik" | "profil";
+  | "plan" | "trendovi" | "podaci" | "pojmovnik" | "profil";
 
 interface Ruta {
   prikaz: Prikaz;
@@ -23,6 +23,8 @@ const RUTE: Record<string, Prikaz> = {
   cetvrti: "cetvrti",
   isplate: "isplate",
   plan: "plan",
+  trendovi: "trendovi",
+  podaci: "podaci",
   pojmovnik: "pojmovnik",
 };
 
@@ -52,6 +54,8 @@ function ispisiPodnozje(podaci: Podaci): void {
   document.querySelector<HTMLElement>("#podnozje-sadrzaj")!.innerHTML = `
     <div>
       <h4>Transparentnost+</h4>
+      <p><strong>Ovo nije službena stranica Grada Zagreba.</strong> Nezavisni je projekt
+         koji obrađuje javno objavljene podatke Grada.</p>
       <p>Analitička nadogradnja gradske aplikacije iTransparentnost.</p>
       <p>Podaci obrađeni ${escapeHtml(datum(meta.datum_obrade))}, razdoblje
          ${escapeHtml(datum(meta.prvi_datum))} – ${escapeHtml(datum(meta.zadnji_datum))}.</p>
@@ -151,6 +155,16 @@ async function usmjeri(): Promise<void> {
       case "plan": {
         const { prikaziPlan } = await import("./views/plan");
         prikaziPlan(glavno, podaci);
+        break;
+      }
+      case "trendovi": {
+        const { prikaziTrendove } = await import("./views/trendovi");
+        prikaziTrendove(glavno, podaci);
+        break;
+      }
+      case "podaci": {
+        const { prikaziPodatke } = await import("./views/podaci");
+        await prikaziPodatke(glavno, podaci);
         break;
       }
       case "pojmovnik": {

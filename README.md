@@ -7,15 +7,21 @@ pregled po mjesecu i namjeni, rangiranje primatelja, i profil pojedinog primatel
 Prototip. Bez backend-a, baze i prikupljanja podataka o korisnicima — sve se računa unaprijed
 u JSON datoteke koje se posluže kao statične datoteke.
 
+> **Ovo nije službena stranica Grada Zagreba.** Nezavisni je projekt koji obrađuje javno
+> objavljene podatke Grada.
+
 ## Prikazi
 
-1. **Pregled** — ukupno isplaćeno po mjesecu, raspodjela po gradskim uredima i po ekonomskoj
-   klasifikaciji, uz kartice s ukupnim iznosom, brojem isplata, brojem primatelja i udjelom
-   deset najvećih primatelja.
-2. **Primatelji** — top 20 po odabranoj godini na grafu, tablica top 50 s pretragom po nazivu
-   i OIB-u. Klik na primatelja otvara profil.
-3. **Profil primatelja** — isplate kroz vrijeme, raspodjela po uredima iz kojih je primao
-   sredstva, i tablica svih isplata s opisom i brojem računa.
+1. **Pregled** — tok novca od izvora financiranja prema namjeni (Sankey), uz ključne brojke.
+2. **Detalj proračuna** — treemap po namjeni (COFOG), vrsti rashoda i gradskom uredu,
+   s usporedbom plana i izvršenja.
+3. **Ulaganja po četvrtima** — karta s granicama gradskih četvrti obojanima po iznosu po
+   stanovniku i geolociranim ustanovama koje Grad plaća.
+4. **Isplate primateljima** — tablica primatelja s pretragom; klik otvara profil sa svim
+   isplatama, tijekom kroz vrijeme i raspodjelom po uredima.
+5. **Trendovi** — mjesečni tijek, sezonalnost i koncentracija primatelja.
+6. **Podaci** — svi obrađeni skupovi za preuzimanje u CSV-u i JSON-u, pod CC BY 4.0.
+7. **Pojmovnik** — objašnjenja klasifikacija i izvora.
 
 ## Pokretanje
 
@@ -30,7 +36,12 @@ python3 -m venv .venv && .venv/bin/pip install pandas
 .venv/bin/python scripts/fetch_api.py
 
 # 3. izgradnja JSON-ova za frontend
-.venv/bin/python scripts/build_data.py
+.venv/bin/python scripts/build_data.py       # isplate, namjena, tok, primatelji
+.venv/bin/python scripts/build_plan.py       # plan rashoda i odstupanja
+.venv/bin/python scripts/build_cetvrti.py    # sredstva mjesne samouprave po četvrtima
+.venv/bin/python scripts/build_granice.py    # granice četvrti iz shapefilea
+.venv/bin/python scripts/build_ustanove.py   # geolocirane ustanove
+.venv/bin/python scripts/build_preuzimanje.py # CSV izvoz za preuzimanje
 
 # 4. lokalni razvoj
 npm run dev
@@ -91,6 +102,12 @@ isključiva).
 | `primatelji/{OIB}.json` | sve isplate za primatelje s najmanje 5 isplata |
 | `meta.json` | raspon datuma, datum obrade, broj isplata, pokrivenost |
 | `sifarnici.json` | šifra → naziv za urede, ekonomske klasifikacije i pozicije |
+| `tok.json` | tok od izvora financiranja prema namjeni |
+| `plan.json` | plan rashoda, prekoračenja i isplate bez stavke u planu |
+| `cetvrti.json` | sredstva mjesne samouprave po gradskoj četvrti |
+| `granice.json` | granice gradskih četvrti (GeoJSON, iz SHP-a) |
+| `ustanove.json` | gradske ustanove s koordinatama i pripisanim isplatama |
+| `preuzimanje/*.csv` | isti podaci u CSV-u, za preuzimanje |
 
 ### Odluke pri obradi
 
@@ -118,10 +135,29 @@ isključiva).
 Sirovi podaci (CSV izvozi i `api/isplate.jsonl`) ne drže se u repozitoriju — u repo idu samo
 obrađeni JSON-ovi.
 
+## Dodatni izvori
+
+Uz isplate s API-ja, aplikacija spaja i:
+
+| Izvor | Što daje |
+| --- | --- |
+| data.zagreb.hr — konsolidirani plan rashoda | usporedba plana i izvršenja |
+| data.zagreb.hr — sredstva mjesne samouprave | iznosi po gradskim četvrtima |
+| data.zagreb.hr — granice gradskih četvrti (SHP) | poligoni na karti |
+| data.zagreb.hr — geoportal ustanova | koordinate škola, kulturnih i zdravstvenih ustanova |
+| DZS, Popis 2021. (preko zagreb.hr) | stanovništvo Grada i četvrti |
+
+Šifra gradske četvrti u DBF-u kodirana je u CP1250, a granice su u projekciji
+HTRS96 / Croatia TM (EPSG:3765) — oboje rješava `scripts/build_granice.py`.
+
 ## Tehnologije
 
-Vite, TypeScript (vanilla, bez okvira), Chart.js. Deploy na Cloudflare Pages:
-build `npm run build`, izlazni direktorij `dist/`.
+Vite, TypeScript (vanilla, bez okvira), Chart.js za grafove, d3-sankey za tok novca,
+Leaflet za kartu. Treemap je vlastita izvedba squarified algoritma. Deploy na
+Cloudflare Pages: build `npm run build`, izlazni direktorij `dist/`.
+
+Vizualni identitet slijedi paletu i tipografiju Grada Zagreba (Roboto, plava #0072BC),
+uz jasnu naznaku da stranica nije službena.
 
 ## Licenca
 

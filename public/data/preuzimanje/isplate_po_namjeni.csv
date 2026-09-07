@@ -1,0 +1,41 @@
+﻿godina;sifra_odjeljka;naziv_odjeljka;iznos_eur;udio_posto;po_stanovniku_eur
+2024;09;Obrazovanje;377241056.69;23.04;491.76
+2024;04;Ekonomski poslovi;233447793.14;14.26;304.31
+2024;06;Stanovanje i komunalne pogodnosti;224178329.29;13.69;292.23
+2024;99;Nije razvrstano;216868335.01;13.24;282.70
+2024;08;Rekreacija, kultura i religija;182462495.48;11.14;237.85
+2024;01;Opće javne usluge;167733875.32;10.24;218.65
+2024;10;Socijalna zaštita;104874386.25;6.40;136.71
+2024;05;Zaštita okoliša;76691341.59;4.68;99.97
+2024;07;Zdravstvo;32892793.77;2.01;42.88
+2024;03;Javni red i sigurnost;21034970.62;1.28;27.42
+2025;09;Obrazovanje;451892423.18;24.62;589.07
+2025;04;Ekonomski poslovi;278671016.04;15.18;363.26
+2025;06;Stanovanje i komunalne pogodnosti;273205486.34;14.88;356.14
+2025;08;Rekreacija, kultura i religija;227412116.26;12.39;296.44
+2025;01;Opće javne usluge;185860366.12;10.12;242.28
+2025;99;Nije razvrstano;177152750.05;9.65;230.93
+2025;10;Socijalna zaštita;125983650.55;6.86;164.23
+2025;05;Zaštita okoliša;61880144.53;3.37;80.66
+2025;07;Zdravstvo;27169821.38;1.48;35.42
+2025;03;Javni red i sigurnost;26587930.85;1.45;34.66
+2026;09;Obrazovanje;295819048.62;23.72;385.62
+2026;99;Nije razvrstano;188095067.89;15.08;245.19
+2026;08;Rekreacija, kultura i religija;168843045.04;13.54;220.10
+2026;04;Ekonomski poslovi;167240421.79;13.41;218.01
+2026;06;Stanovanje i komunalne pogodnosti;164446361.40;13.18;214.37
+2026;01;Opće javne usluge;113164877.08;9.07;147.52
+2026;10;Socijalna zaštita;81837678.04;6.56;106.68
+2026;05;Zaštita okoliša;37352784.81;2.99;48.69
+2026;07;Zdravstvo;15424303.94;1.24;20.11
+2026;03;Javni red i sigurnost;15027996.38;1.20;19.59
+sve;09;Obrazovanje;1124952528.49;23.83;1466.44
+sve;04;Ekonomski poslovi;679359230.97;14.39;885.58
+sve;06;Stanovanje i komunalne pogodnosti;661830177.03;14.02;862.73
+sve;99;Nije razvrstano;582116152.95;12.33;758.82
+sve;08;Rekreacija, kultura i religija;578717656.78;12.26;754.39
+sve;01;Opće javne usluge;466759118.52;9.89;608.45
+sve;10;Socijalna zaštita;312695714.84;6.62;407.62
+sve;05;Zaštita okoliša;175924270.93;3.73;229.33
+sve;07;Zdravstvo;75486919.09;1.60;98.40
+sve;03;Javni red i sigurnost;62650897.85;1.33;81.67

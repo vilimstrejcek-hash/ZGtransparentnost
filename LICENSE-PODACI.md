@@ -20,6 +20,11 @@ Obrađeni podaci nastali su iz javno objavljenih izvora Grada Zagreba:
 
 Podloga karte: © [OpenStreetMap](https://www.openstreetmap.org/copyright) suradnici, ODbL.
 
+## Preuzimanje
+
+Svi obrađeni skupovi dostupni su u CSV-u i JSON-u na stranici **Podaci** u aplikaciji,
+odnosno u `public/data/` i `public/data/preuzimanje/` u repozitoriju.
+
 ## Kod pripisivanja navedite
 
 > Transparentnost+ (STRX), obrada javnih podataka Grada Zagreba, CC BY 4.0.

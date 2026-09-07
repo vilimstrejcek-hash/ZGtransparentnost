@@ -1,0 +1,514 @@
+﻿naziv;vrsta;adresa;gradska_cetvrt;lat;lon;oib;iznos_eur;broj_isplata
+Zagrebačko gradsko kazalište Komedija;Kulturna ustanova;Kaptol 9;;45.816419;15.978144;59569102212;21246186.39;297
+Zagrebačko kazalište mladih;Kulturna ustanova;Ulica Nikole Tesle  7;;45.811246;15.975747;13254939546;14345050.95;344
+Gradsko dramsko kazalište Gavella;Kulturna ustanova;Frankopanska ulica 10;;45.812102;15.969337;23901219315;12919798.05;235
+Hrvatski prirodoslovni muzej;Kulturna ustanova;Demetrova ulica 1;;45.817113;15.97229;53150371536;11556739.61;224
+Muzej suvremene umjetnosti;Kulturna ustanova;Avenija Dubrovnik 17;;45.778436;15.981546;78352024822;10493104.85;183
+Muzej za umjetnost i obrt;Kulturna ustanova;Trg Republike Hrvatske 10;;45.809403;15.968666;02728849314;7712822.37;250
+Zagrebačko kazalište lutaka;Kulturna ustanova;Trg kralja Tomislava 19;;45.806997;15.977808;53838475417;7652715.04;155
+Gradsko kazalište Trešnja;Kulturna ustanova;Mošćenička ulica 1;;45.794768;15.943641;28265486672;6543653.56;154
+Muzej grada Zagreba;Kulturna ustanova;Opatička ulica 20;;45.818392;15.974761;68127446342;6163872.77;182
+Arheološki muzej u Zagrebu;Kulturna ustanova;Trg Nikole Zrinskog 19;;45.811072;15.977306;79157146686;5696866.72;225
+"Nastavni zavod za javno zdravstvo"" Dr. Andrija Štampar""";Zdravstvena ustanova;Mirogojska cesta 16;;45.831432;15.980528;33392005961;4692980.42;748
+Tehnički muzej Nikola Tesla;Kulturna ustanova;Savska cesta 18;;45.803817;15.964433;37198918530;4328319.83;136
+POLIKLINIKA ZA REHABILITACIJU SLUŠANJA, GOVORA SUVAG;Osnovna škola;Ulica Ljudevita Posavskog 10;DONJI GRAD;45.808153;15.993488;88696689887;4026729.81;455
+OSNOVNA ŠKOLA ŽUTI BRIJEG;Osnovna škola;Vrtnjakovečka ulica 8;GORNJA DUBRAVA;45.839078;16.035087;36955576207;3796834.58;311
+Narodno sveučilište Dubrava;Kulturna ustanova;Cerska ulica 1;;45.824274;16.041679;47521323377;3790068.50;274
+OSNOVNA ŠKOLA SAVSKI GAJ;Osnovna škola;Remetinečka cesta 64A;NOVI ZAGREB - ZAPAD;45.775125;15.9518;33995559159;3504869.98;349
+Gradsko kazalište Žar ptica;Kulturna ustanova;Bijenička cesta 97;;45.832483;15.994494;84398178962;3396933.31;164
+OSNOVNA ŠKOLA AUGUSTA ŠENOE;Osnovna škola;Selska cesta 95;TREŠNJEVKA - SJEVER;45.802493;15.943561;47377939383;3359056.77;394
+OSNOVNA ŠKOLA KRALJA TOMISLAVA;Osnovna škola;Nova cesta 92;TREŠNJEVKA - SJEVER;45.801491;15.955074;44900859510;3238293.31;316
+Psihijatrijska bolnica za djecu i mladež;Zdravstvena ustanova;Ulica Ivana Kukuljevića 11;;45.81509;15.963215;51196068839;2978500.49;99
+OSNOVNA ŠKOLA DRAGUTINA DOMJANIĆA;Osnovna škola;Gajnice 31;PODSUSED - VRAPČE;45.818372;15.871888;09149352137;2966222.02;367
+OSNOVNA ŠKOLA TITUŠA BREZOVAČKOG;Osnovna škola;Špansko 1;STENJEVEC;45.801075;15.898808;07628779327;2918406.16;308
+OSNOVNA ŠKOLA ANTE KOVAČIĆA;Osnovna škola;Kotarnica 17;STENJEVEC;45.803436;15.89318;04318334164;2913488.10;338
+OSNOVNA ŠKOLA IVE ANDRIĆA;Osnovna škola;Ulica Milovana Kovačevića 18;NOVI ZAGREB - ISTOK;45.773483;15.985873;24061503881;2868714.52;340
+OSNOVNA ŠKOLA DRAGUTINA TADIJANOVIĆA;Osnovna škola;Bolnička cesta 60A;PODSUSED - VRAPČE;45.817966;15.890262;73051728774;2866972.72;326
+Specijalna bolnica za plućne bolesti;Zdravstvena ustanova;Rockefellerova ulica 3;;45.829605;15.982028;75982310877;2743912.05;77
+OSNOVNA ŠKOLA GUSTAVA KRKLECA;Osnovna škola;Ulica Božidara Magovca 103;NOVI ZAGREB - ISTOK;45.770395;15.998466;60669015692;2668709.35;373
+OSNOVNA ŠKOLA IVANA MEŠTROVIĆA;Osnovna škola;Ulica Martina Pušteka 1;TREŠNJEVKA - JUG;45.788122;15.932966;08466144831;2666249.63;379
+OSNOVNA ŠKOLA MATE LOVRAKA;Osnovna škola;Aleja Blaža Jurišića 13;GORNJA DUBRAVA;45.834894;16.052908;52960882634;2591754.26;300
+OSNOVNA ŠKOLA BARTOLA KAŠIĆA;Osnovna škola;Vrisnička ulica 4;TREŠNJEVKA - JUG;45.786917;15.923937;66184539220;2589250.80;302
+OSNOVNA ŠKOLA ANTUNA MIHANOVIĆA;Osnovna škola;Dubečka ulica 5;GORNJA DUBRAVA;45.829822;16.077915;76147034208;2588072.58;334
+CENTAR ZA AUTIZAM;Osnovna škola;Ulica Baltazara Dvorničića 6;GORNJI GRAD - MEDVEŠČAK;45.81954;15.980914;63467332374;2562438.02;410
+OSNOVNA ŠKOLA ALOJZIJA STEPINCA;Osnovna škola;Palinovečka ulica 42;TREŠNJEVKA - JUG;45.789123;15.913966;40723003638;2561022.89;403
+OSNOVNA ŠKOLA JURE KAŠTELANA;Osnovna škola;Ulica Vladimira Ruždjaka 2A;TRNJE;45.793745;15.99368;27893203755;2458216.62;296
+OSNOVNA ŠKOLA PAVLEKA MIŠKINE;Osnovna škola;Sveti Duh 24;ČRNOMEREC;45.815161;15.942424;85286272245;2370790.89;297
+OSNOVNA ŠKOLA SVETA KLARA;Osnovna škola;Mrkšina ulica 42;NOVI ZAGREB - ZAPAD;45.755383;15.96932;85778249664;2366775.23;319
+OSNOVNA ŠKOLA ŠPANSKO ORANICE;Osnovna škola;Dječji trg 1;STENJEVEC;45.799392;15.904559;48787627264;2350115.50;273
+Centar mladih Ribnjak;Kulturna ustanova;Park Ribnjak 1;;45.81593;15.980052;45058007791;2269533.69;190
+OSNOVNA ŠKOLA JOSIPA RAČIĆA;Osnovna škola;Srednjaci 30;TREŠNJEVKA - JUG;45.789192;15.940879;19780265434;2221480.39;276
+OSNOVNA ŠKOLA IVANA CANKARA;Osnovna škola;Ulica Ivana Canka 10;ČRNOMEREC;45.813282;15.938096;81002091960;2191305.95;332
+OSNOVNA ŠKOLA IVANA GRANĐE;Osnovna škola;Soblinečka ulica 68, Soblinec;SESVETE;45.864578;16.155295;84283102588;2140293.75;385
+Centar za kulturu i film Augusta Cesarca;Kulturna ustanova;Ilica 227;;45.814513;15.936961;89479352022;2136539.55;154
+OSNOVNA ŠKOLA GRIGORA VITEZA;Osnovna škola;Kruge 46;TRNJE;45.79807;15.98721;54303952361;2114453.74;399
+OSNOVNA ŠKOLA VUGROVEC - KAŠINA;Osnovna škola;Cesta Ivana Mažuranića 43, Kašina;SESVETE;45.906378;16.124837;43748649227;2112796.79;372
+OSNOVNA ŠKOLA GROFA JANKA DRAŠKOVIĆA;Osnovna škola;Vrapčanska ulica 7;PODSUSED - VRAPČE;45.814201;15.905482;08579918418;2108847.46;322
+OSNOVNA ŠKOLA SILVIJA STRAHIMIRA KRANJČEVIĆA;Osnovna škola;Ulica Baltazara Bogišića 13;DONJI GRAD;45.809465;15.997395;67787842481;2106275.62;342
+OSNOVNA ŠKOLA NIKOLE TESLE;Osnovna škola;Ulica Ivana Matetića Ronjgova 67;TREŠNJEVKA - JUG;45.794001;15.897966;32542348836;2101283.29;305
+OSNOVNA ŠKOLA ANTUNA GUSTAVA MATOŠA;Osnovna škola;Aleja Antuna Augustinčića 12;MAKSIMIR;45.818598;16.026098;68971787775;2049802.60;272
+OSNOVNA ŠKOLA VEĆESLAVA HOLJEVCA;Osnovna škola;Siget 23;NOVI ZAGREB - ZAPAD;45.772627;15.971065;81088614312;2017161.10;353
+OSNOVNA ŠKOLA MATIJE GUPCA;Osnovna škola;Ulica Davorina Bazjanca 2;TREŠNJEVKA - JUG;45.793327;15.950111;92120285716;2015834.72;265
+OSNOVNA ŠKOLA SESVETSKA SELA;Osnovna škola;Letnička ulica 5, Sesvete;SESVETE;45.832242;16.135654;55295688261;2012691.05;344
+OSNOVNA ŠKOLA MARIJE JURIĆ ZAGORKE;Osnovna škola;Štefanovečka cesta 67;DONJA DUBRAVA;45.821679;16.046031;89692114282;2010476.02;412
+Galerija Klovićevi dvori;Kulturna ustanova;Jezuitski trg 4;;45.815102;15.974616;78027759648;1965601.41;93
+Hrvatski školski muzej;Kulturna ustanova;Trg Republike Hrvatske 4;;45.809208;15.971007;23485687544;1963201.37;191
+OSNOVNA ŠKOLA VJENCESLAVA NOVAKA;Osnovna škola;Ulica Vile Velebita 15A;GORNJA DUBRAVA;45.838623;16.05966;34020671941;1961227.67;324
+OSNOVNA ŠKOLA FRANA GALOVIĆA;Osnovna škola;Školski prilaz 7;NOVI ZAGREB - ISTOK;45.764198;15.995709;97699903366;1927386.68;315
+Centar za kulturu i informacije Maksimir;Kulturna ustanova;Ulica Lavoslava Švarca 18;;45.818704;16.004704;31407932125;1920307.42;186
+Centar za kulturu Trešnjevka;Kulturna ustanova;Park stara Trešnjevka 1;;45.797944;15.949914;51680110311;1871710.30;149
+OSNOVNA ŠKOLA IVANA MAŽURANIĆA;Osnovna škola;Javorinska ulica 5;DONJA DUBRAVA;45.825645;16.050218;08844695446;1793039.66;321
+OSNOVNA ŠKOLA CVJETNO NASELJE;Osnovna škola;Cvjetna cesta 17;TRNJE;45.791283;15.963341;95267786050;1788222.94;285
+OSNOVNA ŠKOLA DR. ANTE STARČEVIĆA;Osnovna škola;Ulica sv. Leopolda Mandića 55;GORNJA DUBRAVA;45.831374;16.044005;28957082165;1740321.46;256
+OSNOVNA ŠKOLA DR. IVAN MERZ;Osnovna škola;Ulica Račkoga 4;DONJI GRAD;45.811291;15.984312;87873316089;1707116.13;380
+OSNOVNA ŠKOLA IZIDORA KRŠNJAVOGA;Osnovna škola;Ulica Isidora Kršnjavoga 2;DONJI GRAD;45.807654;15.966636;39554538107;1701323.49;282
+Muzej Prigorja;Kulturna ustanova;Trg Dragutina Domjanića 5;;45.8268;16.110321;38401467477;1689840.91;171
+OSNOVNA ŠKOLA MATKA LAGINJE;Osnovna škola;Ulica Matka Laginje 13;DONJI GRAD;45.813;15.992809;07508446885;1684189.69;320
+Stomatološka poliklinika Zagreb;Zdravstvena ustanova;Ulica Ivana Perkovca 3;;45.807682;15.968606;82593285099;1680954.67;105
+OSNOVNA ŠKOLA JULIJA KLOVIĆA;Osnovna škola;Nova cesta 133;TREŠNJEVKA - SJEVER;45.796987;15.956087;35903326209;1669903.64;253
+OSNOVNA ŠKOLA BANA JOSIPA JELAČIĆA;Osnovna škola;Podgradski odvojak 1;PODSUSED - VRAPČE;45.81752;15.834436;54281445057;1661042.19;364
+OSNOVNA ŠKOLA IVANA GUNDULIĆA;Osnovna škola;Gundulićeva ulica 23A;DONJI GRAD;45.809941;15.972905;50789580026;1646968.37;380
+OSNOVNA ŠKOLA PETRA PRERADOVIĆA;Osnovna škola;Zapoljska ulica 32;PEŠČENICA - ŽITNJAK;45.807536;16.023475;01390776709;1638044.41;337
+OSNOVNA ŠKOLA IVANA GORANA KOVAČIĆA;Osnovna škola;Ulica Matija Mesića 35;GORNJI GRAD - MEDVEŠČAK;45.823274;15.984533;78539372462;1635116.75;245
+OSNOVNA ŠKOLA OTONA IVEKOVIĆA;Osnovna škola;Ulica Stjepka Pasanca 3;STENJEVEC;45.809846;15.922646;76234985768;1570365.20;333
+Ustanova za zdravstvenu njegu u kući;Zdravstvena ustanova;Preradovićeva ulica 17/1;;45.810094;15.974777;64192076379;1504967.03;233
+OSNOVNA ŠKOLA NAD LIPOM;Osnovna škola;Nad Lipom 13/1;ČRNOMEREC;45.813289;15.95025;02082287342;1475930.84;336
+OSNOVNA ŠKOLA MARINA DRŽIĆA;Osnovna škola;Nalješkovićeva ulica 4;TRNJE;45.797309;15.993559;86073451624;1449057.37;261
+Narodno sveučilište Sesvete;Kulturna ustanova;Trg Dragutina Domjanića 6;;45.826826;16.109746;02907920674;1439261.24;178
+OSNOVNA ŠKOLA DAVORINA TRSTENJAKA;Osnovna škola;Krčka ulica 3;TRNJE;45.797992;15.973529;01292735134;1437047.96;270
+OSNOVNA ŠKOLA DR. VINKA ŽGANCA;Osnovna škola;Ulica Nede Krmpotić 7;PEŠČENICA - ŽITNJAK;45.79373;16.050383;11536369823;1415165.15;280
+OSNOVNA ŠKOLA DOBRIŠE CESARIĆA;Osnovna škola;Ulica Ksavera Šandora GJalskog 29;PEŠČENICA - ŽITNJAK;45.811433;16.024844;59767287298;1395361.18;281
+OSNOVNA ŠKOLA ANTUNA BRANKA ŠIMIĆA;Osnovna škola;Krotovica 15;GORNJA DUBRAVA;45.833009;16.069581;04467652234;1377321.43;291
+Centar za kulturu Novi Zagreb;Kulturna ustanova;Trg Narodne zaštite 2;;45.767843;15.947501;74794965060;1347993.37;163
+Umjetnički paviljon;Kulturna ustanova;Trg kralja Tomislava 22;;45.807183;15.978613;24843164721;1312539.12;133
+OSNOVNA ŠKOLA TINA UJEVIĆA;Osnovna škola;Koturaška cesta 75;TRNJE;45.802177;15.964774;28877650160;1305598.68;297
+OSNOVNA ŠKOLA IVANJA REKA;Osnovna škola;Ivanjorečka cesta 1B;PEŠČENICA - ŽITNJAK;45.796242;16.118702;28307286006;1300314.43;307
+OSNOVNA ŠKOLA AUGUSTA CESARCA;Osnovna škola;Ferenščica II 9A;PEŠČENICA - ŽITNJAK;45.801758;16.023779;44858403060;1272747.07;325
+Poliklinika Zagreb;Zdravstvena ustanova;Argentinska ulica 2;;45.814544;15.876126;05657566669;1265936.62;25
+OSNOVNA ŠKOLA SESVETSKA SOPNICA;Osnovna škola;Sopnička ulica 69;SESVETE;45.821344;16.091717;98407642834;1263630.34;335
+OSNOVNA ŠKOLA BRAĆE RADIĆ;Osnovna škola;Ulica Šenoine Branke 22;NOVI ZAGREB - ZAPAD;45.754981;15.934673;67024074106;1262314.20;314
+OSNOVNA ŠKOLA AUGUSTA HARAMBAŠIĆA;Osnovna škola;Ulica Augusta Harambašića 18;MAKSIMIR;45.815955;16.007593;61842387905;1222781.49;318
+OSNOVNA ŠKOLA VLADIMIRA NAZORA;Osnovna škola;Jordanovac 23;MAKSIMIR;45.819692;16.006132;46501469845;1212164.14;268
+OSNOVNA ŠKOLA DRAGUTINA KUŠLANA;Osnovna škola;Ulica Dragojla Kušlana 52;PEŠČENICA - ŽITNJAK;45.812342;16.00763;11943741285;1201284.72;284
+OSNOVNA ŠKOLA MIROSLAVA KRLEŽE;Osnovna škola;Kaptol 16;GORNJI GRAD - MEDVEŠČAK;45.818508;15.97767;23046541950;1200400.74;342
+Centar za kulturu i obrazovanje Susedgrad;Kulturna ustanova;Argentinska ulica 5;;45.815268;15.875774;29788970628;1133913.59;184
+Centar za likovni odgoj Grada Zagreba;Kulturna ustanova;Rokov perivoj 4;;45.81518;15.967395;52427516025;1102534.17;159
+OSNOVNA ŠKOLA JOSIPA JURJA STROSSMAYERA;Osnovna škola;Varšavska ulica 18;DONJI GRAD;45.811884;15.970637;06530150163;1094776.61;264
+GLAZBENA ŠKOLA VATROSLAVA LISINSKOG;Osnovna škola;Gundulićeva ulica 4;DONJI GRAD;45.812616;15.971912;79669409638;913065.77;196
+OSNOVNA ŠKOLA GORNJE VRAPČE;Osnovna škola;Vrapčanska ulica 188;PODSUSED - VRAPČE;45.832661;15.904168;29048076579;888281.87;334
+"Klinika za psihijatriju ""Vrapče""";Zdravstvena ustanova;Bolnička cesta 32;;45.815842;15.897322;86937855002;867621.36;42
+OSNOVNA ŠKOLA STJEPANA BENCEKOVIĆA;Osnovna škola;Horvaćanski trg 1,Horvati;BREZOVICA;45.713184;15.817488;36275587141;683070.59;295
+GLAZBENA ŠKOLA PAVLA MARKOVCA;Osnovna škola;Trg žrtava fašizma 9;DONJI GRAD;45.809564;15.98827;23948173055;612778.21;199
+GLAZBENO UČILIŠTE ELLY BAŠIĆ;Osnovna škola;Mlinarska cesta 25;GORNJI GRAD - MEDVEŠČAK;45.825505;15.977006;20392031242;514700.65;176
+Centar za kulturu Histrionski dom;Kulturna ustanova;Ilica 90;;45.812489;15.964332;97256733714;479197.68;46
+PRVA KATOLIČKA OSNOVNA ŠKOLA U GRADU ZAGREBU;Osnovna škola;Ivanićgradska ulica 41A;PEŠČENICA - ŽITNJAK;45.808221;16.01779;05994801707;461529.11;111
+GLAZBENA ŠKOLA BLAGOJA BERSE;Osnovna škola;Britanski trg 5;GORNJI GRAD - MEDVEŠČAK;45.813346;15.964257;01500403553;427868.14;167
+ŠKOLA ZA KLASIČNI BALET;Osnovna škola;Ilirski trg 9;GORNJI GRAD - MEDVEŠČAK;45.819214;15.975431;10544913321;399073.12;166
+"CENTAR ZA ODGOJ I OBRAZOVANJE ""GOLJAK""";Osnovna škola;Goljak 2;GORNJI GRAD - MEDVEŠČAK;45.818899;15.963887;68314794212;391802.98;206
+GLAZBENA ŠKOLA ZLATKA BALOKOVIĆA;Osnovna škola;Ivanićgradska ulica 41A;PEŠČENICA - ŽITNJAK;45.808221;16.01779;68085752153;336613.81;164
+GLAZBENA ŠKOLA ZLATKA GRGOŠEVIĆA;Osnovna škola;Ulica Ivana Gorana Kovačića 19;SESVETE;45.829066;16.117465;54566509173;303161.58;124
+OSNOVNA GLAZBENA ŠKOLA IVANA ZAJCA;Osnovna škola;Ilica 227;ČRNOMEREC;45.814513;15.936961;23739786972;273060.20;132
+ŠKOLA SUVREMENOG PLESA ANE MALETIĆ;Osnovna škola;Ulica Matka Laginje 13;DONJI GRAD;45.813;15.992809;88059473763;244208.05;187
+OSNOVNA GLAZBENA ŠKOLA RUDOLFA MATZA;Osnovna škola;Selska cesta 114;TREŠNJEVKA - SJEVER;45.798165;15.943016;70516740360;201165.70;139
+Kazalište Mala scena;Kulturna ustanova;Medveščak 2;;45.819689;15.979587;85272447703;153800.00;24
+"MEĐUNARODNA OSNOVNA ŠKOLA ""VEDRI OBZORI""";Osnovna škola;Sveti Duh 122;ČRNOMEREC;45.826436;15.937946;10305984252;58067.45;36
+Hrvatski glazbeni zavod;Kulturna ustanova;Gundulićeva ulica 6-6A;;45.812444;15.971928;93966915493;33750.00;10
+Hrvatski povijesni muzej;Kulturna ustanova;Ulica Antuna G. Matoša 9;;45.816012;15.972386;10624495854;30760.00;3
+"GLAZBENA ŠKOLA ""BONAR""";Osnovna škola;Ulica Drage Gervaisa 13;STENJEVEC;45.800359;15.893383;64520260081;29823.74;25
+GLAZBENA ŠKOLA LADISLAV RAČIĆ;Osnovna škola;Park Ribnjak 1;GORNJI GRAD - MEDVEŠČAK;45.81593;15.980052;89545645755;25239.38;23
+GLAZBENA ŠKOLA BRKANOVIĆ;Osnovna škola;Trg kralja Tomislava 18;DONJI GRAD;45.806788;15.97783;54518408379;23991.38;23
+OSNOVNA GLAZBENA ŠKOLA SCHOLA MUSICA;Osnovna škola;Srebrnjak 66;MAKSIMIR;45.822509;15.994644;43954444501;12215.72;13
+"GLAZBENA ŠKOLA ""MUZIČKI ATELJE""";Osnovna škola;Ulica Augusta Harambašića 14;MAKSIMIR;45.816467;16.007504;12543703761;11119.00;11
+Hrvatski državni arhiv;Kulturna ustanova;Trg Marka Marulića 21;;45.806293;15.970154;46144176176;3035.79;9
+"Klinički bolnički centar ""Zagreb""";Zdravstvena ustanova;Gundulićeva ulica 5;;45.812388;15.972164;46377257342;767.81;28
+Villa Brezovica Nova d.o.o.;Dom za starije;Desprimska ulica 1A, Drežnik Brezovički;;45.721754;15.901448;;;
+Kuća svetog Franje;Dom za starije;Ulica svetog Izidora 5, Odra;;45.728607;15.993507;;;
+Rezidencija Kastelan;Dom za starije;Sisačka cesta 65B;;45.748509;15.969277;;;
+Sveta Ana;Dom za starije;Islandska ulica 2;;45.771926;15.989385;;;
+Pejaković;Dom za starije;I. Petruševec 24C;;45.774487;16.056573;;;
+Jurakić;Dom za starije;Žitnjak 67;;45.782092;16.061667;;;
+Trnje;Dom za starije;Poljička ulica 12;;45.797723;15.964663;;;
+Trešnjevka;Dom za starije;Trg Slavoljuba Penkale 1;;45.798733;15.942154;;;
+Peščenica;Dom za starije;Donje Svetice 89;;45.803961;16.015617;;;
+Park;Dom za starije;Ivanićgradska ulica 52;;45.804464;16.019301;;;
+Centar;Dom za starije;Ulica Vjekoslava Klaića 10;;45.809202;15.965734;;;
+Medveščak;Dom za starije;Trg Drage Iblera 8;;45.812774;15.984669;;;
+Sanatorij Av-Vitalis;Dom za starije;Vogelska ulica 18;;45.815785;15.871463;;;
+Sveti Josip;Dom za starije;Dunjevac 17;;45.819416;15.940809;;;
+Maksimir;Dom za starije;Hegedušićeva ulica 20;;45.821161;16.027883;;;
+Sanatorij Ćorluka;Dom za starije;Orešje 5B;;45.824935;15.882915;;;
+Dubrava;Dom za starije;Ulica Milovana Gavazzija 26;;45.836794;16.062927;;;
+Remete;Dom za starije;Remete 44A;;45.840832;15.997657;;;
+Ksaver;Dom za starije;Nemetova ulica 2;;45.842191;15.972239;;;
+Branovečina;Dom za starije;Branovečina 17;;45.852716;16.07957;;;
+Centar;Dom za starije;Ulica Đure Crnatka 14;;45.804591;15.967507;;;
+Maksimir;Dom za starije;Aleja Antuna  Augustinčića 1;;45.818551;16.023628;;;
+Sveti Josip;Dom za starije;Topnička ulica 29;;45.817077;15.940033;;;
+Trešnjevka;Dom za starije;Drenovačka ulica 30;;45.797187;15.957466;;;
+Bene Vita;Dom za starije;Bukovac gornji 19D;;45.840616;16.016248;;;
+Bene Vita;Dom za starije;Ulica Anđele Horvat 1A;;45.849854;16.001141;;;
+Dom zaklade Lavoslava Schwarza;Dom za starije;Bukovačka cesta 55;;45.82453;16.009938;;;
+Marijan;Dom za starije;Žerjavinečka ulica 13, Soblinec;;45.865055;16.158091;;;
+Novak;Dom za starije;Sunčana ulica 14;;45.853995;16.06332;;;
+Tiha dob;Dom za starije;Bukovačka cesta 294;;45.844971;15.99915;;;
+Trag plus;Dom za starije;Osekovska ulica 18;;45.807788;16.018896;;;
+Javiljak Indira;Dom za starije;Velika cesta 79, Odra;;45.737287;16.003581;;;
+SeneCura dom za starije i nemoćne Trešnjevka;Dom za starije;Jezerska ulica 24A;;45.798791;15.927218;;;
+Bizek;Dom za starije;Bizek I. 5;;45.825341;15.855094;;;
+SeneCura dom za starije i nemoćne Sesvete;Dom za starije;Brestovečka ulica 130, Sesvete;;45.83966;16.089259;;;
+SeneCura dom za starije i nemoćne Sesvete;Dom za starije;Brestovečka ulica 130A, Sesvete;;45.839744;16.089265;;;
+Sirovina Branka;Dom za starije;Črna voda 24A;;45.864162;15.994997;;;
+Golubić Marija;Dom za starije;Cesta Ivana Mažuranića 108, Kašina;;45.915161;16.123829;;;
+Buzin;Dom za starije;Cebini 37, Buzin;;45.747179;15.995476;;;
+Dom Dominike j.d.o.o;Dom za starije;Sesvetska cesta 46A, Sesvete;;45.82354;16.130394;;;
+Kramarić Šimić Ines;Dom za starije;Potočani 35A;;45.85916;15.952141;;;
+Medveščak;Dom za starije;Martićeva ulica 4;;45.812078;15.985082;;;
+Ptiček Robert;Dom za starije;Prugina ulica 28;;45.798873;15.932983;;;
+Park;Dom za starije;Lašćinska cesta 98A;;45.828505;15.997253;;;
+Bene Vita;Dom za starije;IX. Bukovački ogranak 8;;45.84464;16.006346;;;
+Ivana Biško;Dom za starije;Ulica joha 1;;45.82305;16.069105;;;
+Marcel Domgjonaj;Dom za starije;Tržna ulica 7;;45.829055;16.047859;;;
+Dom za starije osobe i nemoćne osobe Jurakić - dislocirani objekt Rosenberg;Dom za starije;Kempfova ulica 6;;45.813143;15.89161;;;
+Danijela Karačić;Dom za starije;Rim 102;;45.84181;15.990757;;;
+Smiljana Topolovec;Dom za starije;Markuševečka cesta 76A;;45.870166;16.002391;;;
+Dom Duga;Dom za starije;Prilaz baruna Filipovića 1;;45.811268;15.946591;;;
+Dom Medimar Prigorje;Dom za starije;Ninska ulica 22A;;45.826675;16.10656;;;
+Dom Medisal;Dom za starije;Čulinečka cesta 2B;;45.827709;16.062869;;;
+Dom Mihela;Dom za starije;Ulica Dragutina Domjanića 10, Sesvete;;45.817927;16.181012;;;
+Dom Petra;Dom za starije;Šoštarići 2, Adamovec;;45.894748;16.169869;;;
+Ježdovec;Dom za starije;Ježdovečka ulica 108E, Ježdovec;;45.778634;15.841706;;;
+Ježdovec;Dom za starije;Ježdovečka ulica 108I, Ježdovec;;45.778838;15.841404;;;
+Ježdovec;Dom za starije;Ježdovečka ulica 108P, Ježdovec;;45.779074;15.841294;;;
+Zlatna Jutra;Dom za starije;Sisačka cesta IV. odvojak 18B;;45.749304;15.964907;;;
+"Zaklada ""Zajednički put""";Dom za starije;Miljackina ulica 42A;;45.792916;15.999387;;;
+Udruga Mirna dolina;Dom za starije;Zeleni vijenac 18, Lužan;;45.884581;16.193668;;;
+"Zaklada ""Zajednički put""";Dom za starije;Hrgovići 93A;;45.782578;15.92601;;;
+Starjački Zlatko;Dom za starije;Prigorska ulica 5, Belovar, Moravče;;45.88255;16.1726;;;
+Maslać Pero;Dom za starije;Štrokinec 26;;45.810122;15.871804;;;
+Franjić Ivanka;Dom za starije;Radmanovačka ulica 2a;;45.766613;15.96806;;;
+Juhart Filip;Dom za starije;Čučerska cesta 57;;45.863461;16.055484;;;
+Maljak Ivana;Dom za starije;Galovići 30;;45.846229;15.925112;;;
+Mijoković Sonja;Dom za starije;Ulica Mirka Račkog 25, Sesvetski Kobiljak;;45.827122;16.154749;;;
+Nemet Vedran;Dom za starije;Mlinovi 159;;45.852593;15.958201;;;
+Ruk Martina;Dom za starije;Kumrovečka ulica 12, Soblinec;;45.864596;16.151249;;;
+PEGO medical d.o.o.;Dom za starije;Vrhovec 48;;45.819122;15.947885;;;
+Dom za starije osobe Duga II;Dom za starije;Horvaćanska cesta 23;;45.787027;15.951415;;;
+Dom za starije osobe Omea;Dom za starije;Braće Domany 6;;45.789552;15.938041;;;
+Centar inkluzije j.d.o.o.;Dom za starije;Novačka ulica 309;;45.854561;16.034515;;;
+BK GARDEN;Dom za starije;Resnički put 126;;45.813091;16.065913;;;
+SESTRA GROZDANA j.d.o.o.;Dom za starije;Željeznička ulica 9;;45.81482;16.1741;;;
+DRUGI DOM KATARINA;Dom za starije;Novačka 182;;45.849408;16.036627;;;
+DOM MARKOVIĆ;Dom za starije;Jordanovac 97;;45.825413;16.002201;;;
+EDEN STAR;Dom za starije;Velenjska 2;;45.830098;16.039922;;;
+VEBOR DOM j.d.o.o.;Dom za starije;Bukovac Gornji 174;;45.847727;15.999869;;;
+DOM MIHELA;Dom za starije;Sopnička 27G;;45.818619;16.096604;;;
+Dom za starije osobe Dubrava Zagreb - Podružnica Markuševec;Dom za starije;Štefanovec 170;;45.875791;16.015816;;;
+Dom za starije osobe Senior Garden;Dom za starije;Slavonska avenija 74;;45.801315;16.068487;;;
+Lovrić-liburna j.d.o.o.;Dom za starije;Hercegovačka ulica 25;;45.814354;15.956944;;;
+Kreativni fokus d.o.o.;Dom za starije;Zelengaj 51;;45.830588;15.965899;;;
+Kulturni centar Dubrava;Kulturna ustanova;Dubrava 51;;45.829627;16.054104;;;
+Kulturno informativni centar KIC;Kulturna ustanova;Preradovićeva ulica 5;;45.811457;15.974347;;;
+Kulturni centar Travno - KUC;Kulturna ustanova;Ulica Božidara Magovca 17;;45.771184;15.99496;;;
+Posudionica i radionica narodnih nošnji;Kulturna ustanova;Ulica baruna Trenka 1;;45.807432;15.977506;;;
+Centar kulture na Peščenici - KNAP;Kulturna ustanova;Ivanićgradska ulica 41A;;45.808221;16.01779;;;
+Pučko otvoreno učilište - POU;Kulturna ustanova;Ulica grada Vukovara 68;;45.799316;15.971301;;;
+Dom kulture Prečko;Kulturna ustanova;Prečko 2A;;45.793228;15.904737;;;
+"Centar za kulturu i obrazovanje ""Zagreb""";Kulturna ustanova;Ulica grada Vukovara 68;;45.799316;15.971301;;;
+Centar za promicanje tolerancije i očuvanje sjećanja na holokaust;Kulturna ustanova;Ulica Koste Vojnovića 15;;45.812149;15.991332;;;
+Strossmayerova galerija  starih majstora HAZU;Kulturna ustanova;Trg Nikole Zrinskog 11;;45.809258;15.97847;;;
+Moderna galerija;Kulturna ustanova;Ulica Andrije Hebranga 1;;45.809215;15.977529;;;
+Kabinet grafike HAZU;Kulturna ustanova;Ulica Andrije Hebranga 1;;45.809215;15.977529;;;
+Gliptoteka HAZU;Kulturna ustanova;Medvedgradska ulica 2;;45.822132;15.977375;;;
+Grafička zbirka nacionalne i sveučilišne knjižnice;Kulturna ustanova;Ulica Hrvatske Bratske Zajednice 4;;45.796995;15.977953;;;
+AGM - galerija Nova;Kulturna ustanova;Mihanovićeva ulica 28;;45.805682;15.973207;;;
+Institut za suvremenu umjetnost SCCA Zagreb;Kulturna ustanova;Šenoina ulica 11;;45.806512;15.981304;;;
+Pučko otvoreno učilište - Galerija Bernardo Bernardi;Kulturna ustanova;Ulica grada Vukovara 68;;45.799316;15.971301;;;
+Studentski centar - Galerija;Kulturna ustanova;Savska cesta 25;;45.803928;15.965816;;;
+Galerija Amadeo;Kulturna ustanova;Ulica Đure Basarička 18;;45.817449;15.974182;;;
+Galerija Aura;Kulturna ustanova;Trg Republike Hrvatske 9;;45.809111;15.968584;;;
+Galerija Forum - KIC;Kulturna ustanova;Ulica Nikole Tesle 16;;45.811322;15.974556;;;
+Galerija 11;Kulturna ustanova;Kamenita ulica 11;;45.815771;15.974433;;;
+Galerija Arterija;Kulturna ustanova;Savska cesta 16;;45.804;15.965061;;;
+Galerija Banfi;Kulturna ustanova;Ulica Pavla Radića 31;;45.815499;15.975497;;;
+Galerija Beck;Kulturna ustanova;Ulica Jurja Habdelića 2;;45.815436;15.974742;;;
+Galerija Kaptol;Kulturna ustanova;Kaptol 13;;45.817717;15.977826;;;
+Galerija Mala;Kulturna ustanova;Trg bana Josipa Jelačića 6;;45.813362;15.977367;;;
+Galerija Zvonimir;Kulturna ustanova;Ulica Antuna Bauera 33;;45.809381;15.989939;;;
+Studio Josip Račić - Moderna galerija;Kulturna ustanova;Margaretska ulica 3;;45.812615;15.974495;;;
+Galerija Tomislav Ostoja;Kulturna ustanova;Opatička ulica 6;;45.816505;15.974931;;;
+Galerija Karas;Kulturna ustanova;Praška ulica 4;;45.812309;15.977406;;;
+Laurana;Kulturna ustanova;Našićka ulica 16;;45.790829;15.931724;;;
+Atelijer Meštrović;Kulturna ustanova;Mletačka ulica 8;;45.817319;15.973351;;;
+Galerija Mirko Virius - HDNU;Kulturna ustanova;Tkalčićeva ulica 14;;45.814698;15.9763;;;
+Galerija ULUPUH;Kulturna ustanova;Tkalčićeva ulica 14;;45.814698;15.9763;;;
+Galerija Vladimir Nazor;Kulturna ustanova;Ilica 163A;;45.812341;15.948876;;;
+Galerija Miroslav Kraljević;Kulturna ustanova;Ulica Pavla Šubića 29;;45.812171;15.994592;;;
+Art galerija Makek;Kulturna ustanova;Trg kralja Tomislava 15;;45.806242;15.977845;;;
+Dom HDLU / Hrvatsko društvo likovnih umjetnika;Kulturna ustanova;Trg žrtava fašizma 16;;45.810052;15.987024;;;
+Galerija Nova;Kulturna ustanova;Ulica Nikole Tesle  7;;45.811246;15.975747;;;
+Greta - umjetničko izložbena galerija;Kulturna ustanova;Ilica 92;;45.812471;15.964227;;;
+Galerija Kranjčar;Kulturna ustanova;Kaptol 26;;45.816291;15.978524;;;
+Lauba - kuća za ljude i umjetnost;Kulturna ustanova;Prilaz Baruna Filipovića 23A;;45.811681;15.940684;;;
+Galerija Remek djela;Kulturna ustanova;Stenjevečka ulica 1;;45.810047;15.886749;;;
+Zbirka Richter;Kulturna ustanova;Vrhovec 38;;45.818363;15.947807;;;
+Art galerija Miriam;Kulturna ustanova;Jurišićeva ulica 6;;45.812297;15.979766;;;
+Art point centar (AGM);Kulturna ustanova;Gundulićeva ulica 21;;45.810232;15.972261;;;
+Europski dom Hrvatska (Europski pokret Hrvatska);Kulturna ustanova;Jurišićeva ulica 1;;45.812641;15.978612;;;
+Galerija Canvas;Kulturna ustanova;Ulica Nikole Tomašića 5;;45.811784;15.987618;;;
+Galerija Danti;Kulturna ustanova;Tkalčićeva ulica 38;;45.815831;15.976584;;;
+Galerija Deči;Kulturna ustanova;Ulica Pavla Radića 19;;45.814779;15.975563;;;
+Galerija Divila;Kulturna ustanova;Lovćenska ulica 29;;45.847159;15.961743;;;
+Galerija Događanja (KC Peščenica);Kulturna ustanova;Ivanićgradska ulica 41A;;45.808221;16.01779;;;
+Galerija EE;Kulturna ustanova;Ulica Savezne Republike Njemačke 4;;45.779616;15.989453;;;
+Galerija Gala;Kulturna ustanova;Gundulićeva ulica 16;;45.81093;15.97199;;;
+Galerija Harmica;Kulturna ustanova;Trg bana Josipa Jelačića 6;;45.813362;15.977367;;;
+Galerija hrvatske naivne umjetnosti;Kulturna ustanova;Bakačeva ulica 5;;45.813683;15.97842;;;
+Galerija (antikvarijat) Itea;Kulturna ustanova;Vitezovićeva ulica 6;;45.815388;15.973637;;;
+Galerija karikatura Felix Fan Factory;Kulturna ustanova;Ulica Augusta Harambašića 10;;45.816714;16.007497;;;
+Galerija Kopjar;Kulturna ustanova;Gundulićeva ulica 11;;45.811402;15.972206;;;
+Galerija Marisall;Kulturna ustanova;Mesnička ulica 4;;45.813584;15.970662;;;
+Galerija Modulor (CEKATE);Kulturna ustanova;Ulica Pavla Šubića 29;;45.812171;15.994592;;;
+Galerija Mona Lisa;Kulturna ustanova;Tkalčićeva ulica 77;;45.819404;15.976266;;;
+Galerija POU;Kulturna ustanova;Ulica Nikole Tomašića 5;;45.811784;15.987618;;;
+Galerija Sunce Zagreb URIHO;Kulturna ustanova;Avenija Marina Držića 1;;45.804665;15.993872;;;
+Galerija T;Kulturna ustanova;Trg kralja Tomislava 19;;45.806997;15.977808;;;
+Galerija Turkalj;Kulturna ustanova;Tkalčićeva ulica 7;;45.813983;15.976261;;;
+Galerija Vladimir Filakovac;Kulturna ustanova;Dubrava 51A;;45.829627;16.054104;;;
+Galerija Zaklade za djecu Hrvatske;Kulturna ustanova;Trg bana Josipa Jelačića 12;;45.812506;15.978203;;;
+Kula Lotrščak;Kulturna ustanova;Dverce 1;;45.814617;15.973305;;;
+Mala galerija naive Zrinjevac;Kulturna ustanova;Trg Nikole Zrinskog 14;;45.809716;15.977539;;;
+Memorijalna zbirka Joso Kljaković;Kulturna ustanova;Rokov perivoj 4;;45.81518;15.967395;;;
+Memorijana zbirka Miroslava i Bele Krleže;Kulturna ustanova;Krležin Gvozd 23;;45.818436;15.971254;;;
+Hrvatsko narodno kazalište u Zagrebu;Kulturna ustanova;Trg Republike Hrvatske 15;;45.809657;15.970016;;;
+Satiričko kazalište Kerempuh;Kulturna ustanova;Prolaz Fadila Hadžića 7;;45.812356;15.971094;;;
+Teatar &TD;Kulturna ustanova;Savska cesta 25;;45.803573;15.967627;;;
+Dječje kazalište Dubrava;Kulturna ustanova;Cerska ulica 1;;45.824274;16.041679;;;
+Histrionski dom Zagreb;Kulturna ustanova;Ilica 90;;45.812489;15.964332;;;
+Kazalište KNAP;Kulturna ustanova;Ivanićgradska ulica 41A;;45.808221;16.01779;;;
+Scena Ribnjak;Kulturna ustanova;Park Ribnjak 1;;45.81593;15.980052;;;
+Scena Vidra;Kulturna ustanova;Draškovićeva ulica 80;;45.806169;15.983817;;;
+Teatar EXIT;Kulturna ustanova;Ilica 208;;45.812527;15.949968;;;
+Gorgona - Polivalentna multimedijalna dvorana Gorgona;Kulturna ustanova;Avenija Dubrovnik 17;;45.778436;15.981546;;;
+Dokukino KIC;Kulturna ustanova;Preradovićeva ulica 5;;45.811457;15.974347;;;
+Kino Europa;Kulturna ustanova;Varšavska ulica 3;;45.811816;15.973437;;;
+Kino Croatia;Kulturna ustanova;Katančićeva ulica 3;;45.808218;15.977232;;;
+Art kino Grič;Kulturna ustanova;Jurišićeva ulica 6;;45.812297;15.979766;;;
+Kino Tuškanac;Kulturna ustanova;Tuškanac 1;;45.815484;15.969443;;;
+Kino SC - Studentski centar;Kulturna ustanova;Savska cesta 25;;45.803316;15.966765;;;
+Cineplexx City Centar One East;Kulturna ustanova;Slavonska avenija 11D;;45.801252;16.050457;;;
+Kino Forum;Kulturna ustanova;Jarunska ulica 2;;45.784937;15.947358;;;
+Kino Cinestar Branimir Centar;Kulturna ustanova;Ulica kneza Branimira 29;;45.805674;15.984692;;;
+Kino Cinestar Avenue Mall;Kulturna ustanova;Avenija Dubrovnik 16;;45.777037;15.97864;;;
+Cinestar Arena IMAX;Kulturna ustanova;Ulica Vice Vukova 6;;45.770833;15.941238;;;
+Kaptol Boutique Cinema;Kulturna ustanova;Nova Ves 17;;45.820336;15.977928;;;
+Kinoteka;Kulturna ustanova;Kordunska ulica 1;;45.81145;15.960111;;;
+Ljetna pozornica Tuškanac;Kulturna ustanova;Dubravkin put;;45.819643;15.971815;;;
+Bibliobusna služba;Kulturna ustanova;Ulica Dragutina Golika 36;;45.801804;15.929118;;;
+Čitaonica i Galerija VN;Kulturna ustanova;Ilica 163A;;45.812341;15.948876;;;
+Čitaonica Kustošija;Kulturna ustanova;Trg Hrvatskih obrambenih snaga 6;;45.8142;15.925986;;;
+"Dječja knjižnica ""M2""";Kulturna ustanova;Medveščak 71;;45.82423;15.980074;;;
+Dječja knjižnica Marina Držića;Kulturna ustanova;Avenija Marina Držića 10;;45.80181;15.994474;;;
+Gradska knjižnica;Kulturna ustanova;Trg Ante Starčevića 6;;45.805815;15.977719;;;
+Gradska knjižnica Ante Kovačića, Zaprešić;Kulturna ustanova;Trg žrtava fašizma 6, 10290 Zaprešić;;45.863;15.790606;;;
+Knjižna stanica Gornje Vrapče;Kulturna ustanova;Vrapčanska ulica 166;;45.830646;15.905333;;;
+Knjižnica Augusta Cesarca, Ravnice;Kulturna ustanova;Radauševa ulica 7;;45.820096;16.026385;;;
+Knjižnica Augusta Cesarca, Šubićeva;Kulturna ustanova;Ulica Pavla Šubića 40;;45.813396;15.996555;;;
+Knjižnica Božidara Adžije;Kulturna ustanova;Trg kralja Petra Krešimira IV. 2;;45.808543;15.99203;;;
+Knjižnica Dubec;Kulturna ustanova;Ulica Rudolfa Ivankovića 34;;45.829453;16.08274;;;
+Knjižnica Dubrava;Kulturna ustanova;Dubrava 51A;;45.829627;16.054104;;;
+Knjižnica Dugave;Kulturna ustanova;Ulica sv. Mateja 7;;45.765511;15.994856;;;
+Knjižnica Gajnice;Kulturna ustanova;Meksička ulica 6;;45.815805;15.872408;;;
+Knjižnica i čitaonica Bogdana Ogrizovića;Kulturna ustanova;Preradovićeva ulica 5;;45.811457;15.974347;;;
+Knjižnica Ivana Gorana Kovačića;Kulturna ustanova;Ulica grada Vukovara 35;;45.800021;15.966371;;;
+Knjižnica Ivane Brlić Mažuranić;Kulturna ustanova;Ulica Joze Laurenčića 8;;45.793421;16.003728;;;
+Knjižnica Jelkovec;Kulturna ustanova;Ulica Vladimira Stahuljaka 3;;45.810576;16.107303;;;
+Knjižnica Kajfešov brijeg;Kulturna ustanova;Ulica grada Gualda Tadina 4;;45.816757;15.943583;;;
+Knjižnica Knežija;Kulturna ustanova;Albaharijeva ulica 7;;45.791102;15.950699;;;
+Knjižnica Kustošija;Kulturna ustanova;Ilica 312A;;45.813675;15.926439;;;
+Knjižnica Ljubljanica;Kulturna ustanova;Ljubljanica 24;;45.796796;15.93422;;;
+Knjižnica Mala Mlaka;Kulturna ustanova;Malomlačka ulica 91;;45.728818;15.977197;;;
+Knjižnica Marije Jurić Zagorke;Kulturna ustanova;Krvavi most 2;;45.81469;15.975851;;;
+Knjižnica Marina Držića;Kulturna ustanova;Ulica grada Vukovara 222;;45.800061;15.987125;;;
+Knjižnica Medveščak;Kulturna ustanova;Trg žrtava fašizma 7;;45.810257;15.988221;;;
+Knjižnica Novi Zagreb;Kulturna ustanova;Ulica Božidara Magovca 15;;45.771776;15.99521;;;
+Knjižnica Podsused;Kulturna ustanova;Podsusedski trg 3;;45.816411;15.835116;;;
+Knjižnica Prečko;Kulturna ustanova;Slavenskoga ulica 12;;45.79477;15.89922;;;
+Knjižnica Savica;Kulturna ustanova;Ulica Ljerke Šram 4;;45.793546;15.995834;;;
+Knjižnica Savski gaj;Kulturna ustanova;Nehruov trg 46;;45.775849;15.955892;;;
+Knjižnica Selčina;Kulturna ustanova;Selčinska ulica 8;;45.832076;16.112326;;;
+Knjižnica Sesvete;Kulturna ustanova;Trg Dragutina Domjanića 6;;45.826826;16.109746;;;
+Knjižnica Silvija Strahimira Kranjčevića;Kulturna ustanova;Zapoljska ulica 1;;45.806049;16.020294;;;
+Knjižnica Sloboština;Kulturna ustanova;Ulica Karela Zahradnika 8;;45.762624;15.986422;;;
+Knjižnica Staglišće;Kulturna ustanova;Ulica Augusta Prosenika 7;;45.788073;15.931296;;;
+Knjižnica Špansko-jug;Kulturna ustanova;Ulica Slavka Batušića 4;;45.800933;15.896898;;;
+Knjižnica Špansko-sjever;Kulturna ustanova;Trg Ivana Kukuljevića 9;;45.805184;15.896422;;;
+Knjižnica Tina Ujevića;Kulturna ustanova;Ulica grada Vukovara 14;;45.799101;15.956344;;;
+Knjižnica Vjekoslava Majera;Kulturna ustanova;Meštrovićev trg 1G;;45.779425;15.996443;;;
+Knjižnica Vladimira Nazora;Kulturna ustanova;Vodovodna ulica 13;;45.811086;15.948741;;;
+Knjižnica Voltino;Kulturna ustanova;Ulica Dragutina Golika 36;;45.801804;15.929118;;;
+Knjižnica Vrapče;Kulturna ustanova;Ulica Majke Terezije 2;;45.812891;15.898727;;;
+Koncertna dvorana Vatroslav Lisinski;Kulturna ustanova;Trg Stjepana Radića 4;;45.801017;15.97982;;;
+Koncertna dvorana Blagoje Bersa;Kulturna ustanova;Trg Republike Hrvatske 12;;45.81005;15.968642;;;
+Arena Zagreb;Kulturna ustanova;Ulica Vice Vukova 8;;45.771204;15.944449;;;
+Etnografski muzej u Zagrebu;Kulturna ustanova;Trg Ivana, Antuna i Vladimira Mažuranića 14;;45.808358;15.969103;;;
+Hrvatski muzej arhitekture;Kulturna ustanova;Ulica Ivana Gorana Kovačića 37;;45.821022;15.968764;;;
+Hrvatski poštansko - telekomunikacijski muzej / HT muzej;Kulturna ustanova;Jurišićeva ulica 13;;45.812451;15.980998;;;
+Lovački muzej Hrvatskog lovačkog saveza;Kulturna ustanova;Ulica Vladimira Nazora 63;;45.821269;15.968007;;;
+Muzej Mimara / Muzej Zbirka umjetnina Ante i Wiltrud Topić Mimara;Kulturna ustanova;Rooseveltov trg 5;;45.808198;15.967202;;;
+Hrvatski športski muzej;Kulturna ustanova;Praška ulica 2;;45.812517;15.977453;;;
+Muzej iluzija;Kulturna ustanova;Ilica 72;;45.813037;15.966446;;;
+Muzej prekinutih veza;Kulturna ustanova;Sv. Ćirila i Metoda 2;;45.814958;15.973449;;;
+Hrvatski muzej medicine i farmacije HAZU;Kulturna ustanova;Gundulićeva ulica 24;;45.809768;15.972034;;;
+Muzej blaženoga Alojzija Stepinca;Kulturna ustanova;Kaptol 31;;45.814327;15.978953;;;
+Hrvatski muzej naivne umjetnosti;Kulturna ustanova;Ulica sv. Ćirila i Metoda 3;;45.815381;15.973321;;;
+Muzejsko memorijalni centar Dražen Petrović;Kulturna ustanova;Trg Dražena Petrovića 3;;45.803111;15.963563;;;
+Tiflološki muzej;Kulturna ustanova;Draškovićeva ulica 80;;45.806169;15.983817;;;
+Hrvatski željeznički muzej;Kulturna ustanova;Ulica grada Vukovara 47;;45.800925;15.98462;;;
+Muzej čokolade;Kulturna ustanova;Varšavska ulica 5;;45.811806;15.973171;;;
+Muzej 80-tih;Kulturna ustanova;Ulica Pavla Radića 34;;45.816076;15.975636;;;
+Muzej torture;Kulturna ustanova;Ulica Pavla Radića 14;;45.814393;15.975781;;;
+Muzej mamurluka;Kulturna ustanova;Preradovićeva ulica 8;;45.810956;15.974171;;;
+Muzej Anke Gvozdanović;Kulturna ustanova;Visoka ulica 8;;45.8169;15.971736;;;
+Ambijentalna zbirka akademskog kipara profesora Roberta Frangeša Mihanovića;Kulturna ustanova;Rokov perivoj 2;;45.814655;15.966819;;;
+Memorijalna zbirka i stan arhitekta Viktora Kovačića;Kulturna ustanova;Masarykova ulica 21;;45.810312;15.971634;;;
+Zbirka Vjenceslava Richtera i Nade Kareš-Richter;Kulturna ustanova;Vrhovec 38;;45.818363;15.947807;;;
+Zbirka majstorska radionica za restauraciju i gradnju gudačih instrumenata pok. Franje Schneidera;Kulturna ustanova;Trg Republike Hrvatske 11;;45.809725;15.96865;;;
+Memorijalni prostor Miroslava i Bele Krleže;Kulturna ustanova;Krležin Gvozd 23;;45.818436;15.971254;;;
+Zbirka dr. Ivana Ribara i Cate Dujšin Ribar;Kulturna ustanova;Demetrova ulica 3;;45.817326;15.972563;;;
+Memorijalni stan Marije Jurić Zagorke;Kulturna ustanova;Dolac 8;;45.814109;15.977588;;;
+"Zbirka dr. Josipa Kovačića ""Hrvatske slikarice rođene u 19. stoljeću""";Kulturna ustanova;Ulica Pavla Radića 24;;45.815211;15.975679;;;
+Zbirka tradicionalnih afričkih umjetnina Drage Muvrina;Kulturna ustanova;Veslačka ulica 6;;45.789393;15.95682;;;
+Zbirka skulptura akademskog kipara Zlatka Zlatića;Kulturna ustanova;Maksimirski perivoj/Zoološki vrt Grada Zagreba;;45.821675;16.019442;;;
+Arhiv Tošo Dabac;Kulturna ustanova;Avenija Dubrovnik 17;;45.778436;15.981546;;;
+CENTAR ZA ODGOJ I OBRAZOVANJE TUŠKANAC;Osnovna škola;Gornje Prekrižje 48;GORNJI GRAD - MEDVEŠČAK;45.84372;15.967097;;;
+DJEČJI DOM A. G. MATOŠ;Osnovna škola;Selska cesta 132;TREŠNJEVKA - SJEVER;45.796316;15.943327;;;
+CENTAR ZA ODGOJ I OBRAZOVANJE TUŠKANAC;Osnovna škola;Tuškanac 15;GORNJI GRAD - MEDVEŠČAK;45.825316;15.97039;;;
+"CENTAR ZA ODGOJ I OBRAZOVANJE ""GOLJAK""";Osnovna škola;Našička ulica 5;TREŠNJEVKA - JUG;45.790158;15.931435;68314794212;;
+"CENTAR ZA ODGOJ I OBRAZOVANJE ""GOLJAK""";Osnovna škola;Ulica Ivana Banjavčića 16;DONJI GRAD;45.809506;16.000571;68314794212;;
+CENTAR ZA AUTIZAM;Osnovna škola;Ulica Zvonimira Ljevakovića 30/1;GORNJA DUBRAVA;45.839059;16.058712;63467332374;;
+PODRUČNA ŠKOLA DRAGONOŽEC;Osnovna škola;Donjodragonoška cesta 44;BREZOVICA;45.662737;15.942004;;;
+PODRUČNA ŠKOLA ODRANSKI OBREŽ;Osnovna škola;Obreška cesta 10, Odranski Obrež;BREZOVICA;45.721174;15.924721;;;
+PODRUČNA ŠKOLA DEMERJE;Osnovna škola;Demerska ulica 35;BREZOVICA;45.731164;15.886263;;;
+PODRUČNA ŠKOLA HRVATSKI LESKOVAC (OŠ BREZOVICA);Osnovna škola;Potočna ulica 9, Hrvatski Leskovac;NOVI ZAGREB - ZAPAD;45.747378;15.890664;;;
+OSNOVNA ŠKOLA PETRA ZRINSKOGA;Osnovna škola;Krajiška ulica 9;DONJI GRAD;45.811926;15.958811;;;
+OSNOVNA ŠKOLA JABUKOVAC;Osnovna škola;Jabukovac 30;GORNJI GRAD - MEDVEŠČAK;45.823891;15.970808;;;
+OSNOVNA ŠKOLA PANTOVČAK;Osnovna škola;Hercegovačka ulica 108;GORNJI GRAD - MEDVEŠČAK;45.821699;15.959272;;;
+OSNOVNA ŠKOLA KSAVERA ŠANDORA GJALSKOGA;Osnovna škola;Mlinarska cesta 35;GORNJI GRAD - MEDVEŠČAK;45.826269;15.977039;;;
+OSNOVNA ŠKOLA RAPSKA;Osnovna škola;Rapska ulica 3;TRNJE;45.799772;15.998924;;;
+OSNOVNA ŠKOLA TRNJANSKA;Osnovna škola;Trnjanska cesta 99;TRNJE;45.793021;15.980489;;;
+OSNOVNA ŠKOLA,VANA FILIPOVIĆA;Osnovna škola;Ulica Ivana Filipovića 1;MAKSIMIR;45.819198;15.998519;;;
+OSNOVNA ŠKOLA JORDANOVAC;Osnovna škola;Jordanovac 108;MAKSIMIR;45.826709;16.000927;;;
+PODRUČNA ŠKOLA KOZJAK;Osnovna škola;Kozjak 27;MAKSIMIR;45.831988;16.000927;;;
+OSNOVNA ŠKOLA BUKOVAC;Osnovna škola;Trnac 42;MAKSIMIR;45.83789;16.010757;;;
+OSNOVNA ŠKOLA REMETE;Osnovna škola;Remete 99A;MAKSIMIR;45.84811;15.990357;;;
+OSNOVNA ŠKOLA ŽITNJAK;Osnovna škola;I. Petruševec 1;PEŠČENICA - ŽITNJAK;45.775009;16.059239;;;
+OSNOVNA ŠKOLA VUKOMEREC;Osnovna škola;Porečka 9;PEŠČENICA - ŽITNJAK;45.809574;16.0478;;;
+OSNOVNA ŠKOLA FRANA KRSTE FRANKOPANA;Osnovna škola;Ivanićgradska ulica 24;PEŠČENICA - ŽITNJAK;45.80768;16.017686;;;
+OSNOVNA ŠKOLA LOVRE PL. MATAČIĆA;Osnovna škola;Ulica Joze Laurenčića 1;PEŠČENICA - ŽITNJAK;45.793951;16.005326;;;
+OSNOVNA ŠKOLA BOROVJE;Osnovna škola;Ulica Davora Zbiljskog 7;PEŠČENICA - ŽITNJAK;45.787307;16.008987;;;
+OSNOVNA ŠKOLA OTOK;Osnovna škola;Ulica Stjepana Gradića 4;NOVI ZAGREB - ISTOK;45.765778;15.98646;;;
+I. OSNOVNA ŠKOLA DUGAVE;Osnovna škola;Školski prilaz 7;NOVI ZAGREB - ISTOK;45.764198;15.995709;;;
+OSNOVNA ŠKOLA ZAPRUĐE;Osnovna škola;Meštrovićev trg 8A;NOVI ZAGREB - ISTOK;45.781121;15.996139;;;
+OSNOVNA ŠKOLA MLADOST;Osnovna škola;Karamanov prilaz 3;NOVI ZAGREB - ISTOK;45.775832;15.99923;;;
+OSNOVNA ŠKOLA LUČKO;Osnovna škola;Puškarićeva ulica 102;NOVI ZAGREB - ZAPAD;45.761929;15.879446;;;
+OSNOVNA ŠKOLA TRNSKO;Osnovna škola;Trnsko 25;NOVI ZAGREB - ZAPAD;45.774175;15.963287;;;
+OSNOVNA ŠKOLA ODRA;Osnovna škola;Đačka ulica 5, Odra;NOVI ZAGREB - ZAPAD;45.731642;15.995896;;;
+OSNOVNA ŠKOLA KAJZERICA;Osnovna škola;Ulica Žarka Dolinara 9;NOVI ZAGREB - ZAPAD;45.780246;15.96216;;;
+OSNOVNA ŠKOLA RUDEŠ;Osnovna škola;Jablanska ulica 51;TREŠNJEVKA - SJEVER;45.797079;15.917594;;;
+OSNOVNA ŠKOLA VOLTINO;Osnovna škola;Vinkovačka ulica 1;TREŠNJEVKA - SJEVER;45.802519;15.927708;;;
+OSNOVNA ŠKOLA LJUBLJANICA;Osnovna škola;Svetoivanska ulica 33;TREŠNJEVKA - SJEVER;45.794691;15.934188;;;
+OSNOVNA ŠKOLA HORVATI;Osnovna škola;Horvaćanska cesta 6;TREŠNJEVKA - JUG;45.78754;15.953079;;;
+OSNOVNA ŠKOLA PREČKO;Osnovna škola;Dekanići 6;TREŠNJEVKA - JUG;45.794308;15.904671;;;
+OSNOVNA ŠKOLA VRBANI;Osnovna škola;Listopadska ulica 8;TREŠNJEVKA - JUG;45.792037;15.918441;;;
+OSNOVNA ŠKOLA KUSTOŠIJA;Osnovna škola;Sokolska ulica 7;ČRNOMEREC;45.812724;15.925947;;;
+PODRUČNA ŠKOLA GORNJA KUSTOŠIJA;Osnovna škola;Kustošijanska ulica 272;ČRNOMEREC;45.83161;15.922412;;;
+OSNOVNA ŠKOLA MEDVEDGRAD;Osnovna škola;Strma cesta 15;ČRNOMEREC;45.822044;15.936326;;;
+OSNOVNA ŠKOLA GRANEŠINA;Osnovna škola;Granešina 1;GORNJA DUBRAVA;45.847111;16.053189;;;
+OSNOVNA ŠKOLA ČUČERJE;Osnovna škola;Čučerska cesta 382;GORNJA DUBRAVA;45.893237;16.059902;;;
+PODRUČNA ŠKOLA DANKOVEC;Osnovna škola;Slanovečka cesta 19;GORNJA DUBRAVA;45.872634;16.054097;;;
+OSNOVNA ŠKOLA RETKOVEC;Osnovna škola;Aleja javora 2;DONJA DUBRAVA;45.826471;16.068442;;;
+OSNOVNA ŠKOLA MALEŠNICA;Osnovna škola;Ulica Ante Topić - Mimare 36;STENJEVEC;45.808023;15.901667;;;
+OSNOVNA ŠKOLA STENJEVEC;Osnovna škola;Bolnička cesta 92;PODSUSED - VRAPČE;45.818914;15.883049;;;
+OSNOVNA ŠKOLA ŠESTINE;Osnovna škola;Podrebernica 13;PODSLJEME;45.852701;15.956403;;;
+OSNOVNA ŠKOLA MARKUŠEVEC;Osnovna škola;Markuševečka cesta 160;PODSLJEME;45.874487;16.013587;;;
+PODRUČNA ŠKOLA BAČUN;Osnovna škola;Markuševečka cesta 38;PODSLJEME;45.865678;15.995713;;;
+PODRUČNA ŠKOLA VIDOVEC;Osnovna škola;Vidovec 51;PODSLJEME;45.898774;16.034831;;;
+OSNOVNA ŠKOLA GRAČANI;Osnovna škola;Gračani 4A;PODSLJEME;45.858861;15.97348;;;
+OSNOVNA ŠKOLA SESVETE;Osnovna škola;Ulica Ivana Gorana Kovačića 19;SESVETE;45.829066;16.117465;;;
+OSNOVNA ŠKOLA LUKA;Osnovna škola;Ulica Otona Ivekovića 16;SESVETE;45.830093;16.105312;;;
+OSNOVNA ŠKOLA SESVETSKI KRALJEVEC;Osnovna škola;Školska ulica 10, Sesvete;SESVETE;45.818288;16.177158;;;
+PODRUČNA ŠKOLA PREKVRŠJE;Osnovna škola;Prigorska ulica 69A, Prekvršje;SESVETE;45.898758;16.111122;;;
+PODRUČNA ŠKOLA VUGROVEC;Osnovna škola;Ulica Augusta Šenoe 28, Vugrovec;SESVETE;45.876702;16.112242;;;
+PODRUČNA ŠKOLA PLANINA DONJA;Osnovna škola;Ulica 9. maja 5, Planina Donja;SESVETE;45.92596;16.091132;;;
+PODRUČNA ŠKOLA ADAMOVEC;Osnovna škola;Ulica Dragutina M. Domjanića 75;SESVETE;45.907181;16.16366;;;
+PODRUČNA ŠKOLA MORAVČE;Osnovna škola;Trg svetog Trojstva 1, Moravče;SESVETE;45.936639;16.168372;;;
+PODRUČNA ŠKOLA GLAVNICA DONJA;Osnovna škola;Glavnička 26, Glavnica Donja;SESVETE;45.937311;16.145211;;;
+OSNOVNA ŠKOLA BRESTJE;Osnovna škola;Ulica potočnica 8;SESVETE;45.83073;16.092022;;;
+OSNOVNA ŠKOLA JELKOVEC;Osnovna škola;Ulica Dragana Plamenca 1;SESVETE;45.812215;16.111901;;;
+OSNOVNA ŠKOLA IVER;Osnovna škola;Ulica Mladena Halape 8, Sesvete;SESVETE;45.812094;16.184704;;;
+OSNOVNA ŠKOLA BREZOVICA;Osnovna škola;Brezovička cesta 98A;BREZOVICA;45.724967;15.906506;;;
+PODRUČNA ŠKOLA KUPINEČKI KRALJEVEC;Osnovna škola;Kraljevečki brijegi 90;BREZOVICA;45.672258;15.872557;;;
+PODRUČNA ŠKOLA JEŽDOVEC;Osnovna škola;Ježdovečka ulica 34A;NOVI ZAGREB - ZAPAD;45.77267;15.853657;;;
+PODRUČNA ŠKOLA SAVSKA;Osnovna škola;Savska cesta 77;TRNJE;45.797279;15.961263;;;
+PODRUČNA ŠKOLA STUPNIK;Osnovna škola;Sv. Benedikta 31;IZVAN OBUHVATA GRADA;45.751787;15.847689;;;
+CENTAR ZA AUTIZAM;Osnovna škola;Ulica Vile Velebita 11B;GORNJA DUBRAVA;45.837835;16.059735;63467332374;;
+OSNOVNA ŠKOLA LUČKO - STARA ŠKOLA;Osnovna škola;Puškarićeva ulica 39;NOVI ZAGREB - ZAPAD;45.761346;15.879725;;;
+OSNOVNA ŠKOLA ALOJZIJA STEPINCA - DISLOCIRANI OBJEKT;Osnovna škola;Kuzminečka ulica 14;TREŠNJEVKA - JUG;45.789285;15.910084;;;
+OSNOVNA ŠKOLA KUSTOŠIJA - STARA ŠKOLA;Osnovna škola;Ulica sv. Nikole Tavelića 6;ČRNOMEREC;45.812727;15.926838;;;
+NJEMAČKA MEĐUNARODNA ŠKOLA;Osnovna škola;Fratrovac 36;MAKSIMIR;45.835864;15.993169;;;
+AMERIČKA MEĐUNARODNA ŠKOLA;Osnovna škola;Voćarska cesta 106;GORNJI GRAD - MEDVEŠČAK;45.823349;15.985952;;;
+OSNOVNA ŠKOLA LAUDER - HUGO KON;Osnovna škola;Trg Katarine Zrinske 2;GORNJI GRAD - MEDVEŠČAK;45.814932;15.973617;;;
+WALDORFSKA ŠKOLA U ZAGREBU;Osnovna škola;Jakuševečka ulica 6;NOVI ZAGREB - ISTOK;45.760372;16.010713;;;
+OSNOVNA MONTESSORI ŠKOLA BARUNICE DEDEE VRANYCZANY;Osnovna škola;Ulica Matka Mandića 2;TREŠNJEVKA - SJEVER;45.800307;15.942074;;;
+SALEZIJANSKA OSNOVNA ŠKOLA;Osnovna škola;Dugoratska ulica 2;TREŠNJEVKA - JUG;45.79137;15.927376;;;
+OSNOVNA ŠKOLA KREATIVAN RAZVOJ, S PRAVOM JAVNOSTI;Osnovna škola;Dedići 102;PODSLJEME;45.842918;15.944753;;;
+OSNOVNA ŠKOLA RUŽIČNJAK;Osnovna škola;Donje Svetice 127;PODSUSED - VRAPČE;45.800002;16.015769;;;
+FRANCUSKA ŠKOLA U ZAGREBU;Osnovna škola;Fratrovac 36;MAKSIMIR;45.835864;15.993169;;;
+ŠKOLA ZA BALET I RITMIKU;Osnovna škola;Zagorska ulica 16;TREŠNJEVKA - SJEVER;45.807038;15.943278;;;
+GLAZBENA ŠKOLA VANJA KOS;Osnovna škola;Varaždinska cesta 57;SESVETE;45.830967;16.115925;;;
+OSNOVNA ŠKOLA LOTRŠČAK;Osnovna škola;Ulica Frana Folnegovića 10;TRNJE;45.797927;16.006698;;;
+OSNOVNA GLAZBENA ŠKOLA IVANA ZAJCA, PODRUČNI ODJEL SUSEDGRAD;Osnovna škola;Argentinska ulica 5;SUSEDGRAD;45.815268;15.875774;;;
+OSNOVNA GLAZBENA ŠKOLA IVANA ZAJCA, PODRUČNI ODJEL STUDENTSKI GRAD;Osnovna škola;Dankovečka ulica 46;GORNJA DUBRAVA;45.834623;16.056164;;;
+OSNOVNA GLAZBENA ŠKOLA IVANA ZAJCA, PODRUČNI ODJEL ZAPRUĐE;Osnovna škola;Meštrovićev trg 8B;NOVI ZAGREB - ISTOK;45.781364;15.996136;;;
+OSNOVNA GLAZBENA ŠKOLA IVANA ZAJCA, PODRUČNI ODJEL TRNJE;Osnovna škola;Krčka ulica 3;TRNJE;45.797992;15.973529;;;
+OSNOVNA ŠKOLA HRVATSKI LESKOVAC;Osnovna škola;Pilinka 2, Hrvatski Leskovac;NOVI ZAGREB - ZAPAD;45.746664;15.894429;;;
+OSNOVNA ŠKOLA SREDIŠĆE;Osnovna škola;Ulica Savezne Republike Njemačke 2A;NOVI ZAGREB - ISTOK;45.780636;15.989336;;;
+"Poliklinika za prevenciju kardiovaskularnih bolesti i rehabilitaciju (""Srčana"")";Zdravstvena ustanova;Avenija Većeslava Holjevca 22;;45.77272;15.9797;;;
+Nastavni zavod za hitnu medicinu Grada Zagreba (Ispostava Novi Zagreb);Zdravstvena ustanova;Avenija Većeslava Holjevca 22;;45.77272;15.9797;;;
+Hrvatski zavod za zaštitu zdravlja i sigurnost na radu;Zdravstvena ustanova;Ulica Radoslava Cimermana 64A;;45.783295;15.965371;;;
+Nastavni zavod za hitnu medicinu Grada Zagreba (Ispostava Jarun);Zdravstvena ustanova;Ulica Lovre Ratkovića 2;;45.785526;15.92845;;;
+Nastavni zavod za hitnu medicinu Grada Zagreba (Objekt Heinzlova 88);Zdravstvena ustanova;Ulica Vjekoslava Heinzela 88;;45.800496;16.012387;;;
+"Poliklinika za reumatske bolesti, fizikalnu medicinu i rehabilitaciju ""Drago Čop""";Zdravstvena ustanova;Mihanovićeva ulica 3;;45.80544;15.974704;;;
+"Psihijatrijska bolnica ""Sveti Ivan""";Zdravstvena ustanova;Jankomir  11;;45.805702;15.875268;;;
+"Poliklinika za rehabilitaciju slušanja i govora ""SUVAG"" (Osnovna škola)";Zdravstvena ustanova;Ulica Ljudevita Posavskog 10;;45.808153;15.993488;88696689887;;
+"Poliklinika za rehabilitaciju slušanja i govora ""SUVAG""";Zdravstvena ustanova;Ulica Ljudevita Posavskog 10/2;;45.807396;15.993572;88696689887;;
+"Poliklinika za rehabilitaciju slušanja i govora ""SUVAG"" (Dječji vrtić)";Zdravstvena ustanova;Ulica Ljudevita Posavskog 10/1;;45.807795;15.993706;;;
+Hrvatski zavod za hitnu medicinu;Zdravstvena ustanova;Planinska ulica 13;;45.809387;16.012732;;;
+Klinika za dječje bolesti;Zdravstvena ustanova;Ulica Vjekoslava Klaića 16;;45.809285;15.965033;;;
+Hrvatski zavod za toksikologiju i antidoping;Zdravstvena ustanova;Borongajska cesta 83G;;45.810542;16.040647;;;
+Polilklinika za zaštitu djece i mladih grada Zagreba;Zdravstvena ustanova;Đorđićeva ulica 26;;45.81058;15.984821;;;
+Nastavni zavod za hitnu medicinu Grada Zagreba (Ispostava Centar);Zdravstvena ustanova;Đorđićeva ulica 26;;45.81058;15.984821;;;
+"Poliklinika za bolesti dišnog sustava (""Plućna"")";Zdravstvena ustanova;Prilaz baruna Filipovića 11;;45.811365;15.944473;;;
+"Poliklinika za prevenciju kardiovaskularnih bolesti i rehabilitaciju (""Srčana"")";Zdravstvena ustanova;Draškovićeva ulica 13;;45.812508;15.983678;;;
+Hrvatski zavod za transfuzijsku medicinu;Zdravstvena ustanova;Petrova ulica 3;;45.815878;15.991356;;;
+"Klinički bolnički centar ""Sestre milosrdnice""";Zdravstvena ustanova;Vinogradska cesta 29;;45.81534;15.953639;;;
+"Klinički bolnički centar ""Zagreb""";Zdravstvena ustanova;Petrova ulica 13;;45.815619;15.992924;46377257342;;
+Nastavni zavod za hitnu medicinu Grada Zagreba (Ispostava Gajnice);Zdravstvena ustanova;Gajnice 7;;45.815062;15.872493;;;
+Specijalna bolnica za zaštitu djece s neurorazvojnim i motoričkim smetnjama;Zdravstvena ustanova;Goljak 2;;45.818898;15.963887;;;
+"Klinički bolnički centar ""Zagreb""";Zdravstvena ustanova;Šalata 4;;45.81829;15.98335;46377257342;;
+"Klinička bolnica ""Merkur""";Zdravstvena ustanova;Dugi dol 4A;;45.820382;15.996193;;;
+"Klinička bolnica ""Merkur""";Zdravstvena ustanova;Ulica Ivana Zajca 19;;45.820838;15.997877;;;
+"Klinički bolnički centar ""Zagreb""";Zdravstvena ustanova;Božidarevićeva ulica 11;;45.8209;16.00984;46377257342;;
+"Klinički bolnički centar ""Zagreb""";Zdravstvena ustanova;Ulica Mije Kišpatića 12;;45.824081;16.006453;46377257342;;
+Nastavni zavod za hitnu medicinu Grada Zagreba (Ispostava Dubrava);Zdravstvena ustanova;Maksimirska cesta 286;;45.824358;16.038848;;;
+"Dječja bolnica ""Srebrenjak""";Zdravstvena ustanova;Srebrenjak 100;;45.825128;15.993002;;;
+"Klinički bolnički centar ""Zagreb""";Zdravstvena ustanova;Jordanovac 104;;45.825608;16.002836;46377257342;;
+Nastavni zavod za hitnu medicinu Grada Zagreba (Ispostava Sesvete);Zdravstvena ustanova;Ninska ulica 10;;45.826088;16.109093;;;
+"Hrvatski zavod za javno zdravstvo ""Dr. Andrija Štampar""";Zdravstvena ustanova;Rockefellerova ulica 7;;45.827717;15.981799;;;
+"Klinika za infektivne bolesti ""Dr. Fran Mihaljević""";Zdravstvena ustanova;Mirogojska cesta 8;;45.829752;15.980176;;;
+Hrvatski zavod za telemedicinu;Zdravstvena ustanova;Ksaver 211;;45.83213;15.976201;;;
+"Klinička bolnica ""Dubrava""";Zdravstvena ustanova;Avenija Gojka Šuška 6;;45.834388;16.03459;;;
+Specijalna bolnica za zaštitu djece s neurorazvojnim i motoričkim smetnjama;Zdravstvena ustanova;Zelengaj 37;;45.825723;15.966188;;;
+Specijalna bolnica za zaštitu djece s neurorazvojnim i motoričkim smetnjama;Zdravstvena ustanova;"Zelengaj 37/1 (""Mali Zelengaj"")";;45.825651;15.965652;;;
+Ustanova za zdravstvenu njegu u kući;Zdravstvena ustanova;Ulica Vladimira Varićaka 18;;45.765269;15.987515;64192076379;;
+"Klinička bolnica "" Sveti Duh""";Zdravstvena ustanova;Sveti duh 64;;45.819772;15.938972;65119154523;-279149.15;20

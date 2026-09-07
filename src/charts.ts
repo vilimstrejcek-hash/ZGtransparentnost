@@ -9,23 +9,22 @@ Chart.register(
   Legend, LineController, LineElement, LinearScale, PointElement, Tooltip
 );
 
-Chart.defaults.font.family =
-  '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+Chart.defaults.font.family = 'Roboto, Arial, -apple-system, sans-serif';
 Chart.defaults.font.size = 12;
-Chart.defaults.color = "#5b6779";
+Chart.defaults.color = "#6b6b6b";
 Chart.defaults.maintainAspectRatio = false;
 Chart.defaults.animation = { duration: 350 };
 
 /** Prigušena plavo-siva paleta — bez šarenila, čitljiva i u nizu. */
 export const PALETA = [
-  "#1f4e8c", "#3d76c4", "#6f9ad4", "#2b6a63", "#5a8f88",
-  "#7a6a9c", "#a08a5b", "#8a5b5b", "#4a5a72", "#96a4b8",
+  "#0072bc", "#163d73", "#2e8b8b", "#c8102e", "#4a7c34",
+  "#7d5ba6", "#d18700", "#a35a2a", "#5f7183", "#a9b4bf",
 ];
 
 export const boja = (i: number): string => PALETA[i % PALETA.length] as string;
 
 export const OPCI_TOOLTIP = {
-  backgroundColor: "#12203a",
+  backgroundColor: "#163d73",
   padding: 10,
   titleFont: { weight: 600 as const },
   cornerRadius: 6,
@@ -34,7 +33,7 @@ export const OPCI_TOOLTIP = {
 
 export const OS_NOVAC = {
   ticks: { callback: (v: string | number) => eurOs(Number(v)) },
-  grid: { color: "#eceff5" },
+  grid: { color: "#ececec" },
   border: { display: false },
 };
 

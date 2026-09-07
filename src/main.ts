@@ -4,7 +4,7 @@ import { ucitajPodatke, type Podaci } from "./data";
 import { datum, escapeHtml } from "./format";
 
 const glavno = document.querySelector<HTMLElement>("#glavno")!;
-const REPO = "https://github.com/vilimstrejcek/transparentnost-plus";
+const REPO = "https://github.com/vilimstrejcek-hash/ZGtransparentnost";
 
 type Prikaz = "pregled" | "isplate" | "karta" | "primatelji" | "profil";
 

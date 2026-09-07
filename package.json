@@ -12,7 +12,8 @@
   },
   "devDependencies": {
     "typescript": "^5.7.2",
-    "vite": "^6.0.5"
+    "vite": "^6.0.5",
+    "wrangler": "^4.129.1"
   },
   "dependencies": {
     "@types/d3-sankey": "^0.12.5",

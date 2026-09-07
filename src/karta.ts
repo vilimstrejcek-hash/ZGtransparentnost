@@ -20,10 +20,14 @@ export const BOJE_VRSTA = BOJE;
 
 const bojaVrste = (vrsta: string): string => BOJE[vrsta] ?? "#55606e";
 
-/** Polumjer po korijenu iznosa — površina kruga tada odgovara iznosu. */
+/** Polumjer po korijenu iznosa — površina kruga tada odgovara iznosu.
+
+   Neto iznos zna biti negativan kad povrati premaše isplate, pa se veličina
+   računa iz apsolutne vrijednosti; korijen negativnog broja daje NaN i Leaflet
+   tada iscrta neispravnu putanju. */
 function polumjer(iznos: number, najveci: number): number {
   if (!iznos || !najveci) return 4;
-  return 5 + Math.sqrt(iznos / najveci) * 21;
+  return 5 + Math.sqrt(Math.abs(iznos) / najveci) * 21;
 }
 
 /** Granice razreda po kvantilima. Linearna podjela ovdje ne radi: Brezovica
@@ -138,7 +142,7 @@ export function nacrtajKartu(spremnik: HTMLElement, postavke: KartaPostavke): Ka
   function postaviUstanove(ustanove: Ustanova[]): void {
     slojUstanova.clearLayers();
     const sIznosom = ustanove.filter((u) => u.ukupno);
-    const najveciIznos = Math.max(...sIznosom.map((u) => u.ukupno ?? 0), 0);
+    const najveciIznos = Math.max(...sIznosom.map((u) => Math.abs(u.ukupno ?? 0)), 0);
 
     for (const u of ustanove) {
       const iznos = u.ukupno ?? 0;
@@ -150,6 +154,7 @@ export function nacrtajKartu(spremnik: HTMLElement, postavke: KartaPostavke): Ka
         opacity: 0.95,
         fillColor: bojaVrste(u.vrsta),
         fillOpacity: podruznica ? 0.35 : 0.85,
+        dashArray: iznos < 0 ? "3 2" : undefined,
       });
 
       const veza = u.oib
@@ -164,6 +169,7 @@ export function nacrtajKartu(spremnik: HTMLElement, postavke: KartaPostavke): Ka
         ${iznos
           ? `<strong>${escapeHtml(eur(iznos))}</strong><br>
              ${escapeHtml(broj(u.broj_isplata ?? 0))} isplata
+             ${iznos < 0 ? "<br><span class=\"karta__vrsta\">neto je negativan jer povrati premašuju isplate</span>" : ""}
              ${u.lokacija_ustanove && u.lokacija_ustanove > 1
                ? `<br><span class="karta__vrsta">iznos se odnosi na ustanovu, koja ima ${escapeHtml(broj(u.lokacija_ustanove))} lokacija</span>`
                : ""}

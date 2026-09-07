@@ -169,17 +169,65 @@ export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
         </div>
         <div class="tablica-okvir">
           <table>
-            <thead><tr><th>Na što točno</th><th class="broj">Iznos</th><th class="broj">Udio</th></tr></thead>
-            <tbody>${o.skupine.map((sk) => `<tr>
+            <thead><tr><th>Na što točno</th><th class="broj">Iznos</th><th class="broj">Udio</th><th></th></tr></thead>
+            <tbody>${o.skupine.map((sk) => `<tr class="red-klik" data-skupina="${escapeHtml(sk.sifra)}">
               <td><span class="oznaka-sifra">${escapeHtml(sk.sifra)}</span>${escapeHtml(sk.naziv)}</td>
               <td class="broj">${escapeHtml(eur(sk.ukupno))}</td>
               <td class="broj">${escapeHtml(postotak(sk.udio))}</td>
+              <td class="broj sitno">razradi</td>
             </tr>`).join("")}</tbody>
           </table>
         </div>
+        <div id="razrada-skupine"></div>
       </div>`;
     razrada.querySelector("#zatvori-razradu")?.addEventListener("click", () => {
       razrada.innerHTML = "";
+    });
+
+    const spremnikSkupine = razrada.querySelector<HTMLElement>("#razrada-skupine")!;
+    razrada.querySelector("tbody")?.addEventListener("click", (dogadaj) => {
+      const red = (dogadaj.target as HTMLElement).closest<HTMLTableRowElement>("tr[data-skupina]");
+      const trazena = red?.dataset["skupina"];
+      if (!trazena) return;
+      if (spremnikSkupine.dataset["otvorena"] === trazena) {
+        spremnikSkupine.innerHTML = "";
+        delete spremnikSkupine.dataset["otvorena"];
+        return;
+      }
+      const sk = o.skupine.find((x) => x.sifra === trazena);
+      if (!sk) return;
+      spremnikSkupine.dataset["otvorena"] = trazena;
+      spremnikSkupine.innerHTML = `
+        <div class="razrada-skupina">
+          <div class="razrada-kat__vrh">
+            <h4>${escapeHtml(sk.naziv)} — ${escapeHtml(eur(sk.ukupno))}</h4>
+            <a class="veza" href="#/isplate?fs=${escapeHtml(sk.sifra)}">Sve isplate →</a>
+          </div>
+          <div class="stupci-2">
+            <div>
+              <h5>Najveći primatelji</h5>
+              <div class="tablica-okvir"><table>
+                <tbody>${sk.primatelji.map((pr) => `<tr>
+                  <td>${pr.ima_profil
+                    ? `<a class="veza" href="#/primatelj/${encodeURIComponent(pr.oib)}">${escapeHtml(pr.naziv)}</a>`
+                    : escapeHtml(pr.naziv)}</td>
+                  <td class="broj">${escapeHtml(eurKratko(pr.ukupno))}</td>
+                  <td class="broj sitno">${escapeHtml(postotak(pr.udio))}</td>
+                </tr>`).join("")}</tbody>
+              </table></div>
+            </div>
+            <div>
+              <h5>Vrsta rashoda</h5>
+              <div class="tablica-okvir"><table>
+                <tbody>${sk.vrste.map((v) => `<tr>
+                  <td>${escapeHtml(v.naziv)}</td>
+                  <td class="broj">${escapeHtml(eurKratko(v.ukupno))}</td>
+                  <td class="broj sitno">${escapeHtml(postotak(v.udio))}</td>
+                </tr>`).join("")}</tbody>
+              </table></div>
+            </div>
+          </div>
+        </div>`;
     });
     razrada.scrollIntoView({ block: "nearest", behavior: "smooth" });
   }

@@ -473,6 +473,30 @@ def build_po_namjeni(df: pd.DataFrame) -> dict:
             pod = g[g["odjeljak_sifra"] == r["odjeljak_sifra"]]
             skupine = (pod.groupby(["funkcijska_sifra", "funkcijska_naziv"])["iznos"]
                           .sum().sort_values(ascending=False))
+
+            def razrada(sifra: str) -> dict:
+                """Tko je dobio novac te podskupine i na koju vrstu rashoda."""
+                dio = pod[pod["funkcijska_sifra"] == sifra]
+                zbroj = dio["iznos"].sum()
+                prim = (dio.groupby(["oib", "primatelj"])
+                          .agg(iznos=("iznos", "sum"), isplata=("_uuid", "nunique"))
+                          .reset_index().sort_values("iznos", ascending=False).head(8))
+                vrste = (dio.groupby(["ekonomska_sifra", "ekonomska_naziv"])["iznos"]
+                            .sum().sort_values(ascending=False).head(6))
+                return {
+                    "primatelji": [
+                        {"oib": r["oib"], "naziv": r["primatelj"], "ukupno": r2(r["iznos"]),
+                         "broj_isplata": int(r["isplata"]),
+                         "udio": r2(r["iznos"] / zbroj * 100) if zbroj else 0.0,
+                         "ima_profil": bool(r["oib"] != GDPR and r["isplata"] >= MIN_ISPLATA_ZA_PROFIL)}
+                        for _, r in prim.iterrows()
+                    ],
+                    "vrste": [
+                        {"sifra": sif, "naziv": nz, "ukupno": r2(v),
+                         "udio": r2(v / zbroj * 100) if zbroj else 0.0}
+                        for (sif, nz), v in vrste.items()
+                    ],
+                }
             odjeljci.append({
                 "sifra": r["odjeljak_sifra"],
                 "naziv": r["odjeljak_naziv"],
@@ -483,9 +507,10 @@ def build_po_namjeni(df: pd.DataFrame) -> dict:
                 "broj_stavki": int(r["size"]),
                 "skupine": [
                     {"sifra": sif, "naziv": nz, "ukupno": r2(v),
-                     "udio": r2(v / r["sum"] * 100) if r["sum"] else 0.0}
-                    for (sif, nz), v in skupine.items()
-                ][:12],
+                     "udio": r2(v / r["sum"] * 100) if r["sum"] else 0.0,
+                     **razrada(sif)}
+                    for (sif, nz), v in list(skupine.items())[:12]
+                ],
             })
         return {
             "ukupno": r2(ukupno),

@@ -77,6 +77,7 @@ def main() -> None:
                     "t": opis,
                     "u": (p.get("orgKlasifikacijaSifra") or "").strip(),
                     "f": odjeljak(p.get("funkKlasifikacijaSifra") or ""),
+                    "fs": (p.get("funkKlasifikacijaSifra") or "").strip(),
                     "e": (p.get("kontoKlasifikacijaSifra") or "").strip(),
                     "r": racun,
                     "g": ugovor,
@@ -100,9 +101,10 @@ def main() -> None:
         put.write_text(json.dumps({
             "mjesec": mjesec,
             "primatelji": primatelji,
-            # [dan, indeks primatelja, iznos, opis, ured, namjena, ekonomska, račun, ugovor]
+            # [dan, indeks primatelja, iznos, opis, ured, odjeljak namjene,
+            #  puna šifra namjene, ekonomska, račun, ugovor]
             "redci": [[int(x["d"][8:]), kljucevi[(x["n"], x["o"])], x["i"], x["t"],
-                       x["u"], x["f"], x["e"], x["r"], x["g"]] for x in redci],
+                       x["u"], x["f"], x["fs"], x["e"], x["r"], x["g"]] for x in redci],
         }, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
         velicina = put.stat().st_size
         ukupno_bajtova += velicina

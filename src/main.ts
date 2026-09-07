@@ -85,6 +85,7 @@ async function usmjeri(): Promise<void> {
         await prikaziIsplate(glavno, podaci, {
           mjesec: p?.get("m") ?? undefined,
           namjena: p?.get("f") ?? undefined,
+          podskupina: p?.get("fs") ?? undefined,
           ured: p?.get("u") ?? undefined,
           upit: p?.get("q") ?? undefined,
         });

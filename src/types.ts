@@ -129,6 +129,8 @@ export interface Skupina {
   naziv: string;
   ukupno: number;
   udio: number;
+  primatelji: Primatelj[];
+  vrste: { sifra: string; naziv: string; ukupno: number; udio: number }[];
 }
 
 export interface Odjeljak {
@@ -274,8 +276,9 @@ export interface Preuzimanje {
 
 
 
-/** [dan, indeks primatelja, iznos, opis, ured, namjena, ekonomska, račun, ugovor] */
-export type Redak = [number, number, number, string, string, string, string, string, string];
+/** [dan, indeks primatelja, iznos, opis, ured, odjeljak namjene, puna šifra
+    namjene, ekonomska, račun, ugovor] */
+export type Redak = [number, number, number, string, string, string, string, string, string, string];
 
 export interface MjesecPodaci {
   mjesec: string;

@@ -21,7 +21,8 @@ const COFOG: Record<string, string> = {
 
 interface Filtri {
   mjesec: string;
-  namjena: string;
+  namjena: string;      // dvoznamenkasti odjeljak
+  podskupina: string;   // puna šifra funkcijske klasifikacije
   ured: string;
   upit: string;
 }
@@ -53,6 +54,7 @@ export async function prikaziIsplate(
   const f: Filtri = {
     mjesec: pocetni.mjesec && mjeseci.includes(pocetni.mjesec) ? pocetni.mjesec : zadnji,
     namjena: pocetni.namjena ?? "",
+    podskupina: pocetni.podskupina ?? "",
     ured: pocetni.ured ?? "",
     upit: pocetni.upit ?? "",
   };
@@ -94,6 +96,7 @@ export async function prikaziIsplate(
           placeholder="Pretraži opis ili primatelja" aria-label="Pretraga"
           value="${escapeHtml(f.upit)}" autocomplete="off" />
         <button type="button" class="gumb gumb--malo" id="ocisti">Očisti</button>
+        <span class="sitno" id="oznaka-podskupine"></span>
       </div>
 
       <div id="sadrzaj"><p class="ucitavanje">Učitavanje isplata…</p></div>
@@ -119,6 +122,7 @@ export async function prikaziIsplate(
     const q = f.upit.trim().toLowerCase();
     return p.redci.filter((r) => {
       if (f.namjena && r[5] !== f.namjena) return false;
+      if (f.podskupina && r[6] !== f.podskupina) return false;
       if (f.ured && r[4] !== f.ured) return false;
       if (!q) return true;
       const ime = p.primatelji[r[1]]?.[0] ?? "";
@@ -149,6 +153,8 @@ export async function prikaziIsplate(
     izborNamjene.value = f.namjena;
     izborUreda.value = f.ured;
 
+    const oznaka = cilj.querySelector<HTMLElement>("#oznaka-podskupine")!;
+    oznaka.textContent = f.podskupina ? `filtrirano na šifru ${f.podskupina}` : "";
     sadrzaj.innerHTML = `<p class="ucitavanje">Učitavanje isplata…</p>`;
     const p = await ucitajMjesec(f.mjesec);
     const redci = filtriraj(p);
@@ -163,7 +169,7 @@ export async function prikaziIsplate(
       ? (sviZbroj / laniPodatak.ukupno - 1) * 100
       : null;
 
-    const filtrirano = f.namjena || f.ured || f.upit.trim();
+    const filtrirano = f.namjena || f.podskupina || f.ured || f.upit.trim();
     sazetak.innerHTML = `
       <div class="brojka">
         <p class="brojka__oznaka">${filtrirano ? "Odabrano" : "Ukupno u mjesecu"}</p>
@@ -255,7 +261,7 @@ export async function prikaziIsplate(
   izborUreda.addEventListener("change", () => { f.ured = izborUreda.value; osvjezi(); });
   pretraga.addEventListener("input", () => { f.upit = pretraga.value; osvjezi(); });
   cilj.querySelector("#ocisti")!.addEventListener("click", () => {
-    f.namjena = ""; f.ured = ""; f.upit = ""; pretraga.value = ""; osvjezi();
+    f.namjena = ""; f.podskupina = ""; f.ured = ""; f.upit = ""; pretraga.value = ""; osvjezi();
   });
 
   const pomak = (korak: number): void => {

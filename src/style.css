@@ -474,3 +474,14 @@ td.razrada { background: var(--podloga); }
 .razdoblje__godina { width: 6.5rem; font-weight: 700; }
 .razdoblje__mjesec { width: 10rem; font-weight: 700; }
 .razdoblje select:disabled { color: var(--tekst-3); }
+
+
+/* Razrada podskupine namjene */
+.razrada-skupina { border-top: 1px solid var(--linija); margin-top: 12px; padding-top: 12px; }
+.razrada-skupina h4 { margin: 0; font-family: "Roboto Slab", Georgia, serif; font-size: 1.02rem; }
+.razrada-skupina h5 {
+  margin: 10px 0 4px; font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--tekst-2); font-weight: 700;
+}
+.razrada-skupina table { font-size: 0.86rem; }
+.razrada-skupina td { padding: 5px 8px; }

@@ -1,9 +1,42 @@
 import type { Podaci } from "../data";
-import { broj, escapeHtml, eur, eurKratko, iznosBezValute, postotak, skrati } from "../format";
+import { broj, escapeHtml, eur, eurKratko, iznosBezValute, postotak } from "../format";
 import { rasporedi, type Plocica } from "../treemap";
 import { bojaPoIndeksu, godineOsHtml, poveziGodine } from "../ui";
 const SIRINA = 1100;
 const VISINA = 400;
+
+/** SVG ne prelama tekst sam, pa se naziv razlama na retke koji stanu u pločicu. */
+function razlomi(naziv: string, sirinaZnaka: number, sirina: number, najviseRedaka: number): string[] {
+  const stane = Math.max(1, Math.floor(sirina / sirinaZnaka));
+  const rijeci = naziv.split(/\s+/);
+  const redci: string[] = [];
+  let tekuci = "";
+
+  for (const rijec of rijeci) {
+    const kandidat = tekuci ? `${tekuci} ${rijec}` : rijec;
+    if (kandidat.length <= stane) {
+      tekuci = kandidat;
+      continue;
+    }
+    if (tekuci) redci.push(tekuci);
+    tekuci = rijec;
+    if (redci.length === najviseRedaka) break;
+  }
+  if (tekuci && redci.length < najviseRedaka) redci.push(tekuci);
+
+  // Ako ni ovako ne stane, zadnji redak dobiva trotočje.
+  if (redci.length === najviseRedaka) {
+    const zadnji = redci[najviseRedaka - 1] ?? "";
+    const preostalo = rijeci.join(" ").length;
+    const prikazano = redci.join(" ").length;
+    if (prikazano < preostalo) {
+      redci[najviseRedaka - 1] = zadnji.length > stane - 1
+        ? `${zadnji.slice(0, stane - 1)}…`
+        : `${zadnji}…`;
+    }
+  }
+  return redci.map((r) => (r.length > stane ? `${r.slice(0, stane - 1)}…` : r));
+}
 
 function treemapHtml(stavke: { sifra: string; naziv: string; iznos: number }[]): string {
   const plocice: Plocica[] = stavke.map((s, i) => ({
@@ -15,17 +48,43 @@ function treemapHtml(stavke: { sifra: string; naziv: string; iznos: number }[]):
   return `<svg class="treemap" viewBox="0 0 ${SIRINA} ${VISINA}" role="img"
       aria-label="Raspodjela isplata po namjeni">
     ${polja.map((p) => {
-      const staneNatpis = p.w > 78 && p.h > 36;
-      const staneIznos = p.w > 100 && p.h > 58;
-      const velicina = Math.max(12, Math.min(22, Math.sqrt(p.w * p.h) / 8));
+      const uvlaka = 10;
+      const sirinaTeksta = p.w - uvlaka * 2;
+      if (sirinaTeksta < 40 || p.h < 28) {
+        // Premala pločica za ijedan natpis — naziv ostaje u opisu na prijelaz mišem.
+        return `<g class="treemap__plocica" data-sifra="${escapeHtml(p.sifra ?? "")}">
+          <title>${escapeHtml(`${p.naziv}: ${eur(p.vrijednost)}`)}</title>
+          <rect x="${p.x + 1}" y="${p.y + 1}" width="${Math.max(0, p.w - 2)}"
+            height="${Math.max(0, p.h - 2)}" fill="${p.boja}"/>
+        </g>`;
+      }
+
+      // Na uskoj pločici se slova smanje da najdulja riječ stane cijela,
+      // umjesto da se riječ prelomi trotočjem.
+      const najduljaRijec = Math.max(...p.naziv.split(/\s+/).map((r) => r.length), 1);
+      const velicina = Math.max(9, Math.min(
+        21,
+        Math.sqrt(p.w * p.h) / 8,
+        sirinaTeksta / (najduljaRijec * 0.52)
+      ));
+      const visinaRetka = velicina * 1.18;
+      // Ostavi mjesta za iznos ispod naziva kad ga ima čime prikazati.
+      const staneIznos = p.h > velicina * 3 && sirinaTeksta > 70;
+      const zaNaziv = p.h - uvlaka - (staneIznos ? velicina * 1.5 : 0);
+      const najviseRedaka = Math.max(1, Math.floor(zaNaziv / visinaRetka));
+      const redci = razlomi(p.naziv, velicina * 0.52, sirinaTeksta, najviseRedaka);
+
       return `<g class="treemap__plocica" data-sifra="${escapeHtml(p.sifra ?? "")}">
         <title>${escapeHtml(`${p.naziv}: ${eur(p.vrijednost)}`)}</title>
         <rect x="${p.x + 1}" y="${p.y + 1}" width="${Math.max(0, p.w - 2)}"
           height="${Math.max(0, p.h - 2)}" fill="${p.boja}"/>
-        ${staneNatpis ? `<text class="treemap__natpis" x="${p.x + 11}" y="${p.y + velicina + 9}"
-          font-size="${velicina}">${escapeHtml(skrati(p.naziv, Math.floor(p.w / (velicina * 0.52))))}</text>` : ""}
-        ${staneIznos ? `<text class="treemap__iznos" x="${p.x + 11}" y="${p.y + velicina * 2 + 13}"
-          font-size="${Math.max(11, velicina * 0.68)}">${escapeHtml(eurKratko(p.vrijednost))}</text>` : ""}
+        <text class="treemap__natpis" x="${p.x + uvlaka}" y="${p.y + velicina + 6}"
+          font-size="${velicina}">${redci.map((r, i) =>
+            `<tspan x="${p.x + uvlaka}" dy="${i === 0 ? 0 : visinaRetka}">${escapeHtml(r)}</tspan>`
+          ).join("")}</text>
+        ${staneIznos ? `<text class="treemap__iznos" x="${p.x + uvlaka}"
+          y="${p.y + velicina + 6 + redci.length * visinaRetka + velicina * 0.15}"
+          font-size="${Math.max(10, velicina * 0.68)}">${escapeHtml(eurKratko(p.vrijednost))}</text>` : ""}
       </g>`;
     }).join("")}
   </svg>`;

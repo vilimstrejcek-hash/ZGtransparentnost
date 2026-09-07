@@ -3,7 +3,7 @@ import { broj, datum, escapeHtml, eur, eurKratko, mjesecNaziv, postotak } from "
 import type { MjesecIndeks, MjesecPodaci, Redak } from "../types";
 
 const BAZA = import.meta.env.BASE_URL.replace(/\/+$/, "");
-const KORAK = 150;
+const KORAK = 50;
 
 const COFOG: Record<string, string> = {
   "01": "Opće javne usluge", "02": "Obrana", "03": "Javni red i sigurnost",

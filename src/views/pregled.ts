@@ -1,10 +1,7 @@
 import type { Podaci } from "../data";
-import { broj, escapeHtml, eur, eurKratko, iznosBezValute, postotak, skrati } from "../format";
+import { broj, escapeHtml, eur, eurKratko, iznosBezValute, mjesecNaziv, postotak, skrati } from "../format";
 import { rasporedi, type Plocica } from "../treemap";
 import { bojaPoIndeksu, godineOsHtml, poveziGodine } from "../ui";
-import type { Nalaz, Nalazi } from "../types";
-
-const BAZA = import.meta.env.BASE_URL.replace(/\/+$/, "");
 const SIRINA = 1100;
 const VISINA = 400;
 
@@ -34,26 +31,26 @@ function treemapHtml(stavke: { sifra: string; naziv: string; iznos: number }[]):
   </svg>`;
 }
 
-function nalazHtml(n: Nalaz): string {
-  return `<a class="nalaz" href="${escapeHtml(n.veza ?? "#/")}">
-    <span class="nalaz__vrijednost">${escapeHtml(n.vrijednost)}</span>
-    <span class="nalaz__naslov">${escapeHtml(n.naslov)}</span>
+interface Istaknuto {
+  oznaka: string;
+  vrijednost: string;
+  opis: string;
+  veza: string;
+}
+
+function istaknutoHtml(i: Istaknuto): string {
+  return `<a class="istaknuto" href="${escapeHtml(i.veza)}">
+    <span class="istaknuto__oznaka">${escapeHtml(i.oznaka)}</span>
+    <span class="istaknuto__vrijednost">${escapeHtml(i.vrijednost)}</span>
+    <span class="istaknuto__opis">${escapeHtml(i.opis)}</span>
   </a>`;
 }
 
-export async function prikaziPregled(cilj: HTMLElement, podaci: Podaci): Promise<void> {
+export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
   const { poNamjeni, summary, top, meta } = podaci;
   const godine = summary.godine;
   const zadnjaPotpuna = meta.pokrivenost.filter((p) => !p.tekuca).at(-1)?.godina;
   let odabrana = zadnjaPotpuna ?? godine[godine.length - 1] ?? "sve";
-
-  let nalazi: Nalaz[] = [];
-  try {
-    const n: Nalazi = await fetch(`${BAZA}/data/nalazi.json`).then((o) => o.json());
-    nalazi = n.nalazi.filter((x) => x.tezina === "istaknuto").slice(0, 4);
-  } catch {
-    nalazi = [];
-  }
 
   cilj.innerHTML = `
     <section class="glava">
@@ -70,7 +67,7 @@ export async function prikaziPregled(cilj: HTMLElement, podaci: Podaci): Promise
     </section>
 
     <div class="omotac">
-      ${nalazi.length ? `<div class="nalazi" id="nalazi">${nalazi.map(nalazHtml).join("")}</div>` : ""}
+      <div class="istaknuta" id="istaknuta"></div>
 
       <section class="odjeljak">
         <div class="odjeljak__zaglavlje">
@@ -112,6 +109,56 @@ export async function prikaziPregled(cilj: HTMLElement, podaci: Podaci): Promise
   const tijeloTop = cilj.querySelector<HTMLElement>("#tablica-top")!;
   const udio = cilj.querySelector<HTMLElement>("#udio")!;
   const razrada = cilj.querySelector<HTMLElement>("#razrada")!;
+  const istaknuta = cilj.querySelector<HTMLElement>("#istaknuta")!;
+
+  /** Četiri broja koja odgovaraju na "što je ovdje najveće" za odabrano razdoblje. */
+  function istaknutoZa(): Istaknuto[] {
+    const blok = poNamjeni.godine[odabrana];
+    const s = odabrana === "sve" ? summary.ukupno : summary.po_godini[odabrana];
+    const najvecaNamjena = blok?.odjeljci.find((o) => o.sifra !== "99");
+    const najveciPrimatelj = (top[odabrana] ?? [])[0];
+    const mjeseci = summary.po_mjesecu.filter(
+      (m) => odabrana === "sve" || String(m.godina) === odabrana
+    );
+    const najveciMjesec = [...mjeseci].sort((a, b) => b.ukupno - a.ukupno)[0];
+
+    const stavke: Istaknuto[] = [];
+    if (najvecaNamjena) {
+      stavke.push({
+        oznaka: "Najveća namjena",
+        vrijednost: najvecaNamjena.naziv,
+        opis: `${eurKratko(najvecaNamjena.ukupno)} · ${postotak(najvecaNamjena.udio)} svih isplata`,
+        veza: "#/",
+      });
+    }
+    if (najveciPrimatelj) {
+      stavke.push({
+        oznaka: "Najveći primatelj",
+        vrijednost: najveciPrimatelj.naziv,
+        opis: `${eurKratko(najveciPrimatelj.ukupno)} · ${postotak(najveciPrimatelj.udio)} svih isplata`,
+        veza: najveciPrimatelj.ima_profil
+          ? `#/primatelj/${encodeURIComponent(najveciPrimatelj.oib)}`
+          : "#/primatelji",
+      });
+    }
+    if (najveciMjesec) {
+      stavke.push({
+        oznaka: "Mjesec s najviše isplata",
+        vrijednost: mjesecNaziv(najveciMjesec.mjesec),
+        opis: `${eurKratko(najveciMjesec.ukupno)} · ${broj(najveciMjesec.broj_isplata)} isplata`,
+        veza: "#/",
+      });
+    }
+    if (s) {
+      stavke.push({
+        oznaka: "Deset najvećih primatelja",
+        vrijednost: postotak(s.udio_top10),
+        opis: `od ukupno ${broj(s.broj_primatelja)} primatelja`,
+        veza: "#/primatelji",
+      });
+    }
+    return stavke;
+  }
 
   function prikaziRazradu(sifra: string): void {
     const blok = poNamjeni.godine[odabrana];
@@ -161,6 +208,7 @@ export async function prikaziPregled(cilj: HTMLElement, podaci: Podaci): Promise
       `${eur(blok.po_stanovniku)} po stanovniku · ${broj(s.broj_isplata)} isplata · `
       + `${broj(s.broj_primatelja)} primatelja`;
 
+    istaknuta.innerHTML = istaknutoZa().map(istaknutoHtml).join("");
     razrada.innerHTML = "";
     spremnikTreemapa.innerHTML = treemapHtml(
       blok.odjeljci.map((o) => ({ sifra: o.sifra, naziv: o.naziv, iznos: o.ukupno }))

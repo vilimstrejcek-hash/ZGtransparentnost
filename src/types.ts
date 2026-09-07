@@ -273,18 +273,4 @@ export interface Preuzimanje {
   izvori: string[];
 }
 
-export interface Nalaz {
-  naslov: string;
-  vrijednost: string;
-  objasnjenje: string;
-  kako: string;
-  veza: string | null;
-  tezina: "obicno" | "istaknuto";
-}
 
-export interface Nalazi {
-  datum_obrade: string;
-  razdoblje: { od: string; do: string };
-  nalazi: Nalaz[];
-  napomena: string;
-}

@@ -73,7 +73,7 @@ async function usmjeri(): Promise<void> {
     switch (ruta.prikaz) {
       case "pregled": {
         const { prikaziPregled } = await import("./views/pregled");
-        await prikaziPregled(glavno, podaci);
+        prikaziPregled(glavno, podaci);
         break;
       }
       case "karta": {

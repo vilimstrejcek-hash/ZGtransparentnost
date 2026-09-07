@@ -403,20 +403,30 @@ td.razrada { background: var(--podloga); }
 .glava .godine-os__popis button[aria-pressed="true"] .godine-os__tocka { background: #fff; border-color: #fff; }
 .glava .godine-os__popis button[aria-pressed="true"] .godine-os__oznaka { background: #fff; color: var(--plava-tamna); }
 
-/* Nalazi kao redak kartica */
-.nalazi { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin: 26px 0 34px; }
-.nalaz {
-  display: block; border: 1px solid var(--linija); border-top: 3px solid var(--negativno);
-  padding: 14px 16px 16px; text-decoration: none; color: inherit; background: #fff;
+/* Istaknuti podaci — mirna traka s najvećim stavkama, ne uzbuna */
+.istaknuta {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  border: 1px solid var(--linija); margin: 24px 0 34px; background: #fff;
 }
-.nalaz:hover { border-color: var(--plava); border-top-color: var(--plava); }
-.nalaz__vrijednost {
-  display: block; font-family: "Roboto Slab", Georgia, serif;
-  font-size: 1.6rem; font-weight: 700; color: var(--negativno);
-  font-variant-numeric: tabular-nums; line-height: 1.1;
+.istaknuto {
+  display: block; padding: 14px 18px 15px; text-decoration: none; color: inherit;
+  border-right: 1px solid var(--linija-svijetla);
 }
-.nalaz__naslov { display: block; font-size: 0.92rem; color: var(--tekst-2); margin-top: 4px; }
-.nalaz:hover .nalaz__vrijednost { color: var(--plava); }
+.istaknuto:last-child { border-right: 0; }
+.istaknuto:hover { background: #f3f8fc; }
+.istaknuto__oznaka {
+  display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--tekst-3); font-weight: 700;
+}
+.istaknuto__vrijednost {
+  display: block; font-weight: 700; font-size: 1.02rem; color: var(--plava-tamna);
+  line-height: 1.25; margin: 4px 0 2px;
+}
+.istaknuto:hover .istaknuto__vrijednost { color: var(--plava); }
+.istaknuto__opis { display: block; font-size: 0.84rem; color: var(--tekst-2); font-variant-numeric: tabular-nums; }
+@media (max-width: 620px) {
+  .istaknuto { border-right: 0; border-bottom: 1px solid var(--linija-svijetla); }
+}
 
 .stupci-2 { display: grid; grid-template-columns: 1.15fr 1fr; gap: 34px; align-items: start; }
 

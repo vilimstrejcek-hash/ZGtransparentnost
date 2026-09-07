@@ -28,8 +28,8 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
   cilj.innerHTML = `
     <div class="omotac">
       <div class="zaglavlje-stranice">
-        <h1 class="naslov-stranice">Karta</h1>
-        <p class="datum-podataka">Ustanove koje Grad plaća i sredstva po četvrtima, ${escapeHtml(cetvrti.godina)}.</p>
+        <h1 class="naslov-stranice">Gdje Grad ulaže</h1>
+        <p class="datum-podataka">Ustanove koje Grad financira i sredstva mjesne samouprave, ${escapeHtml(cetvrti.godina)}.</p>
       </div>
 
       <div class="filtri">
@@ -57,7 +57,7 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
 
       <section class="odjeljak">
         <div class="odjeljak__zaglavlje">
-          <h2>Gradske četvrti</h2>
+          <h2>Ulaganja po četvrtima</h2>
           <div class="prekidaci" id="izbor-poretka" role="group" aria-label="Poredak">
             <button type="button" data-poredak="po_stanovniku" aria-pressed="true">Po stanovniku</button>
             <button type="button" data-poredak="ukupno" aria-pressed="false">Ukupno</button>

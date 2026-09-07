@@ -1,5 +1,5 @@
 import type { Podaci } from "../data";
-import { broj, escapeHtml, eur, eurKratko, iznosBezValute, mjesecNaziv, postotak, skrati } from "../format";
+import { broj, escapeHtml, eur, eurKratko, iznosBezValute, postotak, skrati } from "../format";
 import { rasporedi, type Plocica } from "../treemap";
 import { bojaPoIndeksu, godineOsHtml, poveziGodine } from "../ui";
 const SIRINA = 1100;
@@ -47,7 +47,7 @@ function istaknutoHtml(i: Istaknuto): string {
 }
 
 export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
-  const { poNamjeni, summary, top, meta } = podaci;
+  const { poNamjeni, summary, top, ustanove, meta } = podaci;
   const godine = summary.godine;
   const zadnjaPotpuna = meta.pokrivenost.filter((p) => !p.tekuca).at(-1)?.godina;
   let odabrana = zadnjaPotpuna ?? godine[godine.length - 1] ?? "sve";
@@ -57,7 +57,7 @@ export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
       <div class="omotac">
         <div class="glava__unutra">
           <div>
-            <p class="glava__oznaka">Grad Zagreb je u <span id="oznaka-godine"></span> isplatio</p>
+            <p class="glava__oznaka">Grad Zagreb je u <span id="oznaka-godine"></span> u gradske usluge uložio</p>
             <p class="glava__iznos" id="glava-iznos"></p>
             <p class="glava__pod" id="glava-pod"></p>
           </div>
@@ -71,8 +71,8 @@ export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
 
       <section class="odjeljak">
         <div class="odjeljak__zaglavlje">
-          <h2>Kamo ide</h2>
-          <span class="sitno">Klik na kategoriju za razradu</span>
+          <h2>Što Zagreb financira</h2>
+          <span class="sitno">Klik na područje za razradu</span>
         </div>
         <div id="treemap"></div>
         <div id="razrada"></div>
@@ -81,7 +81,7 @@ export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
       <div class="stupci-2">
         <section class="odjeljak">
           <div class="odjeljak__zaglavlje">
-            <h2>Tko dobiva najviše</h2>
+            <h2>Najveći primatelji</h2>
             <a class="veza" href="#/primatelji">Svi primatelji →</a>
           </div>
           <div class="tablica-okvir">
@@ -94,7 +94,7 @@ export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
 
         <section class="odjeljak">
           <div class="odjeljak__zaglavlje">
-            <h2>Po stanovniku</h2>
+            <h2>Uloženo po stanovniku</h2>
             <a class="veza" href="#/karta">Karta četvrti →</a>
           </div>
           <ul class="udio-popis" id="udio"></ul>
@@ -115,45 +115,36 @@ export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
   function istaknutoZa(): Istaknuto[] {
     const blok = poNamjeni.godine[odabrana];
     const s = odabrana === "sve" ? summary.ukupno : summary.po_godini[odabrana];
-    const najvecaNamjena = blok?.odjeljci.find((o) => o.sifra !== "99");
-    const najveciPrimatelj = (top[odabrana] ?? [])[0];
-    const mjeseci = summary.po_mjesecu.filter(
-      (m) => odabrana === "sve" || String(m.godina) === odabrana
-    );
-    const najveciMjesec = [...mjeseci].sort((a, b) => b.ukupno - a.ukupno)[0];
+    const najvecaNamjena = blok?.odjeljci.find((o) => !["98", "99"].includes(o.sifra));
 
     const stavke: Istaknuto[] = [];
     if (najvecaNamjena) {
       stavke.push({
-        oznaka: "Najveća namjena",
+        oznaka: "Najviše se ulaže u",
         vrijednost: najvecaNamjena.naziv,
-        opis: `${eurKratko(najvecaNamjena.ukupno)} · ${postotak(najvecaNamjena.udio)} svih isplata`,
+        opis: `${eurKratko(najvecaNamjena.ukupno)} · ${postotak(najvecaNamjena.udio)} proračuna`,
         veza: "#/",
       });
     }
-    if (najveciPrimatelj) {
+    if (blok) {
       stavke.push({
-        oznaka: "Najveći primatelj",
-        vrijednost: najveciPrimatelj.naziv,
-        opis: `${eurKratko(najveciPrimatelj.ukupno)} · ${postotak(najveciPrimatelj.udio)} svih isplata`,
-        veza: najveciPrimatelj.ima_profil
-          ? `#/primatelj/${encodeURIComponent(najveciPrimatelj.oib)}`
-          : "#/primatelji",
+        oznaka: "Po stanovniku",
+        vrijednost: eur(blok.po_stanovniku),
+        opis: `${broj(poNamjeni.stanovnika)} stanovnika Zagreba`,
+        veza: "#/karta",
       });
     }
-    if (najveciMjesec) {
-      stavke.push({
-        oznaka: "Mjesec s najviše isplata",
-        vrijednost: mjesecNaziv(najveciMjesec.mjesec),
-        opis: `${eurKratko(najveciMjesec.ukupno)} · ${broj(najveciMjesec.broj_isplata)} isplata`,
-        veza: "#/",
-      });
-    }
+    stavke.push({
+      oznaka: "Ustanova na karti",
+      vrijednost: broj(ustanove.spojeno),
+      opis: "škola, vrtića, kazališta i domova",
+      veza: "#/karta",
+    });
     if (s) {
       stavke.push({
-        oznaka: "Deset najvećih primatelja",
-        vrijednost: postotak(s.udio_top10),
-        opis: `od ukupno ${broj(s.broj_primatelja)} primatelja`,
+        oznaka: "Primatelja",
+        vrijednost: broj(s.broj_primatelja),
+        opis: "tvrtki, ustanova i udruga",
         veza: "#/primatelji",
       });
     }

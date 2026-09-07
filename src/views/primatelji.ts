@@ -13,8 +13,9 @@ export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci, pocetniUpit
     <div class="omotac">
       <div class="zaglavlje-stranice">
         <h1 class="naslov-stranice">Primatelji</h1>
-        <div class="godine-uz-naslov">${godineOsHtml(godine, odabrana, "Sve")}</div>
+        <p class="datum-podataka">Tvrtke, ustanove i udruge koje Grad plaća za usluge i radove</p>
       </div>
+      <div class="godine-uz-naslov" style="max-width:420px;margin-bottom:14px">${godineOsHtml(godine, odabrana, "Sve")}</div>
 
       <div class="filtri">
         <input type="search" class="polje" id="pretraga"

@@ -58,7 +58,8 @@ COFOG = {
     "09": "Obrazovanje",
     "10": "Socijalna zaštita",
 }
-NERAZVRSTANO = "Nije razvrstano"
+NERAZVRSTANO = "Bez oznake namjene"
+PRETHODNA_GODINA = "Računi iz prethodne godine"
 
 # Skupine izvora financiranja po prvoj znamenki šifre — za prikaz toka novca
 # od izvora prema namjeni.
@@ -407,8 +408,14 @@ def build_sifarnici(df: pd.DataFrame) -> dict:
 
 
 def cofog_odjeljak(sifra: str) -> tuple[str, str]:
-    """Šifra funkcijske klasifikacije -> (šifra odjeljka, naziv odjeljka)."""
+    """Šifra funkcijske klasifikacije -> (šifra odjeljka, naziv odjeljka).
+
+    Izvor koristi tri oznake izvan COFOG-a. „Račun prethodne godine” je zaseban
+    slučaj i prikazuje se odvojeno od zapisa koji doista nemaju oznaku namjene.
+    """
     sifra = (sifra or "").strip()
+    if sifra == "999999":
+        return "98", PRETHODNA_GODINA
     odjeljak = sifra[:2]
     if odjeljak in COFOG:
         return odjeljak, COFOG[odjeljak]

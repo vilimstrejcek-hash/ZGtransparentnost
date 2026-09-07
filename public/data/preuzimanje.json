@@ -12,9 +12,9 @@
   {
    "ime": "isplate_po_namjeni",
    "opis": "Isplate po namjeni (funkcijska klasifikacija, COFOG)",
-   "redaka": 40,
+   "redaka": 44,
    "csv": "data/preuzimanje/isplate_po_namjeni.csv",
-   "bajtova": 2185
+   "bajtova": 2433
   },
   {
    "ime": "isplate_po_uredu",

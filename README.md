@@ -79,8 +79,13 @@ dan koji se ne poklopi razdvaja po rasponima iznosa dok se ne potvrdi. Nastavak
 po offsetu za to ne služi jer novi zapisi dolaze na početak popisa.
 
 Radni tok `.github/workflows/osvjezi-podatke.yml` to radi tjedno i objavljuje
-promjene. Sirovi zapisi su preveliki za repozitorij pa stoje u međuspremniku
-radnog toka; ako ga nema, posao se zaustavlja umjesto da prepiše povijest.
+promjene; može se pokrenuti i ručno s kartice Actions. Sirovi zapisi su
+preveliki za repozitorij pa stoje u međuspremniku radnog toka — kad ga nema,
+radi se potpuni dohvat, inače samo zadnjih 45 dana.
+
+Prije objave se provjerava da nakon dohvata nema manje isplata nego prije.
+Poslužitelj zna prekinuti dohvat na pola zbog ograničenja po IP adresi, pa bi se
+inače krnji skup objavio preko ispravnog.
 
 ### Ograničenja API-ja
 

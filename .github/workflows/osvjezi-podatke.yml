@@ -40,23 +40,41 @@ jobs:
           key: isplate-${{ github.run_id }}
           restore-keys: isplate-
 
-      - name: Provjeri predmemorij
+      # Zapamti stanje prije dohvata da se poslije provjeri da nije nazadovalo.
+      - name: Zapamti dosadašnji broj isplata
+        id: prije
         run: |
-          if [ ! -s "Data za prototip/api/isplate.jsonl" ]; then
-            echo "::error::Predmemorij isplata nedostaje. Dohvat zadnjih dana bi obrisao povijest."
-            echo "::error::Pokreni scripts/fetch_api.py lokalno i spremi predmemorij prije nastavka."
-            exit 1
-          fi
-          echo "Zapisa u predmemoriju: $(wc -l < 'Data za prototip/api/isplate.jsonl')"
+          echo "isplata=$(python -c "import json;print(json.load(open('public/data/meta.json'))['broj_isplata'])")" >> "$GITHUB_OUTPUT"
 
-      - name: Dohvati nove isplate
-        run: python scripts/dohvati_dane.py --zadnjih 45
+      # Prvi put nema predmemorija, pa se radi potpuni dohvat. Poslije se
+      # dohvaćaju samo zadnji dani, što je brže i manje opterećuje poslužitelj.
+      - name: Dohvati isplate
+        run: |
+          if [ -s "Data za prototip/api/isplate.jsonl" ]; then
+            echo "Predmemorij ima $(wc -l < 'Data za prototip/api/isplate.jsonl') zapisa — dohvaćam zadnje dane."
+            python scripts/dohvati_dane.py --zadnjih 45
+          else
+            echo "Nema predmemorija — radim potpuni dohvat."
+            python scripts/fetch_api.py
+          fi
 
       - name: Izgradi podatke
         run: |
           python scripts/build_data.py
           python scripts/build_isplate.py
           python scripts/build_preuzimanje.py
+
+      # Poslužitelj zna prekinuti dohvat na pola (ograničenje po IP-u). Bez ove
+      # provjere bi se krnji skup objavio i pregazio ispravne podatke.
+      - name: Provjeri da podaci nisu nazadovali
+        run: |
+          POSLIJE=$(python -c "import json;print(json.load(open('public/data/meta.json'))['broj_isplata'])")
+          PRIJE=${{ steps.prije.outputs.isplata }}
+          echo "Prije: $PRIJE, poslije: $POSLIJE"
+          if [ "$POSLIJE" -lt "$PRIJE" ]; then
+            echo "::error::Nakon dohvata ima manje isplata nego prije ($POSLIJE < $PRIJE). Ne objavljujem."
+            exit 1
+          fi
 
       - name: Objavi ako ima promjena
         run: |

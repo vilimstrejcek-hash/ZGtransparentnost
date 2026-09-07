@@ -1,9 +1,20 @@
 import type { Podaci } from "../data";
 import { broj, escapeHtml, eur, eurKratko, iznosBezValute } from "../format";
+import { BOJE_VRSTA, nacrtajKartu, type KartaRuke } from "../karta";
 import type { Cetvrt } from "../types";
 
+let karta: KartaRuke | null = null;
+
+/** Prikaz se pri promjeni rute ponovno crta, pa se prethodna karta mora ukloniti. */
+export function ocistiKartu(): void {
+  karta?.unisti();
+  karta = null;
+}
+
 export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
-  const { cetvrti } = podaci;
+  const { cetvrti, ustanove } = podaci;
+  ocistiKartu();
+  let vrsta: string | "sve" = "sve";
   let poredak: "po_stanovniku" | "ukupno" = "po_stanovniku";
   let otvorena: string | null = null;
 
@@ -37,6 +48,26 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
         <p class="kartica__dodatak">od najmanje do najveće po stanovniku</p>
       </div>
     </div>
+
+    <section class="ploca">
+      <div class="ploca__zaglavlje">
+        <h3>Gdje su ustanove koje Grad plaća</h3>
+        <span class="kartica__dodatak">
+          ${escapeHtml(broj(ustanove.spojeno))} ustanova · ${escapeHtml(eurKratko(ustanove.iznos_spojenih))}
+        </span>
+      </div>
+      <div class="kontrole" id="izbor-vrste" role="group" aria-label="Vrsta ustanove">
+        <div class="godine">
+          <button type="button" data-vrsta="sve" aria-pressed="true">Sve</button>
+          ${ustanove.vrste.map((v) => `<button type="button" data-vrsta="${escapeHtml(v)}">${escapeHtml(v)}</button>`).join("")}
+        </div>
+      </div>
+      <div class="karta" id="karta"></div>
+      <div class="legenda" id="legenda-karta">
+        ${ustanove.vrste.map((v) => `<span><i style="background:${BOJE_VRSTA[v] ?? "#4a5a72"}"></i>${escapeHtml(v)}</span>`).join("")}
+      </div>
+      <p class="kartica__dodatak">${escapeHtml(ustanove.napomena)}</p>
+    </section>
 
     <section class="ploca">
       <div class="ploca__zaglavlje">
@@ -122,5 +153,25 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
     crtaj();
   });
 
+  const spremnikKarte = cilj.querySelector<HTMLElement>("#karta")!;
+  karta = nacrtajKartu(spremnikKarte);
+
+  function osvjeziKartu(): void {
+    karta?.postavi(
+      vrsta === "sve" ? ustanove.ustanove : ustanove.ustanove.filter((u) => u.vrsta === vrsta)
+    );
+  }
+
+  cilj.querySelector("#izbor-vrste")!.addEventListener("click", (e) => {
+    const gumb = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-vrsta]");
+    if (!gumb?.dataset.vrsta) return;
+    vrsta = gumb.dataset.vrsta;
+    for (const b of cilj.querySelectorAll<HTMLButtonElement>("#izbor-vrste button")) {
+      b.setAttribute("aria-pressed", String(b.dataset.vrsta === vrsta));
+    }
+    osvjeziKartu();
+  });
+
+  osvjeziKartu();
   crtaj();
 }

@@ -539,3 +539,16 @@ a.veza:hover { text-decoration: underline; }
   .cetvrt__naziv { flex: 1 1 100%; }
   .cetvrt__iznos { flex: 0 0 auto; }
 }
+
+/* --- Karta ustanova --- */
+.karta {
+  height: 460px;
+  border-radius: var(--radijus);
+  border: 1px solid var(--linija);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.karta .leaflet-container { font: inherit; }
+.karta__vrsta { color: var(--tekst-prigušen); font-size: 0.84rem; }
+.leaflet-popup-content { font-size: 0.88rem; line-height: 1.5; }
+@media (max-width: 620px) { .karta { height: 340px; } }

@@ -1,6 +1,6 @@
 import type {
   Cetvrti, Meta, NamjenaGodina, Plan, PoKlasifikaciji, PoNamjeni, Profil, Sifarnici,
-  Summary, TopPrimatelji,
+  Summary, TopPrimatelji, Ustanove,
 } from "./types";
 
 const BAZA = `${import.meta.env.BASE_URL}data`.replace(/\/+$/, "");
@@ -22,6 +22,7 @@ export interface Podaci {
   poNamjeni: PoNamjeni;
   plan: Plan;
   cetvrti: Cetvrti;
+  ustanove: Ustanove;
   meta: Meta;
 }
 
@@ -42,8 +43,8 @@ let kes: Podaci | null = null;
 
 export async function ucitajPodatke(): Promise<Podaci> {
   if (kes) return kes;
-  const [summary, top, poUredu, poEkonomskoj, sifarnici, poNamjeniSirovi, plan, cetvrti, meta] =
-    await Promise.all([
+  const [summary, top, poUredu, poEkonomskoj, sifarnici, poNamjeniSirovi, plan, cetvrti,
+         ustanove, meta] = await Promise.all([
     dohvati<Summary>("summary.json"),
     dohvati<TopPrimatelji>("top_primatelji.json"),
     dohvati<PoKlasifikaciji>("po_uredu.json"),
@@ -52,10 +53,12 @@ export async function ucitajPodatke(): Promise<Podaci> {
     dohvati<Record<string, unknown>>("po_namjeni.json"),
     dohvati<Plan>("plan.json"),
     dohvati<Cetvrti>("cetvrti.json"),
+    dohvati<Ustanove>("ustanove.json"),
     dohvati<Meta>("meta.json"),
   ]);
   const poNamjeni = razdvojiNamjenu(poNamjeniSirovi);
-  kes = { summary, top, poUredu, poEkonomskoj, sifarnici, poNamjeni, plan, cetvrti, meta };
+  kes = { summary, top, poUredu, poEkonomskoj, sifarnici, poNamjeni, plan, cetvrti,
+          ustanove, meta };
   return kes;
 }
 

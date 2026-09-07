@@ -58,6 +58,8 @@ async function usmjeri(): Promise<void> {
   const ruta = procitajRutu();
   oznaciNavigaciju(ruta.prikaz);
   ocistiGrafove();
+  const { ocistiKartu } = await import("./views/cetvrti");
+  ocistiKartu();
   glavno.innerHTML = `<p class="ucitavanje">Učitavanje…</p>`;
 
   let podaci: Podaci;

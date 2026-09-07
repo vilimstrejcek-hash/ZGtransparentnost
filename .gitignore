@@ -24,5 +24,6 @@ Data za prototip/
 Docs za prijavu/
 *.pdf
 
-# Interni brief — ostaje lokalno
+# Interni brief i kontekst prijave — ostaju lokalno
 BRIEF.md
+KONTEKST.md

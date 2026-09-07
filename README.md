@@ -125,6 +125,8 @@ build `npm run build`, izlazni direktorij `dist/`.
 
 ## Licenca
 
-MIT — vidi [LICENSE](LICENSE).
+- **Kod:** MIT — vidi [LICENSE](LICENSE).
+- **Obrađeni podaci** u `public/data/`: CC BY 4.0 — vidi [LICENSE-PODACI.md](LICENSE-PODACI.md).
 
-Podaci su vlasništvo Grada Zagreba i preuzeti su s portala iTransparentnost.
+Izvorni podaci javno su objavljeni od strane Grada Zagreba (iTransparentnost, data.zagreb.hr)
+i Državnog zavoda za statistiku. Podloga karte © OpenStreetMap suradnici.

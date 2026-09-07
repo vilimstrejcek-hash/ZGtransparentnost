@@ -211,3 +211,28 @@ export interface Cetvrti {
   izvori: { naziv: string; izvor: string; godina: string }[];
   napomena: string;
 }
+
+export interface Ustanova {
+  naziv: string;
+  vrsta: string;
+  adresa: string;
+  cetvrt: string | null;
+  lat: number;
+  lon: number;
+  oib: string | null;
+  ukupno: number | null;
+  broj_isplata: number | null;
+  spajanje: string | null;
+  podruznica?: boolean;
+  lokacija_ustanove?: number;
+}
+
+export interface Ustanove {
+  ustanova_ukupno: number;
+  spojeno: number;
+  iznos_spojenih: number;
+  vrste: string[];
+  ustanove: Ustanova[];
+  izvori: { naziv: string; izvor: string }[];
+  napomena: string;
+}

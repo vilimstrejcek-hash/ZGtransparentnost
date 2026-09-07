@@ -1,18 +1,20 @@
 import type { Podaci } from "../data";
-import { broj, datum, escapeHtml, eur, postotak } from "../format";
-import { godineOsHtml, kontroleDnoHtml, poveziGodine, zaglavljeHtml } from "../ui";
+import { broj, escapeHtml, eur, postotak } from "../format";
+import { godineOsHtml, poveziGodine } from "../ui";
 import type { Primatelj } from "../types";
 
-export function prikaziIsplate(cilj: HTMLElement, podaci: Podaci, pocetniUpit = ""): void {
-  const { top, meta, summary } = podaci;
+export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci, pocetniUpit = ""): void {
+  const { top, summary } = podaci;
   const godine = summary.godine;
   let odabrana = "sve";
   let upit = pocetniUpit;
 
   cilj.innerHTML = `
     <div class="omotac">
-      ${zaglavljeHtml("Isplate primateljima", datum(meta.zadnji_datum),
-        "Tko je primio novac iz gradskog proračuna. Klik na primatelja otvara sve njegove isplate.")}
+      <div class="zaglavlje-stranice">
+        <h1 class="naslov-stranice">Primatelji</h1>
+        <div class="godine-uz-naslov">${godineOsHtml(godine, odabrana, "Sve")}</div>
+      </div>
 
       <div class="filtri">
         <input type="search" class="polje" id="pretraga"
@@ -25,16 +27,11 @@ export function prikaziIsplate(cilj: HTMLElement, podaci: Podaci, pocetniUpit = 
         <table>
           <thead><tr>
             <th style="width:3rem">#</th><th>Primatelj</th><th>OIB</th>
-            <th class="broj">Ukupno</th><th class="broj">Isplata</th><th class="broj">Udio</th>
+            <th class="broj">Iznos</th><th class="broj">Isplata</th><th class="broj">Udio</th>
           </tr></thead>
           <tbody id="tablica"></tbody>
         </table>
       </div>
-
-      ${kontroleDnoHtml(godineOsHtml(godine, odabrana, "Sve zajedno"),
-        `<p class="sitno" style="text-align:center;margin:0">
-          Prikazuje se najvećih 50 primatelja u odabranom razdoblju.
-        </p>`)}
     </div>`;
 
   const tijelo = cilj.querySelector<HTMLElement>("#tablica")!;
@@ -54,25 +51,21 @@ export function prikaziIsplate(cilj: HTMLElement, podaci: Podaci, pocetniUpit = 
     const svi = zaGodinu();
     const stavke = filtrirani();
     sazetak.textContent = upit
-      ? `${broj(stavke.length)} od ${broj(svi.length)} primatelja odgovara pretrazi`
-      : `${odabrana === "sve" ? "Sva razdoblja" : `${odabrana}. godina`}`;
+      ? `${broj(stavke.length)} od ${broj(svi.length)}`
+      : `50 najvećih · ${odabrana === "sve" ? "sve godine" : `${odabrana}.`}`;
 
     tijelo.innerHTML = stavke.length
-      ? stavke.map((p) => {
-          const mjesto = svi.indexOf(p) + 1;
-          const naziv = p.ima_profil
+      ? stavke.map((p) => `<tr${p.ima_profil ? ` class="red-klik" data-oib="${escapeHtml(p.oib)}"` : ""}>
+          <td class="broj">${svi.indexOf(p) + 1}</td>
+          <td>${p.ima_profil
             ? `<a class="veza" href="#/primatelj/${encodeURIComponent(p.oib)}">${escapeHtml(p.naziv)}</a>`
-            : escapeHtml(p.naziv);
-          return `<tr${p.ima_profil ? ` class="red-klik" data-oib="${escapeHtml(p.oib)}"` : ""}>
-            <td class="broj">${mjesto}</td>
-            <td>${naziv}</td>
-            <td>${p.oib === "GDPR" ? '<span class="sitno">anonimizirano</span>' : escapeHtml(p.oib)}</td>
-            <td class="broj${p.ukupno < 0 ? " negativno" : ""}">${escapeHtml(eur(p.ukupno))}</td>
-            <td class="broj">${escapeHtml(broj(p.broj_isplata))}</td>
-            <td class="broj">${escapeHtml(postotak(p.udio))}</td>
-          </tr>`;
-        }).join("")
-      : `<tr><td colspan="6" class="prazno">Nema primatelja koji odgovaraju pretrazi.</td></tr>`;
+            : escapeHtml(p.naziv)}</td>
+          <td>${p.oib === "GDPR" ? '<span class="sitno">anonimizirano</span>' : escapeHtml(p.oib)}</td>
+          <td class="broj${p.ukupno < 0 ? " negativno" : ""}">${escapeHtml(eur(p.ukupno))}</td>
+          <td class="broj">${escapeHtml(broj(p.broj_isplata))}</td>
+          <td class="broj">${escapeHtml(postotak(p.udio))}</td>
+        </tr>`).join("")
+      : `<tr><td colspan="6" class="prazno">Nema rezultata.</td></tr>`;
   }
 
   pretraga.addEventListener("input", () => {
@@ -81,9 +74,9 @@ export function prikaziIsplate(cilj: HTMLElement, podaci: Podaci, pocetniUpit = 
   });
 
   tijelo.addEventListener("click", (e) => {
-    const cilj_ = e.target as HTMLElement;
-    if (cilj_.closest("a")) return;
-    const red = cilj_.closest<HTMLTableRowElement>("tr[data-oib]");
+    const c = e.target as HTMLElement;
+    if (c.closest("a")) return;
+    const red = c.closest<HTMLTableRowElement>("tr[data-oib]");
     if (red?.dataset.oib) location.hash = `#/primatelj/${encodeURIComponent(red.dataset.oib)}`;
   });
 

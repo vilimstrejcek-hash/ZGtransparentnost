@@ -1,7 +1,7 @@
 import type { Podaci } from "../data";
-import { broj, datum, escapeHtml, eur, eurKratko, iznosBezValute } from "../format";
-import { BOJE_VRSTA, kvantilneGranice, nacrtajKartu, STUPNJEVI_BOJA, type KartaRuke } from "../karta";
-import { brojkaHtml, zaglavljeHtml } from "../ui";
+import { broj, escapeHtml, eur, eurKratko } from "../format";
+import { BOJE_VRSTA, nacrtajKartu, STUPNJEVI_BOJA, type KartaRuke } from "../karta";
+
 import type { Cetvrt } from "../types";
 
 let karta: KartaRuke | null = null;
@@ -13,7 +13,7 @@ export function ocistiKartu(): void {
 }
 
 export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
-  const { cetvrti, ustanove, granice, meta } = podaci;
+  const { cetvrti, ustanove, granice } = podaci;
   ocistiKartu();
   let vrsta = "sve";
   let poredak: "po_stanovniku" | "ukupno" = "po_stanovniku";
@@ -24,66 +24,43 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
     .filter((v): v is number => v !== null);
   const najmanja = Math.min(...poStanovniku);
   const najveca = Math.max(...poStanovniku);
-  const razredi = kvantilneGranice(poStanovniku);
 
   cilj.innerHTML = `
     <div class="omotac">
-      ${zaglavljeHtml("Ulaganja po četvrtima", datum(meta.zadnji_datum),
-        "Koliko sredstava mjesne samouprave otpada na svaku gradsku četvrt i gdje su ustanove koje Grad plaća.")}
+      <div class="zaglavlje-stranice">
+        <h1 class="naslov-stranice">Karta</h1>
+        <p class="datum-podataka">Ustanove koje Grad plaća i sredstva po četvrtima, ${escapeHtml(cetvrti.godina)}.</p>
+      </div>
 
       <div class="filtri">
         <div class="prekidaci" id="izbor-vrste" role="group" aria-label="Vrsta ustanove">
-          <button type="button" data-vrsta="sve" aria-pressed="true">Sve ustanove</button>
+          <button type="button" data-vrsta="sve" aria-pressed="true">Sve</button>
           ${ustanove.vrste.map((v) => `<button type="button" data-vrsta="${escapeHtml(v)}">${escapeHtml(v)}</button>`).join("")}
         </div>
         <label class="prekidac-kvadratic">
-          <input type="checkbox" id="prikaz-cetvrti" checked /> Prikaži granice četvrti
+          <input type="checkbox" id="prikaz-cetvrti" checked /> Četvrti
         </label>
-        <span class="sitno" style="margin-left:auto">
-          ${escapeHtml(broj(ustanove.spojeno))} ustanova · ${escapeHtml(eurKratko(ustanove.iznos_spojenih))}
+        <span class="ljestvica" style="margin-left:auto">
+          <span class="sitno">${escapeHtml(eurKratko(najmanja))}</span>
+          <span class="ljestvica__trake">
+            ${STUPNJEVI_BOJA.map((b) => `<i style="background:${b}"></i>`).join("")}
+          </span>
+          <span class="sitno">${escapeHtml(eurKratko(najveca))} po stanovniku</span>
         </span>
       </div>
 
       <div class="karta" id="karta"></div>
 
-      <div class="legende">
-        <div class="legenda">
-          ${ustanove.vrste.map((v) => `<span><i style="background:${BOJE_VRSTA[v] ?? "#55606e"}"></i>${escapeHtml(v)}</span>`).join("")}
-        </div>
-        <div class="ljestvica">
-          <span class="sitno">po stanovniku</span>
-          <span class="ljestvica__trake">
-            ${STUPNJEVI_BOJA.map((b, i) => {
-              const od = i === 0 ? najmanja : (razredi[i - 1] as number);
-              const doo = i < razredi.length ? (razredi[i] as number) : najveca;
-              return `<i style="background:${b}" title="${escapeHtml(`${eurKratko(od)} – ${eurKratko(doo)}`)}"></i>`;
-            }).join("")}
-          </span>
-          <span class="sitno">${escapeHtml(eurKratko(najmanja))} → ${escapeHtml(eurKratko(najveca))}</span>
-        </div>
+      <div class="legenda">
+        ${ustanove.vrste.map((v) => `<span><i style="background:${BOJE_VRSTA[v] ?? "#55606e"}"></i>${escapeHtml(v)}</span>`).join("")}
       </div>
-      <p class="sitno" style="margin-bottom:30px">${escapeHtml(ustanove.napomena)}</p>
-
-      <div class="brojke">
-        ${brojkaHtml("Ukupno za sve četvrti", eur(cetvrti.ukupno), `${cetvrti.godina}. godina`)}
-        ${brojkaHtml("Prosjek po stanovniku",
-          cetvrti.prosjek_po_stanovniku !== null ? eur(cetvrti.prosjek_po_stanovniku) : "—",
-          `${broj(cetvrti.stanovnika)} stanovnika`)}
-        ${brojkaHtml("Najveća razlika",
-          `${iznosBezValute(najveca / najmanja).replace(",00", "")}×`,
-          "između četvrti s najviše i najmanje po stanovniku")}
-      </div>
-
-      <p class="napomena">
-        <strong>Što je ovdje prikazano.</strong> ${escapeHtml(cetvrti.napomena)}
-      </p>
 
       <section class="odjeljak">
         <div class="odjeljak__zaglavlje">
-          <h3>17 gradskih četvrti</h3>
+          <h2>Gradske četvrti</h2>
           <div class="prekidaci" id="izbor-poretka" role="group" aria-label="Poredak">
             <button type="button" data-poredak="po_stanovniku" aria-pressed="true">Po stanovniku</button>
-            <button type="button" data-poredak="ukupno" aria-pressed="false">Ukupan iznos</button>
+            <button type="button" data-poredak="ukupno" aria-pressed="false">Ukupno</button>
           </div>
         </div>
         <div class="tablica-okvir">

@@ -1,66 +1,197 @@
 import type { Podaci } from "../data";
-import { broj, datum, escapeHtml, eur, postotak } from "../format";
-import { sankeyHtml } from "../sankey";
-import { brojkaHtml, godineOsHtml, kontroleDnoHtml, poveziGodine, zaglavljeHtml } from "../ui";
+import { broj, escapeHtml, eur, eurKratko, iznosBezValute, postotak, skrati } from "../format";
+import { rasporedi, type Plocica } from "../treemap";
+import { bojaPoIndeksu, godineOsHtml, poveziGodine } from "../ui";
+import type { Nalaz, Nalazi } from "../types";
 
-const KORACI: [string, string][] = [
-  ["Gradski prihodi",
-   "Prikupljaju se iz gradskih poreza i prireza, komunalne naknade i komunalnog doprinosa."],
-  ["Ostali izvori",
-   "Pomoći iz državnog proračuna i EU fondova, prihodi za posebne namjene te zaduživanje."],
-  ["Na što se troši",
-   "Grad time financira javne usluge i ustanove — vrtiće i škole, promet, kulturu, sport i socijalnu skrb."],
-];
+const BAZA = import.meta.env.BASE_URL.replace(/\/+$/, "");
+const SIRINA = 1100;
+const VISINA = 400;
 
-export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
-  const { tok, summary, meta } = podaci;
+function treemapHtml(stavke: { sifra: string; naziv: string; iznos: number }[]): string {
+  const plocice: Plocica[] = stavke.map((s, i) => ({
+    naziv: s.naziv, vrijednost: s.iznos, boja: bojaPoIndeksu(i), sifra: s.sifra,
+  }));
+  const polja = rasporedi(plocice, SIRINA, VISINA);
+  if (!polja.length) return `<p class="prazno">Nema podataka.</p>`;
+
+  return `<svg class="treemap" viewBox="0 0 ${SIRINA} ${VISINA}" role="img"
+      aria-label="Raspodjela isplata po namjeni">
+    ${polja.map((p) => {
+      const staneNatpis = p.w > 78 && p.h > 36;
+      const staneIznos = p.w > 100 && p.h > 58;
+      const velicina = Math.max(12, Math.min(22, Math.sqrt(p.w * p.h) / 8));
+      return `<g class="treemap__plocica" data-sifra="${escapeHtml(p.sifra ?? "")}">
+        <title>${escapeHtml(`${p.naziv}: ${eur(p.vrijednost)}`)}</title>
+        <rect x="${p.x + 1}" y="${p.y + 1}" width="${Math.max(0, p.w - 2)}"
+          height="${Math.max(0, p.h - 2)}" fill="${p.boja}"/>
+        ${staneNatpis ? `<text class="treemap__natpis" x="${p.x + 11}" y="${p.y + velicina + 9}"
+          font-size="${velicina}">${escapeHtml(skrati(p.naziv, Math.floor(p.w / (velicina * 0.52))))}</text>` : ""}
+        ${staneIznos ? `<text class="treemap__iznos" x="${p.x + 11}" y="${p.y + velicina * 2 + 13}"
+          font-size="${Math.max(11, velicina * 0.68)}">${escapeHtml(eurKratko(p.vrijednost))}</text>` : ""}
+      </g>`;
+    }).join("")}
+  </svg>`;
+}
+
+function nalazHtml(n: Nalaz): string {
+  return `<a class="nalaz" href="${escapeHtml(n.veza ?? "#/")}">
+    <span class="nalaz__vrijednost">${escapeHtml(n.vrijednost)}</span>
+    <span class="nalaz__naslov">${escapeHtml(n.naslov)}</span>
+  </a>`;
+}
+
+export async function prikaziPregled(cilj: HTMLElement, podaci: Podaci): Promise<void> {
+  const { poNamjeni, summary, top, meta } = podaci;
   const godine = summary.godine;
   const zadnjaPotpuna = meta.pokrivenost.filter((p) => !p.tekuca).at(-1)?.godina;
   let odabrana = zadnjaPotpuna ?? godine[godine.length - 1] ?? "sve";
 
+  let nalazi: Nalaz[] = [];
+  try {
+    const n: Nalazi = await fetch(`${BAZA}/data/nalazi.json`).then((o) => o.json());
+    nalazi = n.nalazi.filter((x) => x.tezina === "istaknuto").slice(0, 4);
+  } catch {
+    nalazi = [];
+  }
+
   cilj.innerHTML = `
-    <div class="omotac">
-      ${zaglavljeHtml("Pregled", datum(meta.zadnji_datum))}
-
-      <div class="koraci">
-        ${KORACI.map(([naslov, opis], i) => `
-          <div class="korak">
-            <div class="korak__broj">${i + 1}.</div>
-            <h3>${escapeHtml(naslov)}</h3>
-            <p>${escapeHtml(opis)}</p>
-          </div>`).join("")}
+    <section class="glava">
+      <div class="omotac">
+        <div class="glava__unutra">
+          <div>
+            <p class="glava__oznaka">Grad Zagreb je u <span id="oznaka-godine"></span> isplatio</p>
+            <p class="glava__iznos" id="glava-iznos"></p>
+            <p class="glava__pod" id="glava-pod"></p>
+          </div>
+          <div class="glava__godine">${godineOsHtml(godine, odabrana, "Sve")}</div>
+        </div>
       </div>
+    </section>
 
-      <div class="brojke" id="brojke"></div>
+    <div class="omotac">
+      ${nalazi.length ? `<div class="nalazi" id="nalazi">${nalazi.map(nalazHtml).join("")}</div>` : ""}
 
       <section class="odjeljak">
-        <h3 style="text-align:center">Tok novca Grada Zagreba</h3>
-        <div id="sankey"></div>
+        <div class="odjeljak__zaglavlje">
+          <h2>Kamo ide</h2>
+          <span class="sitno">Klik na kategoriju za razradu</span>
+        </div>
+        <div id="treemap"></div>
+        <div id="razrada"></div>
       </section>
 
-      ${kontroleDnoHtml(godineOsHtml(godine, odabrana, "Sve zajedno"),
-        `<p class="sitno" style="text-align:center;margin:0">
-          Stvarne isplate s gradskog računa, bez usklađivanja za inflaciju.
-        </p>`)}
+      <div class="stupci-2">
+        <section class="odjeljak">
+          <div class="odjeljak__zaglavlje">
+            <h2>Tko dobiva najviše</h2>
+            <a class="veza" href="#/primatelji">Svi primatelji →</a>
+          </div>
+          <div class="tablica-okvir">
+            <table>
+              <thead><tr><th>Primatelj</th><th class="broj">Iznos</th><th class="broj">Udio</th></tr></thead>
+              <tbody id="tablica-top"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="odjeljak">
+          <div class="odjeljak__zaglavlje">
+            <h2>Po stanovniku</h2>
+            <a class="veza" href="#/karta">Karta četvrti →</a>
+          </div>
+          <ul class="udio-popis" id="udio"></ul>
+        </section>
+      </div>
     </div>`;
 
-  const spremnikSankey = cilj.querySelector<HTMLElement>("#sankey")!;
-  const spremnikBrojki = cilj.querySelector<HTMLElement>("#brojke")!;
+  const iznos = cilj.querySelector<HTMLElement>("#glava-iznos")!;
+  const pod = cilj.querySelector<HTMLElement>("#glava-pod")!;
+  const oznaka = cilj.querySelector<HTMLElement>("#oznaka-godine")!;
+  const spremnikTreemapa = cilj.querySelector<HTMLElement>("#treemap")!;
+  const tijeloTop = cilj.querySelector<HTMLElement>("#tablica-top")!;
+  const udio = cilj.querySelector<HTMLElement>("#udio")!;
+  const razrada = cilj.querySelector<HTMLElement>("#razrada")!;
+
+  function prikaziRazradu(sifra: string): void {
+    const blok = poNamjeni.godine[odabrana];
+    const o = blok?.odjeljci.find((x) => x.sifra === sifra);
+    if (!o || !o.skupine.length) {
+      razrada.innerHTML = "";
+      return;
+    }
+    razrada.innerHTML = `
+      <div class="razrada-kat">
+        <div class="razrada-kat__vrh">
+          <h3>${escapeHtml(o.naziv)} — ${escapeHtml(eur(o.ukupno))}</h3>
+          <button type="button" class="razrada-kat__zatvori" id="zatvori-razradu">Zatvori</button>
+        </div>
+        <div class="tablica-okvir">
+          <table>
+            <thead><tr><th>Na što točno</th><th class="broj">Iznos</th><th class="broj">Udio</th></tr></thead>
+            <tbody>${o.skupine.map((sk) => `<tr>
+              <td><span class="oznaka-sifra">${escapeHtml(sk.sifra)}</span>${escapeHtml(sk.naziv)}</td>
+              <td class="broj">${escapeHtml(eur(sk.ukupno))}</td>
+              <td class="broj">${escapeHtml(postotak(sk.udio))}</td>
+            </tr>`).join("")}</tbody>
+          </table>
+        </div>
+      </div>`;
+    razrada.querySelector("#zatvori-razradu")?.addEventListener("click", () => {
+      razrada.innerHTML = "";
+    });
+    razrada.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }
+
+  spremnikTreemapa.addEventListener("click", (e) => {
+    const g = (e.target as Element).closest<SVGGElement>("g[data-sifra]");
+    if (g?.dataset["sifra"]) prikaziRazradu(g.dataset["sifra"]);
+  });
 
   function crtaj(): void {
-    const t = tok[odabrana];
+    const blok = poNamjeni.godine[odabrana];
     const s = odabrana === "sve" ? summary.ukupno : summary.po_godini[odabrana];
-    spremnikSankey.innerHTML = t ? sankeyHtml(t) : `<p class="prazno">Nema podataka.</p>`;
-    spremnikBrojki.innerHTML = s
-      ? [
-          brojkaHtml("Ukupno isplaćeno", eur(s.ukupno),
-            odabrana === "sve" ? `${godine[0]}.–${godine[godine.length - 1]}.` : `${odabrana}. godina`),
-          brojkaHtml("Broj isplata", broj(s.broj_isplata), `na ${broj(s.broj_stavki)} pozicija`),
-          brojkaHtml("Primatelja", broj(s.broj_primatelja), "jedinstvenih OIB-ova"),
-          brojkaHtml("Udio deset najvećih", postotak(s.udio_top10), "od ukupnog iznosa"),
-        ].join("")
-      : "";
+    if (!blok || !s) return;
+
+    oznaka.textContent = odabrana === "sve"
+      ? `${godine[0]}.–${godine[godine.length - 1]}.`
+      : `${odabrana}.`;
+    iznos.textContent = eur(s.ukupno);
+    pod.textContent =
+      `${eur(blok.po_stanovniku)} po stanovniku · ${broj(s.broj_isplata)} isplata · `
+      + `${broj(s.broj_primatelja)} primatelja`;
+
+    razrada.innerHTML = "";
+    spremnikTreemapa.innerHTML = treemapHtml(
+      blok.odjeljci.map((o) => ({ sifra: o.sifra, naziv: o.naziv, iznos: o.ukupno }))
+    );
+
+    const primatelji = (top[odabrana] ?? []).slice(0, 10);
+    tijeloTop.innerHTML = primatelji.map((p) => `<tr${p.ima_profil ? ` class="red-klik" data-oib="${escapeHtml(p.oib)}"` : ""}>
+        <td>${p.ima_profil
+          ? `<a class="veza" href="#/primatelj/${encodeURIComponent(p.oib)}">${escapeHtml(p.naziv)}</a>`
+          : escapeHtml(p.naziv)}</td>
+        <td class="broj">${escapeHtml(eurKratko(p.ukupno))}</td>
+        <td class="broj">${escapeHtml(postotak(p.udio))}</td>
+      </tr>`).join("");
+
+    const najveci = blok.odjeljci[0]?.po_stanovniku ?? 1;
+    udio.innerHTML = blok.odjeljci.slice(0, 8).map((o) => `
+      <li class="udio-red">
+        <span class="udio-red__naziv">${escapeHtml(o.naziv)}</span>
+        <span class="udio-red__traka" aria-hidden="true">
+          <span style="width:${((o.po_stanovniku / najveci) * 100).toFixed(1)}%"></span>
+        </span>
+        <span class="udio-red__iznos">${escapeHtml(iznosBezValute(o.po_stanovniku))} €</span>
+      </li>`).join("");
   }
+
+  tijeloTop.addEventListener("click", (e) => {
+    const meta_ = e.target as HTMLElement;
+    if (meta_.closest("a")) return;
+    const red = meta_.closest<HTMLTableRowElement>("tr[data-oib]");
+    if (red?.dataset.oib) location.hash = `#/primatelj/${encodeURIComponent(red.dataset.oib)}`;
+  });
 
   poveziGodine(cilj.querySelector<HTMLElement>(".godine-os")!, (g) => {
     odabrana = g;

@@ -12,18 +12,10 @@ u JSON datoteke koje se posluže kao statične datoteke.
 
 ## Prikazi
 
-1. **Pregled** — tok novca od izvora financiranja prema namjeni (Sankey), uz ključne brojke.
-2. **Detalj proračuna** — treemap po namjeni (COFOG), vrsti rashoda i gradskom uredu,
-   s usporedbom plana i izvršenja.
-3. **Ulaganja po četvrtima** — karta s granicama gradskih četvrti obojanima po iznosu po
-   stanovniku i geolociranim ustanovama koje Grad plaća.
-4. **Isplate primateljima** — tablica primatelja s pretragom; klik otvara profil sa svim
-   isplatama, tijekom kroz vrijeme i raspodjelom po uredima.
-5. **Nalazi** — opažanja izračunata iz podataka (sezonalnost, koncentracija, odstupanja od
-   plana, razlike među četvrtima), svako s objašnjenjem kako je dobiveno.
-6. **Trendovi** — mjesečni tijek, sezonalnost i koncentracija primatelja.
-7. **Podaci** — svi obrađeni skupovi za preuzimanje u CSV-u i JSON-u, pod CC BY 4.0.
-8. **Pojmovnik** — objašnjenja klasifikacija i izvora.
+1. **Pregled** — koliko je Grad isplatio, koliko je to po stanovniku, kamo ide (treemap s
+   razradom po kategoriji), tko dobiva najviše i što odskače u podacima.
+2. **Karta** — gradske četvrti obojane po iznosu po stanovniku i ustanove koje Grad plaća.
+3. **Primatelji** — pretraživa tablica; klik otvara profil sa svim isplatama.
 
 ## Pokretanje
 

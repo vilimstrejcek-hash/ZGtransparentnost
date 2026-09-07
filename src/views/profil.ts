@@ -1,7 +1,6 @@
 import { boja, nacrtaj, novacTooltip, OPCI_TOOLTIP, OS_NOVAC } from "../charts";
 import { ucitajProfil, type Podaci } from "../data";
 import { broj, datum, duljinaOznake, escapeHtml, eur, mjesecKratko, postotak, skrati } from "../format";
-import { napomenaHtml } from "../napomena";
 import { brojkaHtml } from "../ui";
 import type { Profil } from "../types";
 
@@ -46,8 +45,7 @@ export async function prikaziProfil(cilj: HTMLElement, podaci: Podaci, oib: stri
       OIB ${escapeHtml(p.oib)}${p.mjesto ? ` · ${escapeHtml(p.mjesto)}` : ""}
       · isplate od ${escapeHtml(datum(p.prva_isplata))} do ${escapeHtml(datum(p.zadnja_isplata))}
     </p>
-    ${napomenaHtml(meta, "Prikazane su samo isplate iz obrađenih razdoblja, ne cjelokupno poslovanje s Gradom.")}
-
+    
     <div class="brojke">
       ${brojkaHtml("Ukupno primljeno", eur(p.ukupno), `${broj(p.broj_isplata)} isplata`)}
       ${brojkaHtml("Prosječna isplata", eur(prosjek), "po pojedinoj isplati")}

@@ -3,15 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Transparentnost+ — otvoreni proračun Grada Zagreba</title>
-    <meta
-      name="description"
-      content="Odakle novac dolazi i kamo odlazi. Otvoreni prikaz proračuna i isplata Grada Zagreba."
-    />
+    <title>Transparentnost+ — kamo ide novac Grada Zagreba</title>
+    <meta name="description" content="Kamo ide novac Grada Zagreba: po namjeni, po gradskim četvrtima i po primateljima." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Slab:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Slab:wght@600;700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -20,45 +17,22 @@
 
     <header class="vrh">
       <div class="omotac vrh__unutra">
-        <a class="vrh__znak" href="#/">
-          <span class="vrh__grb" aria-hidden="true"></span>
-          <span class="vrh__tekst">Transparentnost<span>+</span></span>
-        </a>
-        <span class="vrh__ime">Analitički prikaz proračuna i isplata Grada Zagreba</span>
+        <a class="vrh__znak" href="#/">Transparentnost<span>+</span></a>
+        <nav class="traka__veze" aria-label="Glavna navigacija">
+          <a href="#/" data-nav="pregled">Pregled</a>
+          <a href="#/karta" data-nav="karta">Karta</a>
+          <a href="#/primatelji" data-nav="primatelji">Primatelji</a>
+        </nav>
+        <form class="traka__trazi" id="trazilica" role="search">
+          <label class="skriveno" for="pretraga-glavna">Pretraži primatelje</label>
+          <input type="search" id="pretraga-glavna" placeholder="Pretraži primatelja" />
+          <button type="submit">Traži</button>
+        </form>
       </div>
     </header>
 
-    <div class="ograda">
-      <div class="omotac ograda__unutra">
-        <strong>Nezavisni projekt.</strong> Ovo nije službena stranica Grada Zagreba —
-        podaci su preuzeti iz javno objavljenih gradskih izvora i samostalno obrađeni.
-      </div>
-    </div>
-
-    <nav class="traka" aria-label="Glavna navigacija">
-      <div class="omotac traka__unutra">
-        <ul class="traka__veze">
-          <li><a href="#/pregled" data-nav="pregled">Pregled</a></li>
-          <li><a href="#/detalj" data-nav="detalj">Detalj proračuna</a></li>
-          <li><a href="#/cetvrti" data-nav="cetvrti">Ulaganja po četvrtima</a></li>
-          <li><a href="#/isplate" data-nav="isplate">Isplate primateljima</a></li>
-          <li><a href="#/nalazi" data-nav="nalazi">Nalazi</a></li>
-          <li><a href="#/trendovi" data-nav="trendovi">Trendovi</a></li>
-          <li><a href="#/podaci" data-nav="podaci">Podaci</a></li>
-          <li><a href="#/pojmovnik" data-nav="pojmovnik">Pojmovnik</a></li>
-        </ul>
-        <form class="traka__trazi" id="trazilica" role="search">
-          <label class="skriveno" for="pretraga-glavna">Pretraži primatelje</label>
-          <input type="search" id="pretraga-glavna" placeholder="Pretraži primatelja ili OIB" />
-          <button type="submit" aria-label="Traži">Traži</button>
-        </form>
-      </div>
-    </nav>
-
-    <div class="pojas" id="pojas" hidden></div>
-
     <main id="glavno">
-      <p class="ucitavanje">Učitavanje podataka…</p>
+      <p class="ucitavanje">Učitavanje…</p>
     </main>
 
     <footer class="dno">

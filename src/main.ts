@@ -8,7 +8,7 @@ const REPO = "https://github.com/vilimstrejcek/transparentnost-plus";
 
 type Prikaz =
   | "naslovnica" | "pregled" | "detalj" | "cetvrti" | "isplate"
-  | "plan" | "trendovi" | "podaci" | "pojmovnik" | "profil";
+  | "plan" | "nalazi" | "trendovi" | "podaci" | "pojmovnik" | "profil";
 
 interface Ruta {
   prikaz: Prikaz;
@@ -23,6 +23,7 @@ const RUTE: Record<string, Prikaz> = {
   cetvrti: "cetvrti",
   isplate: "isplate",
   plan: "plan",
+  nalazi: "nalazi",
   trendovi: "trendovi",
   podaci: "podaci",
   pojmovnik: "pojmovnik",
@@ -155,6 +156,11 @@ async function usmjeri(): Promise<void> {
       case "plan": {
         const { prikaziPlan } = await import("./views/plan");
         prikaziPlan(glavno, podaci);
+        break;
+      }
+      case "nalazi": {
+        const { prikaziNalaze } = await import("./views/nalazi");
+        await prikaziNalaze(glavno, podaci);
         break;
       }
       case "trendovi": {

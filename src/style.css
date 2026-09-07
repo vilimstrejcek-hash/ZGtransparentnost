@@ -407,3 +407,32 @@ td.razrada { background: var(--podloga); }
   .udio-red__naziv { flex: 1 1 auto; }
   .udio-red__traka { flex: 1 1 100%; order: 3; }
 }
+
+
+/* Nalazi */
+.nalazi { display: grid; gap: 16px; }
+.nalaz {
+  display: flex; gap: 22px; align-items: flex-start;
+  border: 1px solid var(--linija); border-left: 4px solid var(--linija);
+  background: #fff; padding: 18px 22px;
+}
+.nalaz--istaknut { border-left-color: var(--negativno); }
+.nalaz__vrijednost {
+  flex: 0 0 10.5rem;
+  font-family: "Roboto Slab", Georgia, serif;
+  font-size: 1.72rem; font-weight: 700; line-height: 1.1;
+  color: var(--plava-tamna); font-variant-numeric: tabular-nums;
+}
+.nalaz--istaknut .nalaz__vrijednost { color: var(--negativno); }
+.nalaz__tijelo { flex: 1; min-width: 0; }
+.nalaz__tijelo h3 { margin: 0 0 6px; }
+.nalaz__tijelo p { margin: 0 0 8px; color: var(--tekst-2); }
+.nalaz__kako summary {
+  cursor: pointer; font-size: 0.86rem; color: var(--plava);
+  margin-bottom: 6px; width: fit-content;
+}
+.nalaz__kako p { font-size: 0.86rem; color: var(--tekst-2); margin: 4px 0 8px; }
+@media (max-width: 620px) {
+  .nalaz { flex-direction: column; gap: 8px; }
+  .nalaz__vrijednost { flex: none; font-size: 1.5rem; }
+}

@@ -3,7 +3,7 @@ import { broj, datum, escapeHtml, eur, iznosBezValute } from "../format";
 import { bojaPoIndeksu } from "../ui";
 
 /** Male sličice iznad kartica — nagovještaj prikaza koji se otvara. */
-function sličica(vrsta: "tok" | "treemap" | "karta" | "tablica" | "knjiga" | "stupci"): string {
+function sličica(vrsta: "tok" | "treemap" | "karta" | "tablica" | "knjiga" | "stupci" | "nalazi"): string {
   const b = (i: number) => bojaPoIndeksu(i);
   if (vrsta === "tok") {
     return `<svg viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true">
@@ -26,6 +26,15 @@ function sličica(vrsta: "tok" | "treemap" | "karta" | "tablica" | "knjiga" | "s
       <path d="M20 70 L60 30 L110 44 L150 22 L185 50" stroke="#cfd6dd" stroke-width="3" fill="none"/>
       ${[[54, 42, 7], [86, 58, 11], [120, 36, 6], [138, 62, 9], [160, 44, 5], [70, 72, 4]]
         .map((c, i) => `<circle cx="${c[0]}" cy="${c[1]}" r="${c[2]}" fill="${b(i)}" opacity="0.75"/>`).join("")}
+    </svg>`;
+  }
+  if (vrsta === "nalazi") {
+    return `<svg viewBox="0 0 200 100" aria-hidden="true">
+      <rect width="200" height="100" fill="#f7f9fb"/>
+      ${[14, 44, 74].map((y, i) => `
+        <rect x="14" y="${y}" width="4" height="18" fill="${i === 0 ? "#c8102e" : b(0)}"/>
+        <rect x="26" y="${y + 2}" width="${70 - i * 8}" height="6" fill="#c8cdd3"/>
+        <rect x="26" y="${y + 12}" width="${128 - i * 14}" height="4" fill="#e2e6ea"/>`).join("")}
     </svg>`;
   }
   if (vrsta === "stupci") {
@@ -101,6 +110,8 @@ export function prikaziNaslovnicu(cilj: HTMLElement, podaci: Podaci): void {
           "Pogledaj svaku gradsku četvrt i ustanove koje Grad plaća.", "#/cetvrti")}
         ${ulazHtml(sličica("tablica"), "Isplate primateljima",
           "Detaljno prikazujemo sve isplate koje je Grad izvršio.", "#/isplate")}
+        ${ulazHtml(sličica("nalazi"), "Nalazi",
+          "Što iz podataka ispada samo od sebe, s objašnjenjem kako je izračunato.", "#/nalazi")}
         ${ulazHtml(sličica("stupci"), "Trendovi",
           "Kako se trošenje mijenja kroz godine i koliko je koncentrirano.", "#/trendovi")}
         ${ulazHtml(sličica("knjiga"), "Podaci za preuzimanje",

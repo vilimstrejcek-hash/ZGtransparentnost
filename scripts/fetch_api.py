@@ -38,6 +38,13 @@ VELICINA = 1000
 NAJMANJA_VELICINA = 125
 PAUZA = 0.8          # sekundi između zahtjeva; kraće vodi na HTTP 403 po IP-u
 POKUSAJA = 3
+# Ograničenje po IP adresi je privremeno — traje minutama, ne satima. Umjesto
+# prekida se čeka i pokušava ponovno, pa jedan 403 ne ubije cijeli dohvat.
+CEKANJA_NA_403 = (60, 180, 420)
+
+
+class Ograniceno(Exception):
+    """Poslužitelj je privremeno odbio zahtjev (HTTP 403)."""
 
 
 def dohvati(offset: int, velicina: int) -> list[dict] | None:
@@ -51,21 +58,27 @@ def dohvati(offset: int, velicina: int) -> list[dict] | None:
     }
 
     zadnja: Exception | None = None
-    for pokusaj in range(POKUSAJA):
+    for pokusaj in range(POKUSAJA + len(CEKANJA_NA_403)):
         veza = http.client.HTTPSConnection(POSLUZITELJ, timeout=90)
         try:
             veza.request("GET", putanja, headers=zaglavlja)
             odgovor = veza.getresponse()
             tijelo = odgovor.read().decode("utf-8")
             if odgovor.status == 403:
-                # Poslužitelj je uveo ograničenje po IP adresi — nema smisla navaljivati.
-                raise SystemExit(
-                    "Poslužitelj vraća HTTP 403 (ograničenje po IP adresi). "
-                    "Predmemorij je sačuvan; pokušaj ponovno za nekoliko sati."
-                )
+                raise Ograniceno()
             if odgovor.status != 200:
                 raise RuntimeError(f"HTTP {odgovor.status}: {tijelo[:200]}")
             return json.loads(tijelo).get("Items") or []
+        except Ograniceno:
+            if pokusaj >= len(CEKANJA_NA_403):
+                raise SystemExit(
+                    "Poslužitelj i dalje vraća 403 nakon čekanja. Predmemorij je "
+                    "sačuvan; pokreni skriptu ponovno kasnije."
+                )
+            cekaj = CEKANJA_NA_403[pokusaj]
+            print(f"    ograničenje po IP-u; čekam {cekaj}s pa nastavljam", file=sys.stderr)
+            time.sleep(cekaj)
+            continue
         except (OSError, socket.timeout, http.client.HTTPException,
                 json.JSONDecodeError, RuntimeError) as greska:
             zadnja = greska

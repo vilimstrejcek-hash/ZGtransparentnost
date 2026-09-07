@@ -31,6 +31,9 @@ PUTANJA = "/itransparentnost/isplate"
 TENANT = "grad-zagreb"
 PAUZA = 0.8
 POKUSAJA = 3
+# Ograničenje po IP adresi je privremeno — traje minutama, ne satima. Umjesto
+# prekida se čeka i pokušava ponovno, pa jedan 403 ne ubije cijeli dohvat.
+CEKANJA_NA_403 = (60, 180, 420)
 TOLERANCIJA = 0.01
 # Veći limit uz filtre zna vratiti prazan popis, pa se traži u malim komadima.
 LIMIT = 20
@@ -38,12 +41,16 @@ NAJVECA_DUBINA = 14
 GORNJA_GRANICA = 50_000_000.0
 
 
+# Broji koliko se puta već čekalo zbog ograničenja, kroz cijeli dohvat.
+ceka = {"puta": 0}
+
+
 def zovi(filtri: dict, limit: int) -> tuple[list[dict], float] | None:
     upit = urllib.parse.urlencode({
         "filters": json.dumps(filtri, separators=(",", ":")),
         "page": json.dumps({"limit": limit, "offset": 0}, separators=(",", ":")),
     })
-    for pokusaj in range(POKUSAJA):
+    for pokusaj in range(POKUSAJA + len(CEKANJA_NA_403)):
         veza = http.client.HTTPSConnection(POSLUZITELJ, timeout=90)
         try:
             veza.request("GET", f"{PUTANJA}?{upit}",
@@ -51,8 +58,14 @@ def zovi(filtri: dict, limit: int) -> tuple[list[dict], float] | None:
             odg = veza.getresponse()
             tijelo = odg.read().decode("utf-8")
             if odg.status == 403:
-                raise SystemExit("Poslužitelj vraća 403 (ograničenje po IP-u). "
-                                 "Predmemorij je sačuvan; pokušaj kasnije.")
+                if ceka["puta"] >= len(CEKANJA_NA_403):
+                    raise SystemExit("Poslužitelj i dalje vraća 403 nakon čekanja. "
+                                     "Predmemorij je sačuvan; pokušaj kasnije.")
+                cekaj = CEKANJA_NA_403[ceka["puta"]]
+                ceka["puta"] += 1
+                print(f"    ograničenje po IP-u; čekam {cekaj}s", file=sys.stderr)
+                time.sleep(cekaj)
+                continue
             if odg.status != 200:
                 raise RuntimeError(f"HTTP {odg.status}")
             d = json.loads(tijelo)

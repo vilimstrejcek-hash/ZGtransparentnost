@@ -485,3 +485,22 @@ td.razrada { background: var(--podloga); }
 }
 .razrada-skupina table { font-size: 0.86rem; }
 .razrada-skupina td { padding: 5px 8px; }
+
+
+/* Oznake aktivnih filtara */
+.oznake { display: flex; flex-wrap: wrap; gap: 8px; margin: -6px 0 18px; }
+.oznake[hidden] { display: none; }
+.oznaka {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #e8f1f9; border: 1px solid #b6d3ea; color: var(--plava-tamna);
+  border-radius: 3px; padding: 5px 6px 5px 10px; font-size: 0.88rem; font-weight: 500;
+}
+.oznaka__opis {
+  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--plava); font-weight: 700;
+}
+.oznaka button {
+  background: none; border: 0; cursor: pointer; color: var(--plava);
+  font-size: 1.1rem; line-height: 1; padding: 0 4px; border-radius: 2px;
+}
+.oznaka button:hover { background: var(--plava); color: #fff; }

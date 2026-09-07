@@ -95,9 +95,10 @@ export async function prikaziIsplate(
         <input type="search" class="polje" id="pretraga"
           placeholder="Pretraži opis ili primatelja" aria-label="Pretraga"
           value="${escapeHtml(f.upit)}" autocomplete="off" />
-        <button type="button" class="gumb gumb--malo" id="ocisti">Očisti</button>
-        <span class="sitno" id="oznaka-podskupine"></span>
+        <button type="button" class="gumb gumb--malo" id="ocisti">Očisti sve</button>
       </div>
+
+      <div class="oznake" id="oznake" hidden></div>
 
       <div id="sadrzaj"><p class="ucitavanje">Učitavanje isplata…</p></div>
     </div>`;
@@ -117,6 +118,35 @@ export async function prikaziIsplate(
   const izborNamjene = cilj.querySelector<HTMLSelectElement>("#izbor-namjene")!;
   const izborUreda = cilj.querySelector<HTMLSelectElement>("#izbor-ureda")!;
   const pretraga = cilj.querySelector<HTMLInputElement>("#pretraga")!;
+  const spremnikOznaka = cilj.querySelector<HTMLElement>("#oznake")!;
+
+  /** Aktivni filtri kao vidljive oznake — bez njih se ne vidi da je popis sužen. */
+  function crtajOznake(): void {
+    const oznake: { kljuc: keyof Filtri; opis: string; vrijednost: string }[] = [];
+    if (f.podskupina) {
+      oznake.push({
+        kljuc: "podskupina", opis: "Namjena",
+        vrijednost: `${sifarnici.funkcijska[f.podskupina] ?? f.podskupina} (${f.podskupina})`,
+      });
+    }
+    if (f.namjena) {
+      oznake.push({ kljuc: "namjena", opis: "Područje", vrijednost: COFOG[f.namjena] ?? f.namjena });
+    }
+    if (f.ured) {
+      oznake.push({ kljuc: "ured", opis: "Ured", vrijednost: sifarnici.ured[f.ured] ?? f.ured });
+    }
+    if (f.upit.trim()) {
+      oznake.push({ kljuc: "upit", opis: "Pretraga", vrijednost: `„${f.upit.trim()}”` });
+    }
+
+    spremnikOznaka.hidden = oznake.length === 0;
+    spremnikOznaka.innerHTML = oznake.map((o) => `
+      <span class="oznaka">
+        <span class="oznaka__opis">${escapeHtml(o.opis)}</span>
+        ${escapeHtml(o.vrijednost)}
+        <button type="button" data-ukloni="${o.kljuc}" aria-label="Ukloni filtar">×</button>
+      </span>`).join("");
+  }
 
   function filtriraj(p: MjesecPodaci): Redak[] {
     const q = f.upit.trim().toLowerCase();
@@ -153,8 +183,7 @@ export async function prikaziIsplate(
     izborNamjene.value = f.namjena;
     izborUreda.value = f.ured;
 
-    const oznaka = cilj.querySelector<HTMLElement>("#oznaka-podskupine")!;
-    oznaka.textContent = f.podskupina ? `filtrirano na šifru ${f.podskupina}` : "";
+    crtajOznake();
     sadrzaj.innerHTML = `<p class="ucitavanje">Učitavanje isplata…</p>`;
     const p = await ucitajMjesec(f.mjesec);
     const redci = filtriraj(p);
@@ -172,7 +201,7 @@ export async function prikaziIsplate(
     const filtrirano = f.namjena || f.podskupina || f.ured || f.upit.trim();
     sazetak.innerHTML = `
       <div class="brojka">
-        <p class="brojka__oznaka">${filtrirano ? "Odabrano" : "Ukupno u mjesecu"}</p>
+        <p class="brojka__oznaka">${filtrirano ? "Odabrani filtri" : "Ukupno u mjesecu"}</p>
         <div class="brojka__vrijednost">${escapeHtml(eur(zbroj))}</div>
         <p class="brojka__dodatak">${escapeHtml(broj(redci.length))} stavki${
           filtrirano ? ` od ${escapeHtml(broj(p.redci.length))}` : ""}</p>
@@ -260,6 +289,15 @@ export async function prikaziIsplate(
   izborNamjene.addEventListener("change", () => { f.namjena = izborNamjene.value; osvjezi(); });
   izborUreda.addEventListener("change", () => { f.ured = izborUreda.value; osvjezi(); });
   pretraga.addEventListener("input", () => { f.upit = pretraga.value; osvjezi(); });
+  spremnikOznaka.addEventListener("click", (e) => {
+    const gumb = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-ukloni]");
+    const kljuc = gumb?.dataset["ukloni"] as keyof Filtri | undefined;
+    if (!kljuc) return;
+    if (kljuc === "upit") pretraga.value = "";
+    (f[kljuc] as string) = "";
+    osvjezi();
+  });
+
   cilj.querySelector("#ocisti")!.addEventListener("click", () => {
     f.namjena = ""; f.podskupina = ""; f.ured = ""; f.upit = ""; pretraga.value = ""; osvjezi();
   });

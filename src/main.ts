@@ -45,7 +45,7 @@ function ispisiPodnozje(podaci: Podaci): void {
       ${escapeHtml(datum(meta.prvi_datum))} – ${escapeHtml(datum(meta.zadnji_datum))}.
     </p>
     <p>
-      <a href="${escapeHtml(import.meta.env.BASE_URL)}data/preuzimanje/najveci_primatelji.csv" download>Preuzmi podatke</a>
+      <a href="${escapeHtml(import.meta.env.BASE_URL)}data/preuzimanje/primatelji.csv" download>Preuzmi podatke</a>
       · <a href="${REPO}" target="_blank" rel="noopener noreferrer">Kod</a>
       · Transparentnost+
     </p>`;

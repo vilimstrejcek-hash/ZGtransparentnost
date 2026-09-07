@@ -17,7 +17,7 @@ u JSON datoteke koje se posluže kao statične datoteke.
 2. **Isplate** — pojedinačne isplate po mjesecu, s filtrima po namjeni, uredu i pretragom
    opisa. Usporedba s istim mjesecom prethodne godine i najveće stavke u razdoblju.
 3. **Gdje se ulaže** — gradske četvrti obojane po iznosu po stanovniku i ustanove na karti.
-4. **Primatelji** — pretraživa tablica; klik otvara profil sa svim isplatama.
+4. **Primatelji** — svi primatelji, pretraživo, uz razradu isplata fizičkim osobama.
 
 ## Pokretanje
 
@@ -94,7 +94,7 @@ isključiva).
 | Datoteka | Sadržaj |
 | --- | --- |
 | `summary.json` | ukupno po godini i mjesecu, uz broj pokrivenih dana po mjesecu |
-| `top_primatelji.json` | top 50 primatelja po godini i ukupno |
+| `primatelji.json` | svi primatelji po godini i ukupno |
 | `po_uredu.json` | isplate po organizacijskoj klasifikaciji (gradskom uredu) |
 | `po_ekonomskoj.json` | isplate po ekonomskoj klasifikaciji |
 | `primatelji/{OIB}.json` | sve isplate za primatelje s najmanje 5 isplata |

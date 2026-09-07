@@ -47,7 +47,7 @@ function istaknutoHtml(i: Istaknuto): string {
 }
 
 export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
-  const { poNamjeni, summary, top, ustanove, fizicke, meta } = podaci;
+  const { poNamjeni, summary, primatelji, ustanove, fizicke, meta } = podaci;
   const godine = summary.godine;
   const zadnjaPotpuna = meta.pokrivenost.filter((p) => !p.tekuca).at(-1)?.godina;
   let odabrana = zadnjaPotpuna ?? godine[godine.length - 1] ?? "sve";
@@ -209,8 +209,8 @@ export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
       blok.odjeljci.map((o) => ({ sifra: o.sifra, naziv: o.naziv, iznos: o.ukupno }))
     );
 
-    const primatelji = (top[odabrana] ?? []).slice(0, 10);
-    tijeloTop.innerHTML = primatelji.map((p) => `<tr${p.ima_profil ? ` class="red-klik" data-oib="${escapeHtml(p.oib)}"` : ""}>
+    const najveciPrimatelji = (primatelji[odabrana] ?? []).slice(0, 10);
+    tijeloTop.innerHTML = najveciPrimatelji.map((p) => `<tr${p.ima_profil ? ` class="red-klik" data-oib="${escapeHtml(p.oib)}"` : ""}>
         <td>${p.ima_profil
           ? `<a class="veza" href="#/primatelj/${encodeURIComponent(p.oib)}">${escapeHtml(p.naziv)}</a>`
           : escapeHtml(p.naziv)}</td>

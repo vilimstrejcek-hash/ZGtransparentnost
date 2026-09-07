@@ -37,10 +37,9 @@ export interface Primatelj {
   broj_isplata: number;
   udio: number;
   ima_profil: boolean;
-  uredi: UredKratki[];
 }
 
-export type TopPrimatelji = Record<string, Primatelj[]>;
+export type SviPrimatelji = Record<string, Primatelj[]>;
 
 export interface Podjedinica {
   naziv: string;

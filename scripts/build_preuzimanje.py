@@ -76,12 +76,12 @@ def main() -> None:
                     len(redci), v))
 
     # 4. Najveći primatelji
-    top = ucitaj("top_primatelji")
+    top = ucitaj("primatelji")
     redci = [[g, r["oib"], r["naziv"], f"{r['ukupno']:.2f}", r["broj_isplata"], f"{r['udio']:.2f}"]
              for g, popis in top.items() for r in popis]
-    v = zapisi_csv("najveci_primatelji",
+    v = zapisi_csv("primatelji",
                    ["godina", "oib", "naziv", "iznos_eur", "broj_isplata", "udio_posto"], redci)
-    skupovi.append(("najveci_primatelji", "Pedeset najvećih primatelja po godini", len(redci), v))
+    skupovi.append(("primatelji", "Svi primatelji po godini", len(redci), v))
 
     # 5. Gradske četvrti
     cet = ucitaj("cetvrti")

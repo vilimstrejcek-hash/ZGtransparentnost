@@ -31,11 +31,11 @@
    "bajtova": 27892
   },
   {
-   "ime": "najveci_primatelji",
-   "opis": "Pedeset najvećih primatelja po godini",
-   "redaka": 200,
-   "csv": "data/preuzimanje/najveci_primatelji.csv",
-   "bajtova": 12408
+   "ime": "primatelji",
+   "opis": "Svi primatelji po godini",
+   "redaka": 12932,
+   "csv": "data/preuzimanje/primatelji.csv",
+   "bajtova": 788435
   },
   {
    "ime": "gradske_cetvrti",

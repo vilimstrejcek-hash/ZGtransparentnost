@@ -326,7 +326,12 @@ def build_fizicke(df: pd.DataFrame) -> dict:
     return rezultat
 
 
-def build_top_primatelji(df: pd.DataFrame, n: int = 50) -> dict:
+def build_primatelji(df: pd.DataFrame) -> dict:
+    """Svi primatelji po godini, ne samo najveći.
+
+    Popis od nekoliko tisuća redaka je i dalje mala datoteka, a odsijecanje na
+    pedeset skrivalo je dugi rep u kojem su male tvrtke, udruge i ustanove.
+    """
     def top_for(g: pd.DataFrame) -> list[dict]:
         # Udio se računa prema svim isplatama, ali se fizičke osobe ne rangiraju
         # kao primatelj — u izvoru su anonimizirane i prikazuju se odvojeno.
@@ -335,14 +340,10 @@ def build_top_primatelji(df: pd.DataFrame, n: int = 50) -> dict:
         agg = (
             g.groupby(["oib", "primatelj"])
             .agg(ukupno=("iznos", "sum"), broj_isplata=("_uuid", "nunique"))
-            .reset_index().sort_values("ukupno", ascending=False).head(n)
+            .reset_index().sort_values("ukupno", ascending=False)
         )
         out = []
         for _, r in agg.iterrows():
-            uredi = (
-                g[g["oib"] == r["oib"]].groupby(["ured_sifra", "ured_naziv_kanon"])["iznos"]
-                .sum().sort_values(ascending=False)
-            )
             out.append({
                 "oib": r["oib"],
                 "naziv": r["primatelj"],
@@ -350,10 +351,6 @@ def build_top_primatelji(df: pd.DataFrame, n: int = 50) -> dict:
                 "broj_isplata": int(r["broj_isplata"]),
                 "udio": r2(r["ukupno"] / ukupno_sve * 100) if ukupno_sve else 0.0,
                 "ima_profil": bool(r["oib"] != GDPR and r["broj_isplata"] >= MIN_ISPLATA_ZA_PROFIL),
-                "uredi": [
-                    {"sifra": s, "naziv": nm, "ukupno": r2(v)}
-                    for (s, nm), v in uredi.items()
-                ][:5],
             })
         return out
 
@@ -680,7 +677,7 @@ def main() -> None:
         shutil.rmtree(OUT_DIR / "primatelji")
 
     write_json(OUT_DIR / "summary.json", build_summary(df))
-    write_json(OUT_DIR / "top_primatelji.json", build_top_primatelji(df))
+    write_json(OUT_DIR / "primatelji.json", build_primatelji(df))
     write_json(OUT_DIR / "po_uredu.json", build_po_klasifikaciji(df, "ured"))
     write_json(OUT_DIR / "po_ekonomskoj.json", build_po_klasifikaciji(df, "ekonomska"))
     write_json(OUT_DIR / "po_namjeni.json", build_po_namjeni(df))

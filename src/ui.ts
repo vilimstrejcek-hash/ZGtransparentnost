@@ -146,3 +146,35 @@ export function poveziSortiranje<T>(
     ponovno();
   });
 }
+
+
+/** Slova bez dijakritike i malim slovima — da „crnomerec” nađe „Črnomerec”. */
+export function bezDijakritike(tekst: string): string {
+  return tekst
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/gi, "d")
+    .toLowerCase();
+}
+
+/**
+ * Pretraga po svim stupcima. Upit razdvojen razmacima traži sve dijelove
+ * („dv vrapce” nalazi redak koji sadrži oba), pa se rezultat da suziti bez
+ * dodatnih polja.
+ */
+export function pretraziRedke<T>(
+  redci: T[],
+  stupci: Stupac<T>[],
+  upit: string,
+  dodatno?: (redak: T) => string
+): T[] {
+  const dijelovi = bezDijakritike(upit.trim()).split(/\s+/).filter(Boolean);
+  if (!dijelovi.length) return redci;
+  return redci.filter((r) => {
+    const spojeno = bezDijakritike(
+      stupci.map((s) => (s.vrijednost ? String(s.vrijednost(r)) : "")).join(" ")
+      + (dodatno ? ` ${dodatno(r)}` : "")
+    );
+    return dijelovi.every((d) => spojeno.includes(d));
+  });
+}

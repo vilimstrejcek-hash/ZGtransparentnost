@@ -1,7 +1,8 @@
 import type { Podaci } from "../data";
 import { broj, datum, escapeHtml, eur, eurKratko, mjesecNaziv, postotak } from "../format";
 import {
-  poveziSortiranje, sortirajRedke, zaglavljeTabliceHtml, type Poredak, type Stupac,
+  poveziSortiranje, pretraziRedke, sortirajRedke, zaglavljeTabliceHtml,
+  type Poredak, type Stupac,
 } from "../ui";
 import type { MjesecIndeks, MjesecPodaci, Redak } from "../types";
 
@@ -97,7 +98,7 @@ export async function prikaziIsplate(
           ${uredi.map(([k, v]) => `<option value="${escapeHtml(k)}">${escapeHtml(v)}</option>`).join("")}
         </select>
         <input type="search" class="polje" id="pretraga"
-          placeholder="Pretraži opis ili primatelja" aria-label="Pretraga"
+          placeholder="Pretraži po svim stupcima" aria-label="Pretraga"
           value="${escapeHtml(f.upit)}" autocomplete="off" />
         <button type="button" class="gumb gumb--malo" id="ocisti">Očisti sve</button>
       </div>
@@ -153,15 +154,14 @@ export async function prikaziIsplate(
   }
 
   function filtriraj(p: MjesecPodaci): Redak[] {
-    const q = f.upit.trim().toLowerCase();
-    return p.redci.filter((r) => {
+    const suzeni = p.redci.filter((r) => {
       if (f.namjena && r[5] !== f.namjena) return false;
       if (f.podskupina && r[6] !== f.podskupina) return false;
       if (f.ured && r[4] !== f.ured) return false;
-      if (!q) return true;
-      const ime = p.primatelji[r[1]]?.[0] ?? "";
-      return r[3].toLowerCase().includes(q) || ime.toLowerCase().includes(q);
+      return true;
     });
+    // Broj računa i ugovora nisu stupci u tablici, ali se po njima traži.
+    return pretraziRedke(suzeni, stupci(p), f.upit, (r) => `${r[8]} ${r[9]}`);
   }
 
   function stupci(p: MjesecPodaci): Stupac<Redak>[] {

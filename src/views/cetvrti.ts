@@ -3,7 +3,8 @@ import { broj, escapeHtml, eur, eurKratko } from "../format";
 import { BOJE_VRSTA, nacrtajKartu, STUPNJEVI_BOJA, type KartaRuke } from "../karta";
 
 import {
-  poveziSortiranje, sortirajRedke, zaglavljeTabliceHtml, type Poredak, type Stupac,
+  poveziSortiranje, pretraziRedke, sortirajRedke, zaglavljeTabliceHtml,
+  type Poredak, type Stupac,
 } from "../ui";
 import type { Cetvrt } from "../types";
 
@@ -29,6 +30,7 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
     { kljuc: "namjene", naziv: "", bezSortiranja: true },
   ];
   let otvorena: string | null = null;
+  let upit = "";
 
   const poStanovniku = cetvrti.cetvrti
     .map((c) => c.po_stanovniku)
@@ -69,7 +71,9 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
       <section class="odjeljak">
         <div class="odjeljak__zaglavlje">
           <h2>Ulaganja po četvrtima</h2>
-          <span class="sitno">Klik na stupac mijenja poredak</span>
+          <input type="search" class="polje" id="pretraga-cetvrti"
+            placeholder="Pretraži četvrti" aria-label="Pretraga gradskih četvrti"
+            style="max-width:220px" autocomplete="off" />
         </div>
         <div class="tablica-okvir">
           <table>
@@ -106,7 +110,10 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
 
   function crtaj(): void {
     zaglavljeCetvrti.innerHTML = zaglavljeTabliceHtml(stupci, poredak);
-    tijelo.innerHTML = sortirajRedke(cetvrti.cetvrti, stupci, poredak).map(redHtml).join("");
+    const nadene = pretraziRedke(cetvrti.cetvrti, stupci, upit);
+    tijelo.innerHTML = nadene.length
+      ? sortirajRedke(nadene, stupci, poredak).map(redHtml).join("")
+      : `<tr><td colspan="5" class="prazno">Nema četvrti koje odgovaraju pretrazi.</td></tr>`;
   }
 
   karta = nacrtajKartu(cilj.querySelector<HTMLElement>("#karta")!, {
@@ -146,6 +153,11 @@ export function prikaziCetvrti(cilj: HTMLElement, podaci: Podaci): void {
     if (!red?.dataset.naziv) return;
     otvorena = otvorena === red.dataset.naziv ? null : red.dataset.naziv;
     karta?.istakni(otvorena);
+    crtaj();
+  });
+
+  cilj.querySelector<HTMLInputElement>("#pretraga-cetvrti")!.addEventListener("input", (e) => {
+    upit = (e.target as HTMLInputElement).value;
     crtaj();
   });
 

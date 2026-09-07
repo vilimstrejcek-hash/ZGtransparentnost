@@ -1,8 +1,8 @@
 import type { Podaci } from "../data";
 import { broj, escapeHtml, eur, eurKratko, postotak } from "../format";
 import {
-  godineOsHtml, poveziGodine, poveziSortiranje, sortirajRedke, zaglavljeTabliceHtml,
-  type Poredak, type Stupac,
+  godineOsHtml, poveziGodine, poveziSortiranje, pretraziRedke, sortirajRedke,
+  zaglavljeTabliceHtml, type Poredak, type Stupac,
 } from "../ui";
 import type { Primatelj } from "../types";
 
@@ -37,7 +37,7 @@ export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci, pocetniUpit
 
       <div class="filtri">
         <input type="search" class="polje" id="pretraga"
-          placeholder="Pretraži po nazivu ili OIB-u" aria-label="Pretraga primatelja"
+          placeholder="Pretraži po svim stupcima" aria-label="Pretraga primatelja"
           value="${escapeHtml(upit)}" autocomplete="off" />
         <span class="sitno" id="sazetak"></span>
       </div>
@@ -66,13 +66,7 @@ export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci, pocetniUpit
   });
 
   const zaGodinu = (): Primatelj[] => primatelji[odabrana] ?? [];
-  const filtrirani = (): Primatelj[] => {
-    const q = upit.trim().toLowerCase();
-    if (!q) return zaGodinu();
-    return zaGodinu().filter(
-      (p) => p.naziv.toLowerCase().includes(q) || p.oib.toLowerCase().includes(q)
-    );
-  };
+  const filtrirani = (): Primatelj[] => pretraziRedke(zaGodinu(), stupci, upit);
 
   function crtajFizicke(): void {
     const f = fizicke[odabrana];

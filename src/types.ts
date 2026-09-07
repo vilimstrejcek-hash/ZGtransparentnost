@@ -124,3 +124,90 @@ export interface Meta {
   obrada: Record<string, number>;
   napomene: string[];
 }
+
+export interface Skupina {
+  sifra: string;
+  naziv: string;
+  ukupno: number;
+  udio: number;
+}
+
+export interface Odjeljak {
+  sifra: string;
+  naziv: string;
+  ukupno: number;
+  udio: number;
+  po_stanovniku: number;
+  eura_od_sto: number;
+  broj_stavki: number;
+  skupine: Skupina[];
+}
+
+export interface NamjenaGodina {
+  ukupno: number;
+  po_stanovniku: number;
+  odjeljci: Odjeljak[];
+}
+
+export interface PoNamjeni {
+  godine: Record<string, NamjenaGodina>;
+  stanovnika: number;
+  izvorStanovnistva: string;
+}
+
+export interface PlanEkonomska {
+  sifra: string;
+  naziv: string;
+  plan: number;
+  isplaceno: number;
+  omjer: number | null;
+}
+
+export interface Prekoracenje {
+  program_sifra: string;
+  program_naziv: string;
+  ekonomska_sifra: string;
+  ekonomska_naziv: string;
+  razdjel: string;
+  plan: number;
+  isplaceno: number;
+  razlika: number;
+  omjer: number;
+}
+
+export interface PlanGodina {
+  plan_ukupno: number;
+  isplaceno_ukupno: number;
+  udio_isplacenog: number | null;
+  po_ekonomskoj: PlanEkonomska[];
+  prekoracenja_broj: number;
+  prekoracenja_iznos: number;
+  prekoracenja: Prekoracenje[];
+  bez_plana_broj: number;
+  bez_plana_iznos: number;
+  bez_plana: { program_sifra: string; ekonomska_sifra: string; isplaceno: number }[];
+}
+
+export interface Plan {
+  godine: Record<string, PlanGodina>;
+  napomene: string[];
+}
+
+export interface Cetvrt {
+  naziv: string;
+  stanovnika: number | null;
+  ukupno: number;
+  po_stanovniku: number | null;
+  namjene: { naziv: string; iznos: number }[];
+}
+
+export interface Cetvrti {
+  godina: string;
+  ukupno: number;
+  stanovnika: number;
+  prosjek_po_stanovniku: number | null;
+  namjene: string[];
+  cetvrti: Cetvrt[];
+  izvori: { naziv: string; izvor: string; godina: string }[];
+  napomena: string;
+}

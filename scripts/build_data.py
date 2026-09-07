@@ -39,6 +39,27 @@ MIN_ISPLATA_ZA_PROFIL = 5
 # ide najvećih NAJVISE_ISPLATA — ostatak je vidljiv na izvornom portalu.
 NAJVISE_ISPLATA = 400
 
+# Popis stanovništva 2021., konačni rezultati za Grad Zagreb (DZS, objavljeno na
+# zagreb.hr). Koristi se za iznos po stanovniku.
+STANOVNIKA = 767131
+IZVOR_STANOVNISTVA = "Popis stanovništva 2021., Državni zavod za statistiku"
+
+# Funkcijska klasifikacija je COFOG — međunarodni standard, pa su odjeljci
+# usporedivi s drugim europskim gradovima.
+COFOG = {
+    "01": "Opće javne usluge",
+    "02": "Obrana",
+    "03": "Javni red i sigurnost",
+    "04": "Ekonomski poslovi",
+    "05": "Zaštita okoliša",
+    "06": "Stanovanje i komunalne pogodnosti",
+    "07": "Zdravstvo",
+    "08": "Rekreacija, kultura i religija",
+    "09": "Obrazovanje",
+    "10": "Socijalna zaštita",
+}
+NERAZVRSTANO = "Nije razvrstano"
+
 # "3239 OSTALE USLUGE" -> ("3239", "OSTALE USLUGE"); "A011120A112004 POSLOVI ..." isto.
 SIFRA_RE = re.compile(r"^\s*([A-Za-z0-9]+)\s+(.*\S)\s*$")
 
@@ -373,6 +394,62 @@ def build_sifarnici(df: pd.DataFrame) -> dict:
     }
 
 
+def cofog_odjeljak(sifra: str) -> tuple[str, str]:
+    """Šifra funkcijske klasifikacije -> (šifra odjeljka, naziv odjeljka)."""
+    sifra = (sifra or "").strip()
+    odjeljak = sifra[:2]
+    if odjeljak in COFOG:
+        return odjeljak, COFOG[odjeljak]
+    return "99", NERAZVRSTANO
+
+
+def build_po_namjeni(df: pd.DataFrame) -> dict:
+    """Razlaganje isplata po namjeni (COFOG), s iznosom po stanovniku.
+
+    Ovo je osnova prikaza „Kamo ide tvoj euro” — isti pristup koji koriste
+    Pariz i austrijski Offener Haushalt.
+    """
+    df = df.copy()
+    par = df["funkcijska_sifra"].apply(cofog_odjeljak)
+    df["odjeljak_sifra"] = [x[0] for x in par]
+    df["odjeljak_naziv"] = [x[1] for x in par]
+
+    def za(g: pd.DataFrame) -> dict:
+        ukupno = g["iznos"].sum()
+        odjeljci = []
+        agg = (g.groupby(["odjeljak_sifra", "odjeljak_naziv"])["iznos"]
+                 .agg(["sum", "size"]).reset_index().sort_values("sum", ascending=False))
+        for _, r in agg.iterrows():
+            pod = g[g["odjeljak_sifra"] == r["odjeljak_sifra"]]
+            skupine = (pod.groupby(["funkcijska_sifra", "funkcijska_naziv"])["iznos"]
+                          .sum().sort_values(ascending=False))
+            odjeljci.append({
+                "sifra": r["odjeljak_sifra"],
+                "naziv": r["odjeljak_naziv"],
+                "ukupno": r2(r["sum"]),
+                "udio": r2(r["sum"] / ukupno * 100) if ukupno else 0.0,
+                "po_stanovniku": r2(r["sum"] / STANOVNIKA),
+                "eura_od_sto": r2(r["sum"] / ukupno * 100) if ukupno else 0.0,
+                "broj_stavki": int(r["size"]),
+                "skupine": [
+                    {"sifra": sif, "naziv": nz, "ukupno": r2(v),
+                     "udio": r2(v / r["sum"] * 100) if r["sum"] else 0.0}
+                    for (sif, nz), v in skupine.items()
+                ][:12],
+            })
+        return {
+            "ukupno": r2(ukupno),
+            "po_stanovniku": r2(ukupno / STANOVNIKA),
+            "odjeljci": odjeljci,
+        }
+
+    rezultat = {str(y): za(g) for y, g in df.groupby("godina")}
+    rezultat["sve"] = za(df)
+    rezultat["_stanovnika"] = STANOVNIKA
+    rezultat["_izvor_stanovnistva"] = IZVOR_STANOVNISTVA
+    return rezultat
+
+
 def build_profili(df: pd.DataFrame, out_dir: Path) -> int:
     # Fizičke osobe nemaju profil — u tom bi se popisu iznosila osobna imena.
     kandidati = df[df["oib"] != GDPR]
@@ -518,12 +595,13 @@ def main() -> None:
     write_json(OUT_DIR / "top_primatelji.json", build_top_primatelji(df))
     write_json(OUT_DIR / "po_uredu.json", build_po_klasifikaciji(df, "ured"))
     write_json(OUT_DIR / "po_ekonomskoj.json", build_po_klasifikaciji(df, "ekonomska"))
+    write_json(OUT_DIR / "po_namjeni.json", build_po_namjeni(df))
     write_json(OUT_DIR / "sifarnici.json", build_sifarnici(df))
     n_profila = build_profili(df, OUT_DIR / "primatelji")
     write_json(OUT_DIR / "meta.json", build_meta(df, stats, izvori, n_profila))
 
-    print(f"Zapisano u {OUT_DIR.relative_to(ROOT)}/: summary, top_primatelji, po_uredu, "
-          f"po_ekonomskoj, meta + {n_profila} profila.")
+    print(f"Zapisano u {OUT_DIR.relative_to(ROOT)}/: summary, po_namjeni, top_primatelji, "
+          f"po_uredu, po_ekonomskoj, sifarnici, meta + {n_profila} profila.")
 
 
 if __name__ == "__main__":

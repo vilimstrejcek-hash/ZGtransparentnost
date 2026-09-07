@@ -7,7 +7,7 @@ import { prikaziPregled } from "./views/pregled";
 const glavno = document.querySelector<HTMLElement>("#glavno")!;
 
 interface Ruta {
-  prikaz: "pregled" | "primatelji" | "profil";
+  prikaz: "namjena" | "plan" | "cetvrti" | "pregled" | "primatelji" | "profil";
   oib?: string;
 }
 
@@ -16,11 +16,14 @@ function procitajRutu(): Ruta {
   const [prvi, drugi] = hash.split("/");
   if (prvi === "primatelj" && drugi) return { prikaz: "profil", oib: decodeURIComponent(drugi) };
   if (prvi === "primatelji") return { prikaz: "primatelji" };
-  return { prikaz: "pregled" };
+  if (prvi === "plan") return { prikaz: "plan" };
+  if (prvi === "cetvrti") return { prikaz: "cetvrti" };
+  if (prvi === "pregled") return { prikaz: "pregled" };
+  return { prikaz: "namjena" };
 }
 
 function oznaciNavigaciju(prikaz: Ruta["prikaz"]): void {
-  const aktivan = prikaz === "pregled" ? "pregled" : "primatelji";
+  const aktivan = prikaz === "profil" ? "primatelji" : prikaz;
   for (const veza of document.querySelectorAll<HTMLAnchorElement>("[data-nav]")) {
     if (veza.dataset.nav === aktivan) veza.setAttribute("aria-current", "page");
     else veza.removeAttribute("aria-current");
@@ -30,9 +33,8 @@ function oznaciNavigaciju(prikaz: Ruta["prikaz"]): void {
 function ispisiPodnozje(podaci: Podaci): void {
   const { meta } = podaci;
   const repo = "https://github.com/vilimstrejcek/transparentnost-plus";
-  const pokrivenost = meta.pokrivenost
-    .map((p) => `${p.godina}. (${p.mjeseci.join(", ")})`)
-    .join("; ");
+  const pokrivenost = `${datum(meta.prvi_datum)} – ${datum(meta.zadnji_datum)}, `
+    + `${meta.broj_isplata.toLocaleString("hr-HR")} isplata`;
 
   document.querySelector<HTMLElement>("#podnozje-sadrzaj")!.innerHTML = `
     <p>Izvor: Grad Zagreb, <a href="https://transparentnost.zagreb.hr" target="_blank"
@@ -69,6 +71,21 @@ async function usmjeri(): Promise<void> {
 
   try {
     switch (ruta.prikaz) {
+      case "namjena": {
+        const { prikaziNamjenu } = await import("./views/namjena");
+        prikaziNamjenu(glavno, podaci);
+        break;
+      }
+      case "plan": {
+        const { prikaziPlan } = await import("./views/plan");
+        prikaziPlan(glavno, podaci);
+        break;
+      }
+      case "cetvrti": {
+        const { prikaziCetvrti } = await import("./views/cetvrti");
+        prikaziCetvrti(glavno, podaci);
+        break;
+      }
       case "pregled":
         prikaziPregled(glavno, podaci);
         break;

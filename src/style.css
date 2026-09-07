@@ -355,3 +355,187 @@ a.veza:hover { text-decoration: underline; }
   border-color: #c3d6ea;
   color: #26405e;
 }
+
+/* --- Kamo ide tvoj euro --- */
+.ploca--istaknuta {
+  background: linear-gradient(180deg, #12203a 0%, #1c2f4f 100%);
+  border-color: var(--tamno);
+  color: #fff;
+  text-align: center;
+  padding: 26px 20px;
+}
+.istaknuto__uvod {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #a9b8d0;
+}
+.istaknuto__iznos {
+  margin: 6px 0 8px;
+  font-size: 2.6rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+.istaknuto__dodatak {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #c3d0e4;
+}
+.istaknuto__dodatak strong { color: #fff; }
+
+.namjena { list-style: none; margin: 0; padding: 0; }
+.namjena__red { border-bottom: 1px solid var(--linija); }
+.namjena__red:last-child { border-bottom: 0; }
+
+.namjena__gumb {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  background: none;
+  border: 0;
+  padding: 12px 4px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+}
+.namjena__gumb:hover { background: #f7f9fc; }
+.namjena__gumb:focus-visible { outline: 2px solid var(--plava-svijetla); outline-offset: -2px; }
+
+.namjena__euro {
+  flex: 0 0 4.6rem;
+  white-space: nowrap;
+  text-align: right;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.namjena__euro-znak { font-size: 0.9rem; font-weight: 600; }
+
+.namjena__tijelo { flex: 1; min-width: 0; }
+.namjena__naziv { display: block; font-weight: 600; font-size: 0.98rem; }
+.namjena__traka {
+  display: block;
+  height: 7px;
+  background: #eef2f8;
+  border-radius: 4px;
+  margin: 6px 0 5px;
+  overflow: hidden;
+}
+.namjena__traka > span { display: block; height: 100%; border-radius: 4px; }
+.namjena__brojke { display: block; font-size: 0.82rem; color: var(--tekst-prigušen); }
+
+.namjena__strelica {
+  flex: 0 0 auto;
+  color: var(--tekst-prigušen);
+  transition: transform 0.15s ease;
+}
+.namjena__gumb[aria-expanded="true"] .namjena__strelica { transform: rotate(90deg); }
+
+.namjena__razrada {
+  padding: 0 4px 16px calc(4.6rem + 16px);
+  overflow-x: auto;
+}
+.namjena__razrada table { font-size: 0.86rem; }
+
+@media (max-width: 620px) {
+  .istaknuto__iznos { font-size: 1.9rem; }
+  .namjena__euro { flex-basis: 3.6rem; font-size: 1.2rem; }
+  .namjena__razrada { padding-left: 4px; }
+}
+
+/* --- Plan i stvarnost --- */
+.legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.82rem;
+  color: var(--tekst-prigušen);
+  margin-bottom: 14px;
+}
+.legenda i {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  margin-right: 6px;
+  vertical-align: -1px;
+}
+.legenda__plan { background: #c3d6ea; }
+.legenda__isplata { background: var(--plava); }
+.legenda__preko { background: var(--negativno); }
+
+.usporedbe { list-style: none; margin: 0; padding: 0; }
+.usporedba__red { padding: 10px 0; border-bottom: 1px solid var(--linija); }
+.usporedba__red:last-child { border-bottom: 0; }
+.usporedba__naziv { font-size: 0.92rem; font-weight: 500; }
+.usporedba {
+  display: block;
+  position: relative;
+  height: 18px;
+  margin: 7px 0 5px;
+}
+.usporedba__plan,
+.usporedba__isplata {
+  position: absolute;
+  left: 0;
+  border-radius: 3px;
+}
+.usporedba__plan { top: 0; height: 8px; background: #c3d6ea; }
+.usporedba__isplata { top: 10px; height: 8px; background: var(--plava); }
+.usporedba__isplata--preko { background: var(--negativno); }
+.usporedba__brojke { font-size: 0.82rem; color: var(--tekst-prigušen); }
+
+/* --- Gradske četvrti --- */
+.cetvrti { list-style: none; margin: 0; padding: 0; }
+.cetvrt { border-bottom: 1px solid var(--linija); }
+.cetvrt:last-child { border-bottom: 0; }
+.cetvrt__gumb {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  background: none;
+  border: 0;
+  padding: 11px 4px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+}
+.cetvrt__gumb:hover { background: #f7f9fc; }
+.cetvrt__gumb:focus-visible { outline: 2px solid var(--plava-svijetla); outline-offset: -2px; }
+.cetvrt__naziv { flex: 0 0 11.5rem; font-weight: 600; font-size: 0.94rem; }
+.cetvrt__traka {
+  flex: 1;
+  display: block;
+  height: 9px;
+  background: #eef2f8;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.cetvrt__traka > span {
+  display: block;
+  height: 100%;
+  background: var(--plava);
+  border-radius: 4px;
+}
+.cetvrt__iznos {
+  flex: 0 0 7.5rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 0.94rem;
+  white-space: nowrap;
+}
+.cetvrt__razrada { padding: 0 4px 16px 4px; overflow-x: auto; }
+.cetvrt__razrada table { font-size: 0.86rem; max-width: 620px; }
+
+@media (max-width: 700px) {
+  .cetvrt__gumb { flex-wrap: wrap; gap: 6px 10px; }
+  .cetvrt__naziv { flex: 1 1 100%; }
+  .cetvrt__iznos { flex: 0 0 auto; }
+}

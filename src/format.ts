@@ -14,6 +14,11 @@ const EUR_KRATKO = new Intl.NumberFormat("hr-HR", {
 
 const BROJ = new Intl.NumberFormat("hr-HR");
 
+const DECIMALNI = new Intl.NumberFormat("hr-HR", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
 const POSTOTAK = new Intl.NumberFormat("hr-HR", {
   minimumFractionDigits: 1,
   maximumFractionDigits: 1,
@@ -44,6 +49,9 @@ export function eurOs(n: number): string {
 }
 
 export const broj = (n: number): string => BROJ.format(n);
+
+/** Iznos bez valute — kad se znak € piše zasebno u oznaci. */
+export const iznosBezValute = (n: number): string => DECIMALNI.format(n);
 
 export const postotak = (n: number): string => `${POSTOTAK.format(n)} %`;
 

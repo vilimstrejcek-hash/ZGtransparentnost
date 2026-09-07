@@ -12,6 +12,7 @@ dist/
 Data za prototip/
 *.csv
 *.jsonl
+*.xlsx
 
 # Sustav / uređivači
 .DS_Store

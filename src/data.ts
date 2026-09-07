@@ -1,4 +1,4 @@
-import type { Meta, PoKlasifikaciji, Profil, Summary, TopPrimatelji } from "./types";
+import type { Meta, PoKlasifikaciji, Profil, Sifarnici, Summary, TopPrimatelji } from "./types";
 
 const BAZA = `${import.meta.env.BASE_URL}data`.replace(/\/+$/, "");
 
@@ -15,6 +15,7 @@ export interface Podaci {
   top: TopPrimatelji;
   poUredu: PoKlasifikaciji;
   poEkonomskoj: PoKlasifikaciji;
+  sifarnici: Sifarnici;
   meta: Meta;
 }
 
@@ -22,14 +23,15 @@ let kes: Podaci | null = null;
 
 export async function ucitajPodatke(): Promise<Podaci> {
   if (kes) return kes;
-  const [summary, top, poUredu, poEkonomskoj, meta] = await Promise.all([
+  const [summary, top, poUredu, poEkonomskoj, sifarnici, meta] = await Promise.all([
     dohvati<Summary>("summary.json"),
     dohvati<TopPrimatelji>("top_primatelji.json"),
     dohvati<PoKlasifikaciji>("po_uredu.json"),
     dohvati<PoKlasifikaciji>("po_ekonomskoj.json"),
+    dohvati<Sifarnici>("sifarnici.json"),
     dohvati<Meta>("meta.json"),
   ]);
-  kes = { summary, top, poUredu, poEkonomskoj, meta };
+  kes = { summary, top, poUredu, poEkonomskoj, sifarnici, meta };
   return kes;
 }
 

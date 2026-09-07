@@ -1,6 +1,7 @@
 export interface Blok {
   ukupno: number;
   broj_isplata: number;
+  broj_stavki: number;
   broj_primatelja: number;
   udio_top10: number;
   povrati_iznos: number;
@@ -59,19 +60,25 @@ export interface Klasifikacija {
 
 export type PoKlasifikaciji = Record<string, Klasifikacija[]>;
 
+/** Skraćeni ključevi — nazivi se razrješavaju iz šifarnika. */
 export interface Isplata {
-  datum: string;
-  iznos: number;
-  ured_sifra: string;
-  ured_naziv: string;
-  ured_naziv_izvorni: string;
-  pozicija_sifra: string;
-  pozicija_naziv: string;
-  ekonomska_sifra: string;
-  ekonomska_naziv: string;
-  opis: string;
-  broj_racuna: string;
-  datum_racuna: string;
+  d: string;   // datum
+  i: number;   // iznos
+  u: string;   // šifra ureda
+  p: string;   // šifra pozicije
+  e: string;   // šifra ekonomske klasifikacije
+  o: string;   // opis
+  br: string;  // broj računa
+  ug: string;  // broj ugovora
+  dr: string;  // datum računa
+}
+
+export interface Sifarnici {
+  ured: Record<string, string>;
+  ekonomska: Record<string, string>;
+  pozicija: Record<string, string>;
+  funkcijska: Record<string, string>;
+  izvor: Record<string, string>;
 }
 
 export interface Profil {
@@ -80,6 +87,8 @@ export interface Profil {
   mjesto: string;
   ukupno: number;
   broj_isplata: number;
+  prikazano_isplata: number;
+  popis_potpun: boolean;
   prva_isplata: string;
   zadnja_isplata: string;
   po_godini: Record<string, { ukupno: number; broj_isplata: number }>;
@@ -92,7 +101,8 @@ export interface PokrivenostGodina {
   godina: string;
   mjeseci: string[];
   broj_mjeseci: number;
-  dani: string[];
+  potpuna: boolean;
+  tekuca: boolean;
   broj_dana: number;
   broj_isplata: number;
   ukupno: number;
@@ -102,7 +112,8 @@ export interface Meta {
   datum_obrade: string;
   prvi_datum: string;
   zadnji_datum: string;
-  broj_transakcija: number;
+  broj_isplata: number;
+  broj_stavki: number;
   broj_primatelja: number;
   broj_profila: number;
   broj_dana: number;

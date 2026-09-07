@@ -348,3 +348,10 @@ a.veza:hover { text-decoration: underline; }
   .ploca { padding: 16px 14px; }
   .graf-okvir { height: 300px; }
 }
+
+/* Pokrivenost je uredna — napomena je informativna, ne upozorenje. */
+.napomena--uredu {
+  background: #eef4fb;
+  border-color: #c3d6ea;
+  color: #26405e;
+}

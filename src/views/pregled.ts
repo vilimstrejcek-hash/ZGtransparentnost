@@ -56,10 +56,11 @@ export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
 
   // --- Kartice ---
   const u: Blok = summary.ukupno;
-  const razdoblje = `${meta.pokrivenost.length} god. · ${meta.broj_dana} dana isplata`;
+  const godine_ = meta.pokrivenost.map((p) => p.godina).join("–");
   (cilj.querySelector("#kartice") as HTMLElement).innerHTML = [
-    karticaHtml("Ukupno isplaćeno", eur(u.ukupno), razdoblje),
-    karticaHtml("Broj isplata", broj(u.broj_isplata), `${broj(u.povrati_broj)} povrata (${eur(u.povrati_iznos)})`),
+    karticaHtml("Ukupno isplaćeno", eur(u.ukupno), `${godine_}. · ${broj(meta.broj_dana)} dana isplata`),
+    karticaHtml("Broj isplata", broj(u.broj_isplata),
+      `na ${broj(u.broj_stavki)} proračunskih pozicija`),
     karticaHtml("Broj primatelja", broj(u.broj_primatelja), "jedinstvenih OIB-ova"),
     karticaHtml("Udio top 10", postotak(u.udio_top10), "deset najvećih primatelja"),
   ].join("");
@@ -67,23 +68,24 @@ export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
   // --- Graf po mjesecu ---
   const platno = cilj.querySelector<HTMLCanvasElement>("#graf-mjeseci")!;
   const nota = cilj.querySelector<HTMLElement>("#nota-mjeseci")!;
-  const jedanMjesecPoGodini = summary.po_mjesecu.length <= godine.length;
+  // Sa samo nekoliko točaka linija izgleda varljivo; tada crtamo stupce.
+  const malo = summary.po_mjesecu.length <= Math.max(6, godine.length);
 
   function crtajSlijed(): void {
     const zapisi = summary.po_mjesecu;
     nacrtaj(platno, {
-      type: jedanMjesecPoGodini ? "bar" : "line",
+      type: malo ? "bar" : "line",
       data: {
         labels: zapisi.map((z) => mjesecKratko(z.mjesec)),
         datasets: [{
           label: "Isplaćeno",
           data: zapisi.map((z) => z.ukupno),
           borderColor: boja(0),
-          backgroundColor: jedanMjesecPoGodini ? boja(0) : "rgba(31,78,140,0.08)",
+          backgroundColor: malo ? boja(0) : "rgba(31,78,140,0.08)",
           borderWidth: 2,
-          fill: !jedanMjesecPoGodini,
+          fill: !malo,
           tension: 0.25,
-          pointRadius: 3,
+          pointRadius: summary.po_mjesecu.length > 24 ? 2 : 3,
           pointHoverRadius: 5,
           maxBarThickness: 90,
         }],
@@ -101,12 +103,18 @@ export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
         scales: { y: { beginAtZero: true, ...OS_NOVAC }, x: { grid: { display: false } } },
       },
     });
-    const nepotpuni = zapisi.filter((z) => z.broj_dana < 20);
-    nota.textContent = nepotpuni.length
-      ? `Nijedan prikazani mjesec nije pokriven u cijelosti — ${nepotpuni
-          .map((z) => `${mjesecKratko(z.mjesec)} ${z.broj_dana === 1 ? "1 dan" : `${z.broj_dana} dana`}`)
-          .join(", ")}. Stupci nisu mjesečni ukupni iznosi.`
-      : "";
+    // Zadnji mjesec je gotovo uvijek u tijeku; ostale označavamo samo ako
+    // stvarno imaju premalo dana isplate.
+    const zadnji = zapisi[zapisi.length - 1];
+    const krnji = zapisi.slice(0, -1).filter((z) => z.broj_dana < 12);
+    const dijelovi: string[] = [];
+    if (zadnji && zadnji.broj_dana < 15) {
+      dijelovi.push(`${mjesecKratko(zadnji.mjesec)} je u tijeku (${broj(zadnji.broj_dana)} dana isplate)`);
+    }
+    if (krnji.length) {
+      dijelovi.push(`nepotpuni mjeseci: ${krnji.map((z) => mjesecKratko(z.mjesec)).join(", ")}`);
+    }
+    nota.textContent = dijelovi.length ? `${dijelovi.join("; ")}.` : "";
   }
 
   function crtajUsporedbu(): void {

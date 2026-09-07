@@ -35,8 +35,11 @@ export async function prikaziProfil(cilj: HTMLElement, podaci: Podaci, oib: stri
   const { meta } = podaci;
   const p: Profil = profil;
 
+  const { sifarnici } = podaci;
   const prosjek = p.broj_isplata ? p.ukupno / p.broj_isplata : 0;
-  const najveca = p.isplate.reduce((m, i) => (i.iznos > m ? i.iznos : m), 0);
+  const najveca = p.isplate.reduce((m, i) => (i.i > m ? i.i : m), 0);
+  const naziv = (mapa: Record<string, string>, sifra: string): string =>
+    sifra ? (mapa[sifra] ?? sifra) : "";
 
   cilj.innerHTML = `
     <a class="natrag" href="#/primatelji">← Natrag na primatelje</a>
@@ -67,10 +70,17 @@ export async function prikaziProfil(cilj: HTMLElement, podaci: Podaci, oib: stri
 
     <section class="ploca">
       <div class="ploca__zaglavlje">
-        <h3>Sve isplate (${escapeHtml(broj(p.broj_isplata))})</h3>
+        <h3>${p.popis_potpun
+          ? `Sve isplate (${escapeHtml(broj(p.broj_isplata))})`
+          : `Najvećih ${escapeHtml(broj(p.prikazano_isplata))} isplata`}</h3>
         <button type="button" class="gumb" id="gumb-portal">Provjeri na iTransparentnosti</button>
       </div>
       <p class="kartica__dodatak" id="nota-portal" style="margin:-6px 0 12px">
+        ${p.popis_potpun
+          ? ""
+          : `Prikazano je ${escapeHtml(broj(p.prikazano_isplata))} najvećih od ukupno
+             ${escapeHtml(broj(p.broj_isplata))} isplata; zbrojevi i grafovi iznad računaju se iz svih.
+             Cijeli popis dostupan je na izvornom portalu. `}
         Portal nema izravnu poveznicu po OIB-u — OIB se kopira u međuspremnik da ga zalijepiš u „Filteri”.
       </p>
       <div class="tablica-okvir">
@@ -82,6 +92,7 @@ export async function prikaziProfil(cilj: HTMLElement, podaci: Podaci, oib: stri
               <th>Gradski ured</th>
               <th>Opis</th>
               <th>Broj računa</th>
+              <th>Broj ugovora</th>
             </tr>
           </thead>
           <tbody id="tablica-isplata"></tbody>
@@ -159,13 +170,14 @@ export async function prikaziProfil(cilj: HTMLElement, podaci: Podaci, oib: stri
   // --- Tablica isplata ---
   (cilj.querySelector("#tablica-isplata") as HTMLElement).innerHTML = p.isplate.length
     ? p.isplate.map((i) => `<tr>
-        <td>${escapeHtml(datum(i.datum))}</td>
-        <td class="broj${i.iznos < 0 ? " negativno" : ""}">${escapeHtml(eur(i.iznos))}</td>
-        <td><span class="oznaka-sifra">${escapeHtml(i.ured_sifra)}</span>${escapeHtml(skrati(i.ured_naziv, 44))}</td>
-        <td>${escapeHtml(i.opis) || '<span class="kartica__dodatak">—</span>'}</td>
-        <td>${escapeHtml(i.broj_racuna) || '<span class="kartica__dodatak">—</span>'}</td>
+        <td>${escapeHtml(datum(i.d))}</td>
+        <td class="broj${i.i < 0 ? " negativno" : ""}">${escapeHtml(eur(i.i))}</td>
+        <td><span class="oznaka-sifra">${escapeHtml(i.u)}</span>${escapeHtml(skrati(naziv(sifarnici.ured, i.u), 40))}</td>
+        <td>${escapeHtml(i.o) || '<span class="kartica__dodatak">—</span>'}</td>
+        <td>${escapeHtml(i.br) || '<span class="kartica__dodatak">—</span>'}</td>
+        <td>${escapeHtml(i.ug) || '<span class="kartica__dodatak">—</span>'}</td>
       </tr>`).join("")
-    : `<tr><td colspan="5" class="prazno">Nema isplata.</td></tr>`;
+    : `<tr><td colspan="6" class="prazno">Nema isplata.</td></tr>`;
 
   // --- Gumb prema portalu ---
   const gumb = cilj.querySelector<HTMLButtonElement>("#gumb-portal")!;

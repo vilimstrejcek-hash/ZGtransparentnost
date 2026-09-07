@@ -8,9 +8,10 @@ __pycache__/
 dist/
 .vite/
 
-# Izvorni CSV-ovi ostaju lokalno — u repo idu samo obrađeni JSON-ovi
+# Sirovi podaci ostaju lokalno — u repo idu samo obrađeni JSON-ovi
 Data za prototip/
 *.csv
+*.jsonl
 
 # Sustav / uređivači
 .DS_Store

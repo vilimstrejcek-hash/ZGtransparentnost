@@ -1,15 +1,21 @@
-import { escapeHtml } from "./format";
+import { broj, datum, escapeHtml } from "./format";
 import type { Meta } from "./types";
 
 /** Napomena o pokrivenosti — vidljiva na svakom prikazu (zahtjev brief-a). */
 export function napomenaHtml(meta: Meta, dodatak = ""): string {
-  const razdoblja = meta.pokrivenost
-    .map((p) => `${p.godina}. (${p.mjeseci.length} mj., ${p.broj_dana} d.)`)
-    .join(" · ");
+  const razdoblje = `${datum(meta.prvi_datum)} – ${datum(meta.zadnji_datum)}`;
+  const opseg = `${broj(meta.broj_isplata)} isplata kroz ${broj(meta.broj_dana)} dana`;
 
   if (meta.puna_pokrivenost) {
-    return `<p class="napomena"><strong>Pokrivenost:</strong> ${escapeHtml(razdoblja)}.
-      ${escapeHtml(dodatak)}</p>`;
+    const tekuca = meta.pokrivenost.find((p) => p.tekuca);
+    const uzTekucu = tekuca
+      ? ` Tekuća ${tekuca.godina}. godina obuhvaća ${broj(tekuca.broj_mjeseci)} mjeseci i prirodno je nepotpuna.`
+      : "";
+    return `<p class="napomena napomena--uredu">
+      <strong>Pokrivenost:</strong> ${escapeHtml(razdoblje)} — ${escapeHtml(opseg)}.
+      Sve isplate objavljene na portalu iTransparentnost u tom razdoblju.${escapeHtml(uzTekucu)}
+      ${dodatak ? ` ${escapeHtml(dodatak)}` : ""}
+    </p>`;
   }
 
   return `<p class="napomena">

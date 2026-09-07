@@ -26,30 +26,61 @@ Potrebni su Node 20+ i Python 3.11+.
 npm install
 python3 -m venv .venv && .venv/bin/pip install pandas
 
-# 2. CSV izvoze stavi u "Data za prototip/" pa izgradi JSON-ove
+# 2. dohvat podataka s otvorenog API-ja (traje nekoliko minuta)
+.venv/bin/python scripts/fetch_api.py
+
+# 3. izgradnja JSON-ova za frontend
 .venv/bin/python scripts/build_data.py
 
-# 3. lokalni razvoj
+# 4. lokalni razvoj
 npm run dev
 
-# 4. produkcijski build (izlaz u dist/)
+# 5. produkcijski build (izlaz u dist/)
 npm run build
-```
-
-Prije izgradnje podataka korisno je pokrenuti profiliranje, koje ispiše broj redaka, raspon
-datuma, sume i pokrivenost po datoteci:
-
-```bash
-.venv/bin/python scripts/profile_data.py
 ```
 
 ## Podaci
 
-Izvor je CSV izvoz s portala iTransparentnost (gumb „Preuzmi .csv”). Format: separator `;`,
-UTF-8 s BOM-om, 20 stupaca, datumi u ISO obliku, iznosi decimalni s točkom.
+### Izvor
 
-`scripts/build_data.py` učita sve CSV-ove iz `Data za prototip/`, očisti ih, deduplicira i
-zapiše u `public/data/`:
+Podaci dolaze s otvorenog API-ja platforme Otvoreno, istog koji koristi javno sučelje
+portala iTransparentnost:
+
+```
+GET https://api.otvorenigrad.hr/itransparentnost/isplate
+Zaglavlje: LC-Tenant: grad-zagreb
+```
+
+API nema autentikaciju. Zaglavlje `LC-Tenant` mora biti pisano točno tako — Pythonov
+`urllib` ga normalizira u `Lc-Tenant` i poslužitelj tada vraća `Stage is not defined`, pa
+`scripts/fetch_api.py` koristi `http.client`.
+
+`scripts/fetch_api.py` sprema sirove zapise u `Data za prototip/api/isplate.jsonl` i može se
+prekinuti i nastaviti. Alternativa je ručni CSV izvoz s portala („Preuzmi .csv”); ako
+`isplate.jsonl` ne postoji, `build_data.py` se vraća na CSV-ove iz `Data za prototip/`.
+Za profiliranje CSV izvoza postoji `scripts/profile_data.py`.
+
+### Ograničenja API-ja
+
+Poslužitelj je nepouzdan pri dohvatu većih količina i to je vrijedno znati prije nego se
+skripte mijenjaju:
+
+- `limit` veći od ~2000 vraća prazan popis; kod filtriranih upita prazno vraća već i `limit`
+  od 100. Zapisi se ne mogu pouzdano prelistati kroz `offset` — straničenje preskače retke
+  jer upit nema stabilan poredak.
+- Ukupan iznos (`Sum`) u odgovoru **jest** pouzdan i koristi se za provjeru potpunosti
+  (`scripts/verify_api.py` uspoređuje dnevne zbrojeve s lokalnima).
+- Prečest dohvat vodi na HTTP 403 po IP adresi. Skripte pauziraju između zahtjeva i
+  prekidaju rad umjesto da navaljuju.
+
+Filtriranje je moguće preko `filters` parametra, npr.
+`filters={"datum":{"values":["2026-01-01","2026-02-01"],"op":"BETWEEN"}}` (gornja granica je
+isključiva).
+
+### Izlazne datoteke
+
+`scripts/build_data.py` čisti podatke, razgrće ih po proračunskim pozicijama i zapisuje u
+`public/data/`:
 
 | Datoteka | Sadržaj |
 | --- | --- |
@@ -58,7 +89,8 @@ zapiše u `public/data/`:
 | `po_uredu.json` | isplate po organizacijskoj klasifikaciji (gradskom uredu) |
 | `po_ekonomskoj.json` | isplate po ekonomskoj klasifikaciji |
 | `primatelji/{OIB}.json` | sve isplate za primatelje s najmanje 5 isplata |
-| `meta.json` | raspon datuma, datum obrade, broj transakcija, pokrivenost |
+| `meta.json` | raspon datuma, datum obrade, broj isplata, pokrivenost |
+| `sifarnici.json` | šifra → naziv za urede, ekonomske klasifikacije i pozicije |
 
 ### Odluke pri obradi
 
@@ -73,11 +105,18 @@ zapiše u `public/data/`:
   dijelom zbog preimenovanja ureda kroz godine (012, 033), dijelom zato što pod istim razdjelom
   postoje i podređene ustanove (009, 021, 024). Grupira se po šifri, a kao naziv se uzima tijelo
   uprave iz najnovijih podataka; podjedinice ostaju vidljive u razradi.
-- **Pokrivenost** se računa iz podataka i prikazuje na svakom prikazu. Ako izvozi ne pokrivaju
-  cijele godine, aplikacija to eksplicitno navodi i ne predstavlja djelomične zbrojeve kao
-  godišnje ukupne iznose.
+- **Jedna isplata može biti razdijeljena na više proračunskih pozicija.** Zbrojevi se računaju
+  po pozicijama, a broj isplata po jedinstvenoj oznaci isplate — zato se ta dva broja razlikuju.
+- **Profili primatelja** prikazuju najviše 400 najvećih isplata; zbirni iznosi i grafovi
+  računaju se iz svih. Najveći primatelj ima preko 29.000 isplata, pa bi cijeli popis bio
+  višemegabajtna datoteka.
+- **Nazivi klasifikacija** ne ponavljaju se u svakoj isplati nego se razrješavaju iz
+  `sifarnici.json`.
+- **Pokrivenost** se računa iz podataka i prikazuje na svakom prikazu. Tekuća godina se ne
+  označava kao manjkava jer je prirodno nepotpuna.
 
-CSV izvozi se ne drže u repozitoriju (vidi `.gitignore`) — u repo idu samo obrađeni JSON-ovi.
+Sirovi podaci (CSV izvozi i `api/isplate.jsonl`) ne drže se u repozitoriju — u repo idu samo
+obrađeni JSON-ovi.
 
 ## Tehnologije
 

@@ -316,14 +316,26 @@ input[type="search"].polje {
   .traka__trazi { width: 100%; }
   .traka__trazi input { flex: 1; min-width: 0; }
 }
+@media (max-width: 760px) {
+  /* Dvije kartice u retku odsijecale su duge oznake i iznose. */
+  .brojke { grid-template-columns: 1fr; }
+  .brojka { border-right: 0; border-bottom: 1px solid var(--linija-svijetla); }
+  .brojka:last-child { border-bottom: 0; }
+  .brojka__vrijednost { font-size: 1.4rem; }
+}
+
 @media (max-width: 620px) {
   .naslov-stranice { font-size: 1.5rem; }
   /* Prekidači se ne lome u više redaka nego se pomiču vodoravno. */
   .prekidaci { flex-wrap: nowrap; overflow-x: auto; max-width: 100%; }
   .prekidaci button { white-space: nowrap; }
-  .filtri { align-items: stretch; }
-  .brojke { grid-template-columns: 1fr 1fr; }
-  .brojka { border-bottom: 1px solid var(--linija-svijetla); }
+  .filtri { align-items: stretch; flex-direction: column; }
+  .filtri .odabir, .filtri .polje, .filtri .gumb { max-width: none !important; width: 100%; }
+  .razdoblje { flex-wrap: nowrap; }
+  .razdoblje__godina { width: 5.5rem; }
+  .razdoblje__mjesec { flex: 1; width: auto; }
+  .zaglavlje-stranice { flex-direction: column; gap: 2px; align-items: flex-start; }
+  .odjeljak__zaglavlje { flex-direction: column; align-items: flex-start; gap: 8px; }
   .karta { height: 340px; }
   .godine-os__popis { overflow-x: auto; gap: 14px; justify-content: flex-start; }
 }
@@ -431,9 +443,16 @@ td.razrada { background: var(--podloga); }
 
 @media (max-width: 900px) {
   .stupci-2 { grid-template-columns: 1fr; }
-  .vrh__unutra { flex-wrap: wrap; height: auto; padding-top: 10px; padding-bottom: 10px; }
-  .traka__veze { margin: 0; order: 3; width: 100%; overflow-x: auto; }
+  .vrh__unutra { flex-wrap: wrap; height: auto; padding-top: 10px; padding-bottom: 10px; gap: 10px 16px; }
   .traka__trazi { margin-left: auto; }
+  /* Stavke se ne lome u više redaka nego se popis pomiče vodoravno. */
+  .traka__veze {
+    margin: 0; order: 3; width: 100%;
+    overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .traka__veze::-webkit-scrollbar { display: none; }
+  .traka__veze a { white-space: nowrap; }
 }
 @media (max-width: 620px) {
   .glava__iznos { font-size: 2rem; }

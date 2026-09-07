@@ -29,7 +29,8 @@ npm install
 python3 -m venv .venv && .venv/bin/pip install pandas
 
 # 2. dohvat podataka s otvorenog API-ja (traje nekoliko minuta)
-.venv/bin/python scripts/fetch_api.py
+.venv/bin/python scripts/fetch_api.py          # prvi, potpuni dohvat
+.venv/bin/python scripts/dohvati_dane.py --zadnjih 45   # kasnije, samo novi dani
 
 # 3. izgradnja JSON-ova za frontend
 .venv/bin/python scripts/build_data.py       # isplate, namjena, tok, primatelji
@@ -69,6 +70,18 @@ prekinuti i nastaviti. Alternativa je ručni CSV izvoz s portala („Preuzmi .cs
 `isplate.jsonl` ne postoji, `build_data.py` se vraća na CSV-ove iz `Data za prototip/`.
 Za profiliranje CSV izvoza postoji `scripts/profile_data.py`.
 
+### Osvježavanje
+
+`scripts/fetch_api.py` radi prvi, potpuni dohvat prelistavanjem po offsetu.
+Za kasnije osvježavanje služi `scripts/dohvati_dane.py`, koji ide dan po dan uz
+filtar po datumu i svaki dan usporedi s ukupnim iznosom koji API sam prijavljuje;
+dan koji se ne poklopi razdvaja po rasponima iznosa dok se ne potvrdi. Nastavak
+po offsetu za to ne služi jer novi zapisi dolaze na početak popisa.
+
+Radni tok `.github/workflows/osvjezi-podatke.yml` to radi tjedno i objavljuje
+promjene. Sirovi zapisi su preveliki za repozitorij pa stoje u međuspremniku
+radnog toka; ako ga nema, posao se zaustavlja umjesto da prepiše povijest.
+
 ### Ograničenja API-ja
 
 Poslužitelj je nepouzdan pri dohvatu većih količina i to je vrijedno znati prije nego se
@@ -79,8 +92,8 @@ skripte mijenjaju:
   jer upit nema stabilan poredak.
 - Ukupan iznos (`Sum`) u odgovoru **jest** pouzdan i koristi se za provjeru potpunosti
   (`scripts/verify_api.py` uspoređuje dnevne zbrojeve s lokalnima).
-- Prečest dohvat vodi na HTTP 403 po IP adresi. Skripte pauziraju između zahtjeva i
-  prekidaju rad umjesto da navaljuju.
+- Prečest dohvat vodi na HTTP 403 po IP adresi, i ograničenje traje satima.
+  Skripte pauziraju između zahtjeva i prekidaju rad umjesto da navaljuju.
 
 Filtriranje je moguće preko `filters` parametra, npr.
 `filters={"datum":{"values":["2026-01-01","2026-02-01"],"op":"BETWEEN"}}` (gornja granica je

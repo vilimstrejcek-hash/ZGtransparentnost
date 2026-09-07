@@ -1,0 +1,74 @@
+name: Osvježi podatke
+
+# Jednom tjedno dohvati nove isplate i objavi ih. Cloudflare sam objavljuje
+# svaki push na main, pa se stranica osvježi bez ručnog zahvata.
+on:
+  schedule:
+    - cron: "0 4 * * 1"   # ponedjeljkom u 04:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: osvjezi-podatke
+  cancel-in-progress: false
+
+jobs:
+  osvjezi:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instaliraj ovisnosti
+        run: pip install --quiet pandas openpyxl pyshp pyproj
+
+      # Sirovi zapisi su prevelici za repozitorij (oko 600 MB), pa stoje u
+      # međuspremniku radnog toka. Ključ s datumom osigurava da se svaki tjedan
+      # spremi nova inačica, a restore-keys vraća najsvježiju postojeću.
+      - name: Vrati predmemorij isplata
+        id: predmemorij
+        uses: actions/cache@v4
+        with:
+          path: Data za prototip/api/isplate.jsonl
+          key: isplate-${{ github.run_id }}
+          restore-keys: isplate-
+
+      - name: Provjeri predmemorij
+        run: |
+          if [ ! -s "Data za prototip/api/isplate.jsonl" ]; then
+            echo "::error::Predmemorij isplata nedostaje. Dohvat zadnjih dana bi obrisao povijest."
+            echo "::error::Pokreni scripts/fetch_api.py lokalno i spremi predmemorij prije nastavka."
+            exit 1
+          fi
+          echo "Zapisa u predmemoriju: $(wc -l < 'Data za prototip/api/isplate.jsonl')"
+
+      - name: Dohvati nove isplate
+        run: python scripts/dohvati_dane.py --zadnjih 45
+
+      - name: Izgradi podatke
+        run: |
+          python scripts/build_data.py
+          python scripts/build_isplate.py
+          python scripts/build_preuzimanje.py
+
+      - name: Objavi ako ima promjena
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data
+          if git diff --cached --quiet; then
+            echo "Nema novih podataka."
+            exit 0
+          fi
+          ZADNJI=$(python -c "import json;print(json.load(open('public/data/meta.json'))['zadnji_datum'])")
+          git commit -m "Osvježi podatke do ${ZADNJI}
+
+          Automatski dohvat novih isplate s API-ja platforme Otvoreno."
+          git push

@@ -78,14 +78,14 @@ filtar po datumu i svaki dan usporedi s ukupnim iznosom koji API sam prijavljuje
 dan koji se ne poklopi razdvaja po rasponima iznosa dok se ne potvrdi. Nastavak
 po offsetu za to ne služi jer novi zapisi dolaze na početak popisa.
 
-Radni tok `.github/workflows/osvjezi-podatke.yml` to radi tjedno i objavljuje
-promjene; može se pokrenuti i ručno s kartice Actions. Sirovi zapisi su
-preveliki za repozitorij pa stoje u međuspremniku radnog toka — kad ga nema,
-radi se potpuni dohvat, inače samo zadnjih 45 dana.
+**Osvježavanje mora ići s obične veze.** API odbija adrese podatkovnih centara —
+isti zahtjev s kućne veze vraća 200, a s GitHubova poslužitelja 403, i to
+uporno: ni nakon tri čekanja u rasponu od jedanaest minuta nije prošao. Zbog
+toga je tjedno pokretanje radnog toka isključeno, jer bi svaki put palo.
 
-Prije objave se provjerava da nakon dohvata nema manje isplata nego prije.
-Poslužitelj zna prekinuti dohvat na pola zbog ograničenja po IP adresi, pa bi se
-inače krnji skup objavio preko ispravnog.
+Radni tok `.github/workflows/osvjezi-podatke.yml` ostaje za ručno pokretanje ako
+se ograničenje ukine. Prije objave provjerava da nakon dohvata nema manje
+isplata nego prije, kako se krnji skup ne bi objavio preko ispravnog.
 
 ### Ograničenja API-ja
 

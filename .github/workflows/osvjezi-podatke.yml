@@ -1,10 +1,18 @@
 name: Osvježi podatke
 
-# Jednom tjedno dohvati nove isplate i objavi ih. Cloudflare sam objavljuje
-# svaki push na main, pa se stranica osvježi bez ručnog zahvata.
+# NE RADI S GITHUBOVIH POSLUŽITELJA. API platforme Otvoreno odbija adrese
+# podatkovnih centara s HTTP 403 — provjereno: isti zahtjev s obične veze prolazi,
+# a s GitHubova poslužitelja ne prolazi ni nakon čekanja od jedanaest minuta.
+#
+# Zbog toga je tjedno pokretanje isključeno; posao bi svaki put pao i slao
+# obavijest o grešci. Ostaje ručno pokretanje za slučaj da se to promijeni.
+#
+# Podaci se do tada osvježavaju s obične veze:
+#   .venv/bin/python scripts/dohvati_dane.py --zadnjih 45
+#   .venv/bin/python scripts/build_data.py
+#   .venv/bin/python scripts/build_isplate.py
+#   .venv/bin/python scripts/build_preuzimanje.py
 on:
-  schedule:
-    - cron: "0 4 * * 1"   # ponedjeljkom u 04:00 UTC
   workflow_dispatch:
 
 permissions:

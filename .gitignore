@@ -21,3 +21,6 @@ Data za prototip/
 # Dokumenti za prijavu — osobni, ne idu u javni repo
 Docs za prijavu/
 *.pdf
+
+# Interni brief — ostaje lokalno
+BRIEF.md

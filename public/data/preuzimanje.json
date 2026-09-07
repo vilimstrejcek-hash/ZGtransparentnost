@@ -3,10 +3,10 @@
  "licenca": "CC BY 4.0",
  "pripisivanje": "Transparentnost+ (STRX), obrada javnih podataka Grada Zagreba, CC BY 4.0",
  "datum_obrade": "2026-09-07",
- "pripremljeno": "2026-09-07",
+ "pripremljeno": "2026-09-08",
  "razdoblje": {
   "od": "2024-01-02",
-  "do": "2026-08-25"
+  "do": "2026-08-31"
  },
  "skupovi": [
   {
@@ -28,14 +28,14 @@
    "opis": "Isplate po vrsti rashoda (ekonomska klasifikacija)",
    "redaka": 382,
    "csv": "data/preuzimanje/isplate_po_ekonomskoj.csv",
-   "bajtova": 27892
+   "bajtova": 27893
   },
   {
    "ime": "primatelji",
    "opis": "Svi primatelji po godini",
-   "redaka": 12932,
+   "redaka": 12974,
    "csv": "data/preuzimanje/primatelji.csv",
-   "bajtova": 788435
+   "bajtova": 791241
   },
   {
    "ime": "gradske_cetvrti",
@@ -70,7 +70,7 @@
    "opis": "Isplate po mjesecu",
    "redaka": 32,
    "csv": "data/preuzimanje/po_mjesecu.csv",
-   "bajtova": 1001
+   "bajtova": 1002
   }
  ],
  "izvori": [

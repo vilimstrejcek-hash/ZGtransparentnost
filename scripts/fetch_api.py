@@ -102,6 +102,8 @@ def main() -> None:
     p.add_argument("--od-pocetka", action="store_true", help="zanemari predmemorij i kreni ispočetka")
     p.add_argument("--limit-stranica", type=int, default=0, help="dohvati najviše toliko stranica (0 = sve)")
     p.add_argument("--velicina", type=int, default=VELICINA, help=f"zapisa po zahtjevu (najviše {VELICINA})")
+    p.add_argument("--novo", type=int, nargs="?", const=12, metavar="STRANICA",
+                   help="dohvati prvih toliko stranica (zadano 12) — za nove dane")
     args = p.parse_args()
 
     IZLAZ.mkdir(parents=True, exist_ok=True)
@@ -113,6 +115,24 @@ def main() -> None:
     vidjeni: set[str] = set(stanje["uuidi"])
     offset: int = stanje["offset"]
     velicina = min(args.velicina, VELICINA)
+
+    # Novi zapisi dolaze na početak popisa, pa se za osvježavanje prelista
+    # nekoliko prvih stranica i dedupliciraju se po oznaci isplate. Ne staje se
+    # na prvom starom datumu jer poredak nije stabilan — ista stranica s drugim
+    # limitom vraća druge zapise. Razdvajanje po rasponima iznosa bilo bi
+    # točnije, ali troši toliko zahtjeva da poslužitelj uvede ograničenje.
+    if args.novo:
+        if not CACHE.exists():
+            raise SystemExit("Nema predmemorija — pokreni prvo potpuni dohvat.")
+        datumi = set()
+        with CACHE.open(encoding="utf-8") as f:
+            for linija in f:
+                r = json.loads(linija)
+                vidjeni.add(r["isplateUuid"])
+                datumi.add(r["datum"][:10])
+        offset = 0
+        args.limit_stranica = args.novo
+        print(f"Predmemorij ide do {max(datumi)}; prelistavam {args.novo} stranica od početka.")
 
     if vidjeni:
         broj = f"{len(vidjeni):,}".replace(",", ".")

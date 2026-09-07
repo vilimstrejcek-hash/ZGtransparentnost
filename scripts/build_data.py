@@ -295,9 +295,43 @@ def build_summary(df: pd.DataFrame) -> dict:
     }
 
 
+def build_fizicke(df: pd.DataFrame) -> dict:
+    """Razrada isplata fizičkim osobama po vrsti rashoda.
+
+    U izvoru su anonimizirane, pa se ne mogu rangirati kao primatelji — ali se
+    zna za što su. Bez te razrade zbirni iznos izgleda kao neobjašnjena stavka,
+    a zapravo su to većinom plaće zaposlenika i naknade građanima.
+    """
+    def za(g: pd.DataFrame) -> dict:
+        f = g[g["oib"] == GDPR]
+        if f.empty:
+            return {"ukupno": 0.0, "broj_isplata": 0, "udio": 0.0, "vrste": []}
+        ukupno = f["iznos"].sum()
+        vrste = (f.groupby(["ekonomska_sifra", "ekonomska_naziv"])["iznos"]
+                  .sum().sort_values(ascending=False))
+        sve = g["iznos"].sum()
+        return {
+            "ukupno": r2(ukupno),
+            "broj_isplata": int(f["_uuid"].nunique()) if "_uuid" in f.columns else int(len(f)),
+            "udio": r2(ukupno / sve * 100) if sve else 0.0,
+            "vrste": [
+                {"sifra": sif, "naziv": nz, "ukupno": r2(v),
+                 "udio": r2(v / ukupno * 100) if ukupno else 0.0}
+                for (sif, nz), v in vrste.items()
+            ][:10],
+        }
+
+    rezultat = {str(y): za(g) for y, g in df.groupby("godina")}
+    rezultat["sve"] = za(df)
+    return rezultat
+
+
 def build_top_primatelji(df: pd.DataFrame, n: int = 50) -> dict:
     def top_for(g: pd.DataFrame) -> list[dict]:
+        # Udio se računa prema svim isplatama, ali se fizičke osobe ne rangiraju
+        # kao primatelj — u izvoru su anonimizirane i prikazuju se odvojeno.
         ukupno_sve = g["iznos"].sum()
+        g = g[g["oib"] != GDPR]
         agg = (
             g.groupby(["oib", "primatelj"])
             .agg(ukupno=("iznos", "sum"), broj_isplata=("_uuid", "nunique"))
@@ -650,6 +684,7 @@ def main() -> None:
     write_json(OUT_DIR / "po_uredu.json", build_po_klasifikaciji(df, "ured"))
     write_json(OUT_DIR / "po_ekonomskoj.json", build_po_klasifikaciji(df, "ekonomska"))
     write_json(OUT_DIR / "po_namjeni.json", build_po_namjeni(df))
+    write_json(OUT_DIR / "fizicke.json", build_fizicke(df))
     write_json(OUT_DIR / "tok.json", build_tok(df))
     write_json(OUT_DIR / "sifarnici.json", build_sifarnici(df))
     n_profila = build_profili(df, OUT_DIR / "primatelji")

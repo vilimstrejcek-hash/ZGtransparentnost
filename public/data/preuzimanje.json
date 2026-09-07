@@ -35,7 +35,7 @@
    "opis": "Pedeset najvećih primatelja po godini",
    "redaka": 200,
    "csv": "data/preuzimanje/najveci_primatelji.csv",
-   "bajtova": 12438
+   "bajtova": 12408
   },
   {
    "ime": "gradske_cetvrti",

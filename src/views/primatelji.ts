@@ -1,10 +1,10 @@
 import type { Podaci } from "../data";
-import { broj, escapeHtml, eur, postotak } from "../format";
+import { broj, escapeHtml, eur, eurKratko, postotak } from "../format";
 import { godineOsHtml, poveziGodine } from "../ui";
 import type { Primatelj } from "../types";
 
 export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci, pocetniUpit = ""): void {
-  const { top, summary } = podaci;
+  const { top, summary, fizicke } = podaci;
   const godine = summary.godine;
   let odabrana = "sve";
   let upit = pocetniUpit;
@@ -33,6 +33,8 @@ export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci, pocetniUpit
           <tbody id="tablica"></tbody>
         </table>
       </div>
+
+      <section class="odjeljak" id="fizicke"></section>
     </div>`;
 
   const tijelo = cilj.querySelector<HTMLElement>("#tablica")!;
@@ -47,6 +49,28 @@ export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci, pocetniUpit
       (p) => p.naziv.toLowerCase().includes(q) || p.oib.toLowerCase().includes(q)
     );
   };
+
+  const spremnikFizickih = cilj.querySelector<HTMLElement>("#fizicke")!;
+
+  function crtajFizicke(): void {
+    const f = fizicke[odabrana];
+    if (!f || !f.ukupno) { spremnikFizickih.innerHTML = ""; return; }
+    spremnikFizickih.innerHTML = `
+      <div class="odjeljak__zaglavlje">
+        <h2>Isplate fizičkim osobama</h2>
+        <span class="sitno">${escapeHtml(eurKratko(f.ukupno))} · ${escapeHtml(postotak(f.udio))} svih isplata · ${escapeHtml(broj(f.broj_isplata))} isplata</span>
+      </div>
+      <div class="tablica-okvir">
+        <table>
+          <thead><tr><th>Vrsta rashoda</th><th class="broj">Iznos</th><th class="broj">Udio</th></tr></thead>
+          <tbody>${f.vrste.map((v) => `<tr>
+            <td><span class="oznaka-sifra">${escapeHtml(v.sifra)}</span>${escapeHtml(v.naziv)}</td>
+            <td class="broj">${escapeHtml(eur(v.ukupno))}</td>
+            <td class="broj">${escapeHtml(postotak(v.udio))}</td>
+          </tr>`).join("")}</tbody>
+        </table>
+      </div>`;
+  }
 
   function crtaj(): void {
     const svi = zaGodinu();
@@ -67,6 +91,7 @@ export function prikaziPrimatelje(cilj: HTMLElement, podaci: Podaci, pocetniUpit
           <td class="broj">${escapeHtml(postotak(p.udio))}</td>
         </tr>`).join("")
       : `<tr><td colspan="6" class="prazno">Nema rezultata.</td></tr>`;
+    crtajFizicke();
   }
 
   pretraga.addEventListener("input", () => {

@@ -287,3 +287,12 @@ export interface MjesecPodaci {
 export interface MjesecIndeks {
   mjeseci: { mjesec: string; redaka: number; ukupno: number; dana: number; bajtova: number }[];
 }
+
+export interface FizickeGodina {
+  ukupno: number;
+  broj_isplata: number;
+  udio: number;
+  vrste: { sifra: string; naziv: string; ukupno: number; udio: number }[];
+}
+
+export type Fizicke = Record<string, FizickeGodina>;

@@ -47,7 +47,7 @@ function istaknutoHtml(i: Istaknuto): string {
 }
 
 export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
-  const { poNamjeni, summary, top, ustanove, meta } = podaci;
+  const { poNamjeni, summary, top, ustanove, fizicke, meta } = podaci;
   const godine = summary.godine;
   const zadnjaPotpuna = meta.pokrivenost.filter((p) => !p.tekuca).at(-1)?.godina;
   let odabrana = zadnjaPotpuna ?? godine[godine.length - 1] ?? "sve";
@@ -90,6 +90,7 @@ export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
               <tbody id="tablica-top"></tbody>
             </table>
           </div>
+          <p class="sitno" id="nota-fizicke" style="margin-top:10px"></p>
         </section>
 
         <section class="odjeljak">
@@ -216,6 +217,14 @@ export function prikaziPregled(cilj: HTMLElement, podaci: Podaci): void {
         <td class="broj">${escapeHtml(eurKratko(p.ukupno))}</td>
         <td class="broj">${escapeHtml(postotak(p.udio))}</td>
       </tr>`).join("");
+
+    const f = fizicke[odabrana];
+    const nota = cilj.querySelector<HTMLElement>("#nota-fizicke")!;
+    nota.innerHTML = f && f.ukupno
+      ? `Uz to je ${escapeHtml(eurKratko(f.ukupno))} isplaćeno fizičkim osobama — `
+        + `${escapeHtml(postotak(f.vrste[0]?.udio ?? 0))} toga su plaće zaposlenika. `
+        + `<a class="veza" href="#/primatelji">Razrada →</a>`
+      : "";
 
     const najveci = blok.odjeljci[0]?.po_stanovniku ?? 1;
     udio.innerHTML = blok.odjeljci.slice(0, 8).map((o) => `
